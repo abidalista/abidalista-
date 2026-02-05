@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #006C35;
+  --color-primary-light: #00943F;
+  --color-primary-dark: #004D26;
+  --color-secondary: #D4AF37;
+  --color-secondary-light: #E8C84A;
+  --color-accent: #1B4332;
+  --color-surface: #FAFAF5;
+  --color-surface-card: #FFFFFF;
+  --color-danger: #DC2626;
+  --color-warning: #F59E0B;
+  --color-success: #16A34A;
+  --color-text-primary: #1A1A2E;
+  --color-text-secondary: #4A4A5A;
+  --color-text-muted: #8A8A9A;
+  --color-border: #E5E5E0;
+  --font-arabic: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-arabic);
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 108, 53, 0.3);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 2px solid var(--color-primary);
+    font-size: 1rem;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .card {
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .badge-cancel {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge-keep {
+    background-color: #DCFCE7;
+    color: #166534;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge-investigate {
+    background-color: #FEF3C7;
+    color: #92400E;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .upload-zone {
+    border: 2px dashed var(--color-border);
+    border-radius: 1rem;
+    padding: 3rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .upload-zone:hover,
+  .upload-zone.drag-over {
+    border-color: var(--color-primary);
+    background-color: rgba(0, 108, 53, 0.05);
+  }
+
+  .privacy-blur {
+    filter: blur(6px);
+    transition: filter 0.3s;
+  }
+
+  .privacy-blur:hover {
+    filter: blur(0);
+  }
+}
