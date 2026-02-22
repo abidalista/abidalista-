@@ -17,9 +17,6 @@ export default function Header({ locale, onLocaleChange, onLogoClick }: HeaderPr
           <span className="text-xl font-black text-[var(--color-primary)] tracking-tight">
             Yalla Cancel
           </span>
-          <span className="text-xs font-medium text-[var(--color-text-muted)] hidden sm:block">
-            يلا كانسل
-          </span>
         </button>
 
         <div className="flex items-center gap-2">

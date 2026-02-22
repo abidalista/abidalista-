@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import UploadZone from "@/components/UploadZone";
 import AuditReport from "@/components/AuditReport";
@@ -14,52 +14,45 @@ const STORAGE_KEY = "yc_uploads_used";
 
 type Step = "landing" | "analyzing" | "results";
 
-// ── Hero copy ───────────────────────────────────────────────
 const COPY = {
   ar: {
     heroHeadline: "وين رايحة فلوسك؟",
     heroSub:
-      "كل شهر تنخصم من حسابك مبالغ ما تتوقعها — اشتراكات نسيتها، أو ما تستخدمها، أو ما تدري بها.\nYalla Cancel يكشف كلها في ثواني.",
-    heroCta: "ارفع كشف حسابك — مجاناً",
+      "كل شهر تنخصم من حسابك مبالغ ما تتوقعها — اشتراكات نسيتها، أو ما تستخدمها، أو ما تدري بها.",
     heroPrivacy: "🔒 بياناتك ما تطلع من جهازك — كل التحليل في متصفحك",
+    testBtn: "🧪 جرب بكشف تجريبي",
     step1: "ارفع الكشف",
     step1d: "نزّل كشف الحساب CSV من تطبيق بنكك",
     step2: "نحلّل لك",
     step2d: "نكتشف كل الاشتراكات المتكررة في ثواني",
     step3: "ألغِ ووفّر",
     step3d: "اختار اللي تبي تلغيه واللي تبي تخليه",
-    uploadTitle: "ارفع كشف حسابك",
-    uploadSub: "نحلل اشتراكاتك المتكررة مباشرة — مجاناً وبدون تسجيل",
     analyzing: "جاري التحليل...",
     analyzingNote: "كل شيء يتم على جهازك",
     errorTitle: "ما قدرنا نقرأ الملف",
     errorNote:
       "تأكد إن الملف CSV وإنك اخترت البنك الصح. بعض البنوك تصدر الكشف بتنسيق مختلف.",
-    tryAgain: "جرب ملف آخر",
     banks: "البنوك المدعومة",
-    footer: "Yalla Cancel يلا كانسل · صُنع في السعودية 🇸🇦 · مفتوح المصدر",
+    footer: "Yalla Cancel · صُنع في السعودية 🇸🇦 · مفتوح المصدر",
     howTitle: "كيف يشتغل؟",
   },
   en: {
     heroHeadline: "Where is your money going?",
     heroSub:
-      "Every month, charges hit your account you don't expect — subscriptions you forgot, don't use, or never noticed.\nYalla Cancel finds them all in seconds.",
-    heroCta: "Upload your statement — Free",
+      "Every month, charges hit your account you don't expect — subscriptions you forgot, don't use, or never noticed.",
     heroPrivacy: "🔒 Your data never leaves your device — all analysis runs in your browser",
+    testBtn: "🧪 Try with test statement",
     step1: "Upload statement",
     step1d: "Download your bank statement as CSV from your banking app",
     step2: "We analyze it",
     step2d: "We detect all recurring subscriptions in seconds",
     step3: "Cancel & save",
     step3d: "Pick what to cancel and what to keep",
-    uploadTitle: "Upload your statement",
-    uploadSub: "We analyze your recurring charges instantly — free, no sign-up",
     analyzing: "Analyzing...",
     analyzingNote: "Everything stays on your device",
     errorTitle: "Couldn't read the file",
     errorNote:
       "Make sure the file is CSV and you selected the right bank. Some banks export in a different format.",
-    tryAgain: "Try another file",
     banks: "Supported banks",
     footer: "Yalla Cancel · Made in Saudi Arabia 🇸🇦 · Open Source",
     howTitle: "How does it work?",
@@ -84,7 +77,6 @@ export default function HomePage() {
   const [error, setError] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
   const [uploadsUsed, setUploadsUsed] = useState(0);
-  const uploadSectionRef = useRef<HTMLDivElement>(null);
 
   const c = COPY[locale];
   const ar = locale === "ar";
@@ -94,22 +86,16 @@ export default function HomePage() {
     setUploadsUsed(stored);
   }, []);
 
-  // Sync dir on locale change
   useEffect(() => {
     document.documentElement.setAttribute("dir", ar ? "rtl" : "ltr");
     document.documentElement.setAttribute("lang", locale);
   }, [locale, ar]);
 
-  function scrollToUpload() {
-    uploadSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  async function handleFileSelect(file: File, bank: BankId) {
+  async function processCSV(text: string, bank: BankId) {
     setStep("analyzing");
     setError(false);
 
     try {
-      const text = await file.text();
       const transactions = parseCSV(text, bank);
 
       if (transactions.length === 0) {
@@ -121,13 +107,31 @@ export default function HomePage() {
       const result = analyzeTransactions(transactions);
       setReport(result);
 
-      // Increment upload counter
       const newCount = uploadsUsed + 1;
       setUploadsUsed(newCount);
       localStorage.setItem(STORAGE_KEY, String(newCount));
 
       setStep("results");
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
+      setError(true);
+      setStep("landing");
+    }
+  }
+
+  async function handleFileSelect(file: File, bank: BankId) {
+    const text = await file.text();
+    processCSV(text, bank);
+  }
+
+  async function handleTestStatement() {
+    setStep("analyzing");
+    setError(false);
+
+    try {
+      const res = await fetch("/test-statement.csv");
+      const text = await res.text();
+      processCSV(text, "other");
     } catch {
       setError(true);
       setStep("landing");
@@ -148,7 +152,7 @@ export default function HomePage() {
     setStep("landing");
     setReport(null);
     setError(false);
-    setTimeout(scrollToUpload, 100);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -199,62 +203,26 @@ export default function HomePage() {
         {/* ── LANDING VIEW ──────────────────────────────────── */}
         {step === "landing" && (
           <>
-            {/* Hero */}
-            <section className="max-w-5xl mx-auto px-4 pt-16 pb-12 text-center">
-              <div className="inline-flex items-center gap-2 bg-[var(--color-primary-bg)] border border-[var(--color-primary)]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[var(--color-primary)] mb-6">
-                🇸🇦 {ar ? "للبنوك السعودية · مجاناً · بدون تسجيل" : "Saudi banks · Free · No sign-up"}
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl font-black text-[var(--color-text-primary)] leading-tight mb-4">
-                {c.heroHeadline}
-              </h1>
-
-              <p className="text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto mb-8 leading-relaxed whitespace-pre-line">
-                {c.heroSub}
-              </p>
-
-              <button onClick={scrollToUpload} className="btn-primary text-lg px-8 py-4 mb-4">
-                {c.heroCta} ↓
-              </button>
-
-              <p className="text-xs text-[var(--color-text-muted)]">{c.heroPrivacy}</p>
-            </section>
-
-            {/* How it works */}
-            <section className="bg-white border-y border-[var(--color-border)]">
-              <div className="max-w-5xl mx-auto px-4 py-12">
-                <h2 className="text-xl font-black text-center mb-8 text-[var(--color-text-primary)]">
-                  {c.howTitle}
-                </h2>
-                <div className="grid sm:grid-cols-3 gap-6">
-                  {[
-                    { n: "١", title: c.step1, desc: c.step1d, icon: "📤" },
-                    { n: "٢", title: c.step2, desc: c.step2d, icon: "🔍" },
-                    { n: "٣", title: c.step3, desc: c.step3d, icon: "✂️" },
-                  ].map((s) => (
-                    <div key={s.n} className="text-center">
-                      <div className="w-14 h-14 bg-[var(--color-primary-bg)] rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
-                        {s.icon}
-                      </div>
-                      <h3 className="font-bold mb-1">{s.title}</h3>
-                      <p className="text-sm text-[var(--color-text-secondary)]">{s.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* Upload section */}
-            <section ref={uploadSectionRef} className="max-w-3xl mx-auto px-4 py-12">
+            {/* Hero + Upload — all above the fold */}
+            <section className="max-w-3xl mx-auto px-4 pt-12 pb-8">
+              {/* Headline */}
               <div className="text-center mb-8">
-                <h2 className="text-2xl font-black text-[var(--color-text-primary)] mb-2">
-                  {c.uploadTitle}
-                </h2>
-                <p className="text-[var(--color-text-secondary)]">{c.uploadSub}</p>
+                <div className="inline-flex items-center gap-2 bg-[var(--color-primary-bg)] border border-[var(--color-primary)]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[var(--color-primary)] mb-5">
+                  🇸🇦 {ar ? "للبنوك السعودية · مجاناً · بدون تسجيل" : "Saudi banks · Free · No sign-up"}
+                </div>
+
+                <h1 className="text-4xl sm:text-5xl font-black text-[var(--color-text-primary)] leading-tight mb-3">
+                  {c.heroHeadline}
+                </h1>
+
+                <p className="text-lg text-[var(--color-text-secondary)] max-w-lg mx-auto leading-relaxed">
+                  {c.heroSub}
+                </p>
               </div>
 
+              {/* Upload card — directly in the hero */}
               {error && (
-                <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center">
+                <div className="mb-4 bg-red-50 border border-red-200 rounded-xl p-4 text-center">
                   <p className="font-bold text-red-700 mb-1">{c.errorTitle}</p>
                   <p className="text-sm text-red-600">{c.errorNote}</p>
                 </div>
@@ -269,10 +237,53 @@ export default function HomePage() {
                   onUpgradeClick={() => setShowPaywall(true)}
                 />
               </div>
+
+              {/* Test statement button */}
+              <div className="text-center mt-4">
+                <button
+                  onClick={handleTestStatement}
+                  className="btn-ghost text-sm"
+                >
+                  {c.testBtn}
+                </button>
+                <p className="text-xs text-[var(--color-text-muted)] mt-1">
+                  {ar
+                    ? "ما عندك كشف حساب؟ جرب بكشف وهمي وشوف كيف يشتغل"
+                    : "Don't have a statement? Try with sample data to see how it works"}
+                </p>
+              </div>
+
+              <p className="text-xs text-[var(--color-text-muted)] text-center mt-4">
+                {c.heroPrivacy}
+              </p>
+            </section>
+
+            {/* How it works */}
+            <section className="bg-white border-y border-[var(--color-border)]">
+              <div className="max-w-5xl mx-auto px-4 py-12">
+                <h2 className="text-xl font-black text-center mb-8 text-[var(--color-text-primary)]">
+                  {c.howTitle}
+                </h2>
+                <div className="grid sm:grid-cols-3 gap-6">
+                  {[
+                    { n: "1", title: c.step1, desc: c.step1d, icon: "📤" },
+                    { n: "2", title: c.step2, desc: c.step2d, icon: "🔍" },
+                    { n: "3", title: c.step3, desc: c.step3d, icon: "✂️" },
+                  ].map((s) => (
+                    <div key={s.n} className="text-center">
+                      <div className="w-14 h-14 bg-[var(--color-primary-bg)] rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
+                        {s.icon}
+                      </div>
+                      <h3 className="font-bold mb-1">{s.title}</h3>
+                      <p className="text-sm text-[var(--color-text-secondary)]">{s.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </section>
 
             {/* Supported banks */}
-            <section className="max-w-5xl mx-auto px-4 pb-12">
+            <section className="max-w-5xl mx-auto px-4 py-12">
               <p className="text-xs font-semibold text-center text-[var(--color-text-muted)] uppercase tracking-wide mb-4">
                 {c.banks}
               </p>
