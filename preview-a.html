@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yalla Cancel — Version A</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00A651; --primary-hover: #00C060; --primary-dark: #007A3D;
+      --primary-bg: #F0FBF4; --surface: #F5F5F5; --white: #FFFFFF;
+      --text: #111827; --text2: #6B7280; --muted: #9CA3AF; --border: #E5E7EB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif; background: var(--white); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+    /* ─── Header ─── */
+    .header { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .logo-text { font-size: 1.25rem; font-weight: 900; color: var(--text); letter-spacing: -0.02em; }
+    .logo-text span { color: var(--primary); }
+    .header-actions { display: flex; gap: 8px; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 4px; background: transparent; color: var(--text2); padding: 6px 12px; border-radius: 10px; font-weight: 500; font-size: 0.75rem; cursor: pointer; border: 1px solid var(--border); transition: all 0.15s; font-family: inherit; }
+    .btn-ghost:hover { background: var(--surface); color: var(--text); }
+
+    /* ─── Hero ─── */
+    .hero { max-width: 672px; margin: 0 auto; padding: 64px 24px 40px; text-align: center; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.2; margin-bottom: 12px; }
+    .hero p { font-size: 1.125rem; color: var(--text2); margin-bottom: 32px; }
+
+    /* ─── Upload Card ─── */
+    .upload-card { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 0; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .upload-zone { padding: 48px 24px; text-align: center; cursor: pointer; transition: all 0.25s; }
+    .upload-zone:hover { background: var(--primary-bg); }
+    .upload-zone .icon { font-size: 3rem; margin-bottom: 12px; }
+    .upload-zone .title { font-weight: 700; font-size: 1.125rem; margin-bottom: 4px; }
+    .upload-zone .subtitle { font-size: 0.875rem; color: var(--text2); margin-bottom: 20px; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: white; padding: 14px 32px; border-radius: 14px; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,166,81,0.35); }
+    .upload-test { border-top: 1px solid var(--border); padding: 16px; text-align: center; }
+    .upload-test button { background: none; border: none; font-family: inherit; font-size: 0.875rem; color: var(--text2); font-weight: 500; cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: all 0.15s; }
+    .upload-test button:hover { background: var(--surface); color: var(--text); }
+
+    .badge-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-bg); border: 1px solid rgba(0,166,81,0.2); border-radius: 9999px; padding: 6px 16px; font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-top: 20px; }
+
+    /* ═══════════════════════════════════════════
+       VERSION A — Petal-style Benefits
+       Monochrome, editorial, illustration-led
+    ═══════════════════════════════════════════ */
+    .benefits-section { background: var(--surface); padding: 80px 24px; }
+    .benefits-inner { max-width: 1100px; margin: 0 auto; }
+    .benefits-header { text-align: center; margin-bottom: 56px; }
+    .benefits-header h2 { font-size: 1.75rem; font-weight: 900; margin-bottom: 8px; }
+    .benefits-header p { font-size: 1rem; color: var(--text2); }
+
+    .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 768px) { .benefits-grid { grid-template-columns: 1fr; } }
+
+    .benefit-card {
+      background: white;
+      border-radius: 20px;
+      padding: 48px 32px 40px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    .benefit-illustration {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .benefit-illustration svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .benefit-card p {
+      font-size: 0.95rem;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* ─── Banks Row ─── */
+    .banks-section { max-width: 1100px; margin: 0 auto; padding: 56px 24px; }
+    .banks-section h3 { font-size: 0.8rem; font-weight: 700; text-align: center; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
+    .banks-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .bank-chip { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 10px 18px; transition: border-color 0.15s; }
+    .bank-chip:hover { border-color: var(--muted); }
+    .bank-chip img { width: 24px; height: 24px; border-radius: 4px; object-fit: contain; }
+    .bank-chip span { font-size: 0.875rem; font-weight: 500; color: var(--text2); }
+
+    /* ─── Subscriptions ─── */
+    .subs-section { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .subs-inner { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+    .subs-inner h3 { font-size: 0.8rem; font-weight: 700; text-align: center; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
+    .subs-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .sub-pill { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 9999px; padding: 8px 18px; transition: background 0.15s; }
+    .sub-pill:hover { background: #EBEBEB; }
+    .sub-pill img { width: 22px; height: 22px; border-radius: 50%; object-fit: contain; }
+    .sub-pill span { font-size: 0.875rem; font-weight: 500; color: var(--text); }
+
+    /* ─── Privacy & Footer ─── */
+    .privacy { text-align: center; padding: 40px 24px; }
+    .privacy p { font-size: 0.875rem; font-weight: 500; color: var(--muted); }
+    .footer { border-top: 1px solid var(--border); background: white; text-align: center; padding: 20px; font-size: 0.75rem; color: var(--muted); }
+
+    /* Version tag */
+    .version-tag { position: fixed; top: 70px; left: 16px; background: var(--text); color: white; padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; z-index: 100; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body>
+
+  <div class="version-tag">VERSION A</div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <span class="logo-text">Yalla <span>Cancel</span></span>
+      <div class="header-actions">
+        <button class="btn-ghost">مفتوح المصدر</button>
+        <button class="btn-ghost" style="font-weight:700">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>وين رايحة فلوسك؟</h1>
+    <p>اكتشف كل الاشتراكات المخفية في كشف حسابك</p>
+
+    <div class="upload-card">
+      <div class="upload-zone">
+        <div class="icon">📊</div>
+        <p class="title">ارفع كشف حسابك هنا</p>
+        <p class="subtitle">اسحب الملف أو اضغط — نقبل CSV و PDF</p>
+        <button class="btn-primary">اختر ملف</button>
+      </div>
+      <div class="upload-test">
+        <button>🧪 جرب بكشف تجريبي</button>
+      </div>
+    </div>
+
+    <span class="badge-pill">🇸🇦 يدعم جميع البنوك السعودية · بدون تسجيل دخول</span>
+  </section>
+
+  <!-- ═══ BENEFITS — VERSION A ═══ -->
+  <!-- Petal-style: monochrome illustrations, white cards on gray, editorial feel -->
+  <section class="benefits-section">
+    <div class="benefits-inner">
+      <div class="benefits-header">
+        <h2>كيف يشتغل؟</h2>
+        <p>ثلاث خطوات وتعرف وين فلوسك رايحة</p>
+      </div>
+
+      <div class="benefits-grid">
+        <!-- Card 1: Upload -->
+        <div class="benefit-card">
+          <div class="benefit-illustration">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Abstract document/upload illustration - monochrome line art -->
+              <rect x="30" y="15" width="60" height="78" rx="6" stroke="#111827" stroke-width="2.5" fill="none"/>
+              <line x1="42" y1="35" x2="78" y2="35" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+              <line x1="42" y1="47" x2="72" y2="47" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+              <line x1="42" y1="59" x2="66" y2="59" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+              <!-- Upload arrow -->
+              <path d="M60 110 L60 80" stroke="#111827" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M50 90 L60 80 L70 90" stroke="#111827" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Decorative dots -->
+              <circle cx="20" cy="50" r="3" fill="#111827" opacity="0.15"/>
+              <circle cx="100" cy="30" r="4" fill="#111827" opacity="0.1"/>
+              <circle cx="105" cy="70" r="2.5" fill="#111827" opacity="0.12"/>
+              <rect x="15" y="75" width="8" height="8" rx="2" stroke="#111827" stroke-width="1.5" opacity="0.15" fill="none"/>
+            </svg>
+          </div>
+          <h3>ارفع كشف حسابك</h3>
+          <p>نزّل كشف الحساب من تطبيق بنكك وارفعه هنا. ندعم جميع البنوك السعودية بصيغة CSV أو PDF.</p>
+        </div>
+
+        <!-- Card 2: Analyze -->
+        <div class="benefit-card">
+          <div class="benefit-illustration">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Abstract analysis/magnifying glass illustration -->
+              <circle cx="52" cy="52" r="28" stroke="#111827" stroke-width="2.5" fill="none"/>
+              <line x1="72" y1="72" x2="95" y2="95" stroke="#111827" stroke-width="3" stroke-linecap="round"/>
+              <!-- Data dots inside lens -->
+              <circle cx="40" cy="45" r="4" fill="#111827" opacity="0.2"/>
+              <circle cx="55" cy="40" r="5" fill="#111827" opacity="0.3"/>
+              <circle cx="48" cy="58" r="3.5" fill="#111827" opacity="0.25"/>
+              <circle cx="62" cy="55" r="4.5" fill="#111827" opacity="0.15"/>
+              <!-- Connection lines -->
+              <line x1="40" y1="45" x2="55" y2="40" stroke="#111827" stroke-width="1" opacity="0.2"/>
+              <line x1="55" y1="40" x2="62" y2="55" stroke="#111827" stroke-width="1" opacity="0.2"/>
+              <line x1="48" y1="58" x2="62" y2="55" stroke="#111827" stroke-width="1" opacity="0.2"/>
+              <!-- Decorative elements -->
+              <rect x="10" y="20" width="10" height="10" rx="2" stroke="#111827" stroke-width="1.5" opacity="0.12" fill="none"/>
+              <circle cx="105" cy="25" r="3" fill="#111827" opacity="0.1"/>
+              <rect x="95" y="80" width="6" height="6" rx="1.5" fill="#111827" opacity="0.1"/>
+            </svg>
+          </div>
+          <h3>نحلّل اشتراكاتك</h3>
+          <p>نفحص كل العمليات ونكتشف الاشتراكات المتكررة اللي ممكن ما تنتبه لها — كل شيء على جهازك.</p>
+        </div>
+
+        <!-- Card 3: Cancel & Save -->
+        <div class="benefit-card">
+          <div class="benefit-illustration">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Abstract scissors/cut illustration - cancellation theme -->
+              <!-- Scissors -->
+              <circle cx="35" cy="70" r="12" stroke="#111827" stroke-width="2.5" fill="none"/>
+              <circle cx="35" cy="50" r="12" stroke="#111827" stroke-width="2.5" fill="none"/>
+              <line x1="45" y1="64" x2="85" y2="35" stroke="#111827" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="45" y1="56" x2="85" y2="85" stroke="#111827" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Money/savings symbols -->
+              <circle cx="90" cy="30" r="10" stroke="#111827" stroke-width="2" fill="none"/>
+              <text x="90" y="34" text-anchor="middle" fill="#111827" font-size="12" font-weight="700">٪</text>
+              <!-- Decorative -->
+              <circle cx="15" cy="30" r="3" fill="#111827" opacity="0.12"/>
+              <rect x="95" y="65" width="8" height="8" rx="2" stroke="#111827" stroke-width="1.5" opacity="0.12" fill="none"/>
+              <circle cx="80" cy="100" r="2.5" fill="#111827" opacity="0.1"/>
+            </svg>
+          </div>
+          <h3>ألغِ ووفّر فلوسك</h3>
+          <p>اختار الاشتراكات اللي تبي تلغيها. نوريك كم توفر شهرياً وسنوياً ونعطيك روابط الإلغاء.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supported Banks -->
+  <section class="banks-section">
+    <h3>يدعم جميع البنوك السعودية</h3>
+    <div class="banks-row">
+      <div class="bank-chip"><img src="https://logo.clearbit.com/alrajhibank.com.sa" alt="الراجحي"><span>الراجحي</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/alahli.com" alt="الأهلي"><span>الأهلي</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/riyadbank.com" alt="بنك الرياض"><span>بنك الرياض</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/bankalbilad.com" alt="البلاد"><span>البلاد</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/alinma.com" alt="الإنماء"><span>الإنماء</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/sabb.com" alt="ساب"><span>ساب</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/alfransi.com.sa" alt="الفرنسي"><span>الفرنسي</span></div>
+      <div class="bank-chip"><img src="https://logo.clearbit.com/anb.com.sa" alt="العربي الوطني"><span>العربي الوطني</span></div>
+    </div>
+  </section>
+
+  <!-- Example Subscriptions -->
+  <section class="subs-section">
+    <div class="subs-inner">
+      <h3>نكتشف اشتراكات مثل</h3>
+      <div class="subs-row">
+        <div class="sub-pill"><img src="https://logo.clearbit.com/netflix.com" alt="Netflix"><span>Netflix</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/spotify.com" alt="Spotify"><span>Spotify</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/shahid.mbc.net" alt="شاهد"><span>شاهد</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/anghami.com" alt="أنغامي"><span>أنغامي</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/youtube.com" alt="YouTube"><span>YouTube</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/apple.com" alt="Apple"><span>Apple</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/amazon.sa" alt="Amazon"><span>Amazon</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/adobe.com" alt="Adobe"><span>Adobe</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/openai.com" alt="ChatGPT"><span>ChatGPT</span></div>
+        <div class="sub-pill"><img src="https://logo.clearbit.com/icloud.com" alt="iCloud"><span>iCloud</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy -->
+  <div class="privacy">
+    <p>🔒 بياناتك ما تطلع من جهازك — كل التحليل يصير محلياً</p>
+  </div>
+
+  <footer class="footer">Yalla Cancel · صُنع في السعودية 🇸🇦</footer>
+
+</body>
+</html>
