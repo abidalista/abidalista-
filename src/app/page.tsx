@@ -7,7 +7,7 @@ import AuditReport from "@/components/AuditReport";
 import PaywallModal from "@/components/PaywallModal";
 import { parseCSV } from "@/lib/banks";
 import { analyzeTransactions } from "@/lib/analyzer";
-import { AuditReport as Report, BankId, SubscriptionStatus } from "@/lib/types";
+import { AuditReport as Report, SubscriptionStatus } from "@/lib/types";
 
 const FREE_UPLOAD_LIMIT = 1;
 const STORAGE_KEY = "yc_uploads_used";
@@ -17,57 +17,68 @@ type Step = "landing" | "analyzing" | "results";
 const COPY = {
   ar: {
     heroHeadline: "وين رايحة فلوسك؟",
-    heroSub:
-      "كل شهر تنخصم من حسابك مبالغ ما تتوقعها — اشتراكات نسيتها، أو ما تستخدمها، أو ما تدري بها.",
-    heroPrivacy: "🔒 بياناتك ما تطلع من جهازك — كل التحليل في متصفحك",
-    testBtn: "🧪 جرب بكشف تجريبي",
-    step1: "ارفع الكشف",
-    step1d: "نزّل كشف الحساب CSV من تطبيق بنكك",
-    step2: "نحلّل لك",
-    step2d: "نكتشف كل الاشتراكات المتكررة في ثواني",
-    step3: "ألغِ ووفّر",
-    step3d: "اختار اللي تبي تلغيه واللي تبي تخليه",
+    heroSub: "اكتشف كل الاشتراكات المخفية في كشف حسابك",
     analyzing: "جاري التحليل...",
     analyzingNote: "كل شيء يتم على جهازك",
     errorTitle: "ما قدرنا نقرأ الملف",
-    errorNote:
-      "تأكد إن الملف CSV وإنك اخترت البنك الصح. بعض البنوك تصدر الكشف بتنسيق مختلف.",
-    banks: "البنوك المدعومة",
-    footer: "Yalla Cancel · صُنع في السعودية 🇸🇦 · مفتوح المصدر",
+    errorNote: "تأكد إن الملف CSV أو PDF وجرب مرة ثانية",
     howTitle: "كيف يشتغل؟",
+    step1: "ارفع الكشف",
+    step1d: "نزّل كشف الحساب من تطبيق بنكك",
+    step2: "نحلّل لك",
+    step2d: "نكتشف كل الاشتراكات المتكررة",
+    step3: "ألغِ ووفّر",
+    step3d: "اختار اللي تبي تلغيه واللي تبي تخليه",
+    banksTitle: "يدعم جميع البنوك السعودية",
+    subsTitle: "نكتشف اشتراكات مثل",
+    badge: "🇸🇦 يدعم جميع البنوك السعودية · بدون تسجيل دخول",
+    privacy: "🔒 بياناتك ما تطلع من جهازك",
+    footer: "Yalla Cancel · صُنع في السعودية 🇸🇦",
   },
   en: {
     heroHeadline: "Where is your money going?",
-    heroSub:
-      "Every month, charges hit your account you don't expect — subscriptions you forgot, don't use, or never noticed.",
-    heroPrivacy: "🔒 Your data never leaves your device — all analysis runs in your browser",
-    testBtn: "🧪 Try with test statement",
-    step1: "Upload statement",
-    step1d: "Download your bank statement as CSV from your banking app",
-    step2: "We analyze it",
-    step2d: "We detect all recurring subscriptions in seconds",
-    step3: "Cancel & save",
-    step3d: "Pick what to cancel and what to keep",
+    heroSub: "Find every hidden subscription in your bank statement",
     analyzing: "Analyzing...",
     analyzingNote: "Everything stays on your device",
     errorTitle: "Couldn't read the file",
-    errorNote:
-      "Make sure the file is CSV and you selected the right bank. Some banks export in a different format.",
-    banks: "Supported banks",
-    footer: "Yalla Cancel · Made in Saudi Arabia 🇸🇦 · Open Source",
+    errorNote: "Make sure the file is CSV or PDF and try again",
     howTitle: "How does it work?",
+    step1: "Upload statement",
+    step1d: "Download your bank statement from your banking app",
+    step2: "We analyze it",
+    step2d: "We detect all recurring subscriptions",
+    step3: "Cancel & save",
+    step3d: "Pick what to cancel and what to keep",
+    banksTitle: "Supports all Saudi banks",
+    subsTitle: "We detect subscriptions like",
+    badge: "🇸🇦 Supports all Saudi banks · No login required",
+    privacy: "🔒 Your data never leaves your device",
+    footer: "Yalla Cancel · Made in Saudi Arabia 🇸🇦",
   },
 };
 
-const SUPPORTED_BANKS = [
-  { ar: "الراجحي",      en: "Al Rajhi",   color: "#0066B2" },
-  { ar: "الأهلي",        en: "SNB",        color: "#006633" },
-  { ar: "بنك الرياض",    en: "Riyad Bank", color: "#005BAA" },
-  { ar: "البلاد",        en: "Al Bilad",   color: "#8B6C00" },
-  { ar: "الإنماء",       en: "Alinma",     color: "#5B2D8E" },
-  { ar: "ساب",           en: "SABB",       color: "#007A3D" },
-  { ar: "الفرنسي",       en: "BSF",        color: "#002B5C" },
-  { ar: "العربي الوطني", en: "ANB",        color: "#C8102E" },
+const BANKS = [
+  { ar: "الراجحي",      en: "Al Rajhi",   logo: "https://logo.clearbit.com/alrajhibank.com.sa" },
+  { ar: "الأهلي",        en: "SNB",        logo: "https://logo.clearbit.com/alahli.com" },
+  { ar: "بنك الرياض",    en: "Riyad Bank", logo: "https://logo.clearbit.com/riyadbank.com" },
+  { ar: "البلاد",        en: "Al Bilad",   logo: "https://logo.clearbit.com/bankalbilad.com" },
+  { ar: "الإنماء",       en: "Alinma",     logo: "https://logo.clearbit.com/alinma.com" },
+  { ar: "ساب",           en: "SABB",       logo: "https://logo.clearbit.com/sabb.com" },
+  { ar: "الفرنسي",       en: "BSF",        logo: "https://logo.clearbit.com/alfransi.com.sa" },
+  { ar: "العربي الوطني", en: "ANB",        logo: "https://logo.clearbit.com/anb.com.sa" },
+];
+
+const EXAMPLE_SUBS = [
+  { name: "Netflix",     logo: "https://logo.clearbit.com/netflix.com" },
+  { name: "Spotify",     logo: "https://logo.clearbit.com/spotify.com" },
+  { name: "شاهد",        logo: "https://logo.clearbit.com/shahid.mbc.net" },
+  { name: "أنغامي",      logo: "https://logo.clearbit.com/anghami.com" },
+  { name: "YouTube",     logo: "https://logo.clearbit.com/youtube.com" },
+  { name: "Apple",       logo: "https://logo.clearbit.com/apple.com" },
+  { name: "Amazon",      logo: "https://logo.clearbit.com/amazon.sa" },
+  { name: "Adobe",       logo: "https://logo.clearbit.com/adobe.com" },
+  { name: "ChatGPT",     logo: "https://logo.clearbit.com/openai.com" },
+  { name: "iCloud",      logo: "https://logo.clearbit.com/icloud.com" },
 ];
 
 export default function HomePage() {
@@ -91,12 +102,12 @@ export default function HomePage() {
     document.documentElement.setAttribute("lang", locale);
   }, [locale, ar]);
 
-  async function processCSV(text: string, bank: BankId) {
+  async function processCSV(text: string) {
     setStep("analyzing");
     setError(false);
 
     try {
-      const transactions = parseCSV(text, bank);
+      const transactions = parseCSV(text, "other");
 
       if (transactions.length === 0) {
         setError(true);
@@ -119,19 +130,18 @@ export default function HomePage() {
     }
   }
 
-  async function handleFileSelect(file: File, bank: BankId) {
+  async function handleFileSelect(file: File) {
     const text = await file.text();
-    processCSV(text, bank);
+    processCSV(text);
   }
 
   async function handleTestStatement() {
     setStep("analyzing");
     setError(false);
-
     try {
       const res = await fetch("/test-statement.csv");
       const text = await res.text();
-      processCSV(text, "other");
+      processCSV(text);
     } catch {
       setError(true);
       setStep("landing");
@@ -168,13 +178,11 @@ export default function HomePage() {
       )}
 
       <main className="flex-1">
-        {/* ── RESULTS VIEW ─────────────────────────────────── */}
+        {/* ── RESULTS ─────────────────────────── */}
         {step === "results" && report && (
           <div className="max-w-3xl mx-auto px-4 py-8">
             <div className="mb-6">
-              <h1 className="text-2xl font-black text-[var(--color-text-primary)]">
-                {ar ? "تقرير اشتراكاتك" : "Your subscription report"}
-              </h1>
+              <h1 className="text-2xl font-black">{ar ? "تقرير اشتراكاتك" : "Your subscription report"}</h1>
               <p className="text-sm text-[var(--color-text-muted)] mt-1">
                 {ar
                   ? `حللنا ${report.analyzedTransactions} عملية وطلعنا ${report.subscriptions.length} اشتراك متكرر`
@@ -191,7 +199,7 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── ANALYZING STATE ───────────────────────────────── */}
+        {/* ── ANALYZING ──────────────────────────── */}
         {step === "analyzing" && (
           <div className="flex flex-col items-center justify-center py-32 gap-4">
             <div className="w-14 h-14 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
@@ -200,27 +208,20 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── LANDING VIEW ──────────────────────────────────── */}
+        {/* ── LANDING ────────────────────────────── */}
         {step === "landing" && (
           <>
-            {/* Hero + Upload — all above the fold */}
-            <section className="max-w-3xl mx-auto px-4 pt-12 pb-8">
-              {/* Headline */}
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 bg-[var(--color-primary-bg)] border border-[var(--color-primary)]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[var(--color-primary)] mb-5">
-                  🇸🇦 {ar ? "للبنوك السعودية · مجاناً · بدون تسجيل" : "Saudi banks · Free · No sign-up"}
-                </div>
-
-                <h1 className="text-4xl sm:text-5xl font-black text-[var(--color-text-primary)] leading-tight mb-3">
+            {/* Hero + Upload */}
+            <section className="max-w-2xl mx-auto px-4 pt-12 pb-8">
+              <div className="text-center mb-6">
+                <h1 className="text-4xl sm:text-5xl font-black leading-tight mb-2">
                   {c.heroHeadline}
                 </h1>
-
-                <p className="text-lg text-[var(--color-text-secondary)] max-w-lg mx-auto leading-relaxed">
+                <p className="text-lg text-[var(--color-text-secondary)]">
                   {c.heroSub}
                 </p>
               </div>
 
-              {/* Upload card — directly in the hero */}
               {error && (
                 <div className="mb-4 bg-red-50 border border-red-200 rounded-xl p-4 text-center">
                   <p className="font-bold text-red-700 mb-1">{c.errorTitle}</p>
@@ -234,43 +235,30 @@ export default function HomePage() {
                   uploadsUsed={uploadsUsed}
                   freeLimit={FREE_UPLOAD_LIMIT}
                   onFileSelect={handleFileSelect}
+                  onTestClick={handleTestStatement}
                   onUpgradeClick={() => setShowPaywall(true)}
                 />
               </div>
 
-              {/* Test statement button */}
-              <div className="text-center mt-4">
-                <button
-                  onClick={handleTestStatement}
-                  className="btn-ghost text-sm"
-                >
-                  {c.testBtn}
-                </button>
-                <p className="text-xs text-[var(--color-text-muted)] mt-1">
-                  {ar
-                    ? "ما عندك كشف حساب؟ جرب بكشف وهمي وشوف كيف يشتغل"
-                    : "Don't have a statement? Try with sample data to see how it works"}
-                </p>
+              {/* Badge — below the card */}
+              <div className="text-center mt-5">
+                <span className="inline-flex items-center gap-2 bg-[var(--color-primary-bg)] border border-[var(--color-primary)]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[var(--color-primary)]">
+                  {c.badge}
+                </span>
               </div>
-
-              <p className="text-xs text-[var(--color-text-muted)] text-center mt-4">
-                {c.heroPrivacy}
-              </p>
             </section>
 
             {/* How it works */}
             <section className="bg-white border-y border-[var(--color-border)]">
-              <div className="max-w-5xl mx-auto px-4 py-12">
-                <h2 className="text-xl font-black text-center mb-8 text-[var(--color-text-primary)]">
-                  {c.howTitle}
-                </h2>
+              <div className="max-w-4xl mx-auto px-4 py-12">
+                <h2 className="text-xl font-black text-center mb-8">{c.howTitle}</h2>
                 <div className="grid sm:grid-cols-3 gap-6">
                   {[
-                    { n: "1", title: c.step1, desc: c.step1d, icon: "📤" },
-                    { n: "2", title: c.step2, desc: c.step2d, icon: "🔍" },
-                    { n: "3", title: c.step3, desc: c.step3d, icon: "✂️" },
+                    { title: c.step1, desc: c.step1d, icon: "📤" },
+                    { title: c.step2, desc: c.step2d, icon: "🔍" },
+                    { title: c.step3, desc: c.step3d, icon: "✂️" },
                   ].map((s) => (
-                    <div key={s.n} className="text-center">
+                    <div key={s.icon} className="text-center">
                       <div className="w-14 h-14 bg-[var(--color-primary-bg)] rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
                         {s.icon}
                       </div>
@@ -282,20 +270,22 @@ export default function HomePage() {
               </div>
             </section>
 
-            {/* Supported banks */}
-            <section className="max-w-5xl mx-auto px-4 py-12">
-              <p className="text-xs font-semibold text-center text-[var(--color-text-muted)] uppercase tracking-wide mb-4">
-                {c.banks}
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {SUPPORTED_BANKS.map((bank) => (
+            {/* Supported banks with logos */}
+            <section className="max-w-4xl mx-auto px-4 py-12">
+              <h3 className="text-sm font-bold text-center text-[var(--color-text-secondary)] mb-6">
+                {c.banksTitle}
+              </h3>
+              <div className="flex flex-wrap justify-center gap-4">
+                {BANKS.map((bank) => (
                   <div
                     key={bank.en}
-                    className="flex items-center gap-2 bg-white border border-[var(--color-border)] rounded-xl px-3 py-2"
+                    className="flex items-center gap-2 bg-white border border-[var(--color-border)] rounded-xl px-4 py-2.5"
                   >
-                    <div
-                      className="w-6 h-6 rounded-md flex-shrink-0"
-                      style={{ backgroundColor: bank.color }}
+                    <img
+                      src={bank.logo}
+                      alt={ar ? bank.ar : bank.en}
+                      className="w-6 h-6 rounded object-contain"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                     />
                     <span className="text-sm font-medium text-[var(--color-text-secondary)]">
                       {ar ? bank.ar : bank.en}
@@ -305,25 +295,41 @@ export default function HomePage() {
               </div>
             </section>
 
-            {/* Privacy note */}
-            <section className="bg-[var(--color-primary-bg)] border-t border-[var(--color-primary)]/10">
-              <div className="max-w-5xl mx-auto px-4 py-8 text-center">
-                <div className="text-2xl mb-2">🔒</div>
-                <h3 className="font-bold mb-1">
-                  {ar ? "خصوصيتك أولاً" : "Privacy first"}
+            {/* Example subscriptions with logos */}
+            <section className="bg-white border-y border-[var(--color-border)]">
+              <div className="max-w-4xl mx-auto px-4 py-10">
+                <h3 className="text-sm font-bold text-center text-[var(--color-text-secondary)] mb-6">
+                  {c.subsTitle}
                 </h3>
-                <p className="text-sm text-[var(--color-text-secondary)] max-w-md mx-auto">
-                  {ar
-                    ? "كل التحليل يتم في متصفحك — ملف الكشف ما يروح لأي سيرفر. بياناتك البنكية تبقى عندك."
-                    : "All analysis runs in your browser — your statement file never reaches any server. Your financial data stays with you."}
-                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {EXAMPLE_SUBS.map((sub) => (
+                    <div
+                      key={sub.name}
+                      className="flex items-center gap-2 bg-[var(--color-surface)] rounded-full px-4 py-2"
+                    >
+                      <img
+                        src={sub.logo}
+                        alt={sub.name}
+                        className="w-5 h-5 rounded-full object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                      />
+                      <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                        {sub.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
+            </section>
+
+            {/* Privacy */}
+            <section className="max-w-4xl mx-auto px-4 py-8 text-center">
+              <p className="text-sm font-medium text-[var(--color-text-muted)]">{c.privacy}</p>
             </section>
           </>
         )}
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-[var(--color-border)] bg-white">
         <div className="max-w-5xl mx-auto px-4 py-4 text-center text-xs text-[var(--color-text-muted)]">
           {c.footer}
