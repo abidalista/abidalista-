@@ -1,33 +1,43 @@
 "use client";
 
-import { Locale, t } from "@/lib/i18n";
-
 interface HeaderProps {
-  locale: Locale;
-  onLocaleChange: (locale: Locale) => void;
+  locale: "ar" | "en";
+  onLocaleChange: (l: "ar" | "en") => void;
+  onLogoClick?: () => void;
 }
 
-export default function Header({ locale, onLocaleChange }: HeaderProps) {
+export default function Header({ locale, onLocaleChange, onLogoClick }: HeaderProps) {
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-[var(--color-border)] sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[var(--color-primary)] rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-lg">أ</span>
-          </div>
-          <h1 className="text-xl font-bold text-[var(--color-primary)]">
-            {t(locale, "appName")}
-          </h1>
-        </div>
+    <header className="bg-white border-b border-[var(--color-border)] sticky top-0 z-50">
+      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+        <button
+          onClick={onLogoClick}
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+        >
+          <span className="text-xl font-black text-[var(--color-primary)] tracking-tight">
+            Yalla Cancel
+          </span>
+          <span className="text-xs font-medium text-[var(--color-text-muted)] hidden sm:block">
+            يلا كانسل
+          </span>
+        </button>
 
-        <nav className="flex items-center gap-6">
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost text-xs"
+          >
+            {locale === "ar" ? "مفتوح المصدر" : "Open Source"}
+          </a>
           <button
             onClick={() => onLocaleChange(locale === "ar" ? "en" : "ar")}
-            className="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors px-3 py-1.5 rounded-lg hover:bg-[var(--color-primary)]/5"
+            className="btn-ghost text-xs font-semibold"
           >
-            {t(locale, "language")}
+            {locale === "ar" ? "EN" : "ع"}
           </button>
-        </nav>
+        </div>
       </div>
     </header>
   );
