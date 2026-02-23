@@ -6,7 +6,7 @@
   <title>Yalla Cancel — اكتشف اشتراكاتك المخفية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #00A651;
@@ -48,23 +48,15 @@
     }
     .nav-inner {
       max-width: 1200px; margin: 0 auto; padding: 0 32px;
-      height: 64px; display: flex; align-items: center; justify-content: space-between;
+      height: 64px; display: flex; align-items: center; justify-content: flex-start;
     }
     .nav-logo {
+      font-family: "Inter", -apple-system, sans-serif;
       font-size: 1.35rem; font-weight: 900; color: white;
       display: flex; align-items: center; gap: 8px;
+      cursor: pointer;
     }
     .nav-logo span { color: var(--primary); }
-    .nav-links { display: flex; align-items: center; gap: 32px; }
-    .nav-link { color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
-    .nav-link:hover { color: white; }
-    .nav-cta {
-      background: var(--primary); color: white; padding: 10px 24px;
-      border-radius: 12px; font-weight: 700; font-size: 0.875rem;
-      border: none; cursor: pointer; font-family: inherit;
-      transition: all 0.2s;
-    }
-    .nav-cta:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
     /* ══════════════════════════════════════════
        HERO
@@ -85,101 +77,250 @@
       max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;
       display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
     }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,166,81,0.15); border: 1px solid rgba(0,166,81,0.3);
-      border-radius: 9999px; padding: 6px 16px; margin-bottom: 24px;
-      font-size: 0.8rem; font-weight: 600; color: var(--primary);
-    }
-    .hero-badge .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
     .hero h1 {
       font-size: clamp(2.2rem, 4.5vw, 3.5rem);
       font-weight: 900; color: white; line-height: 1.2; margin-bottom: 20px;
     }
     .hero h1 em { font-style: normal; color: var(--primary); }
     .hero-sub { font-size: 1.15rem; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 32px; max-width: 480px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
-    .btn-hero {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--primary); color: white;
-      padding: 16px 36px; border-radius: 14px;
-      font-weight: 700; font-size: 1.05rem;
-      border: none; cursor: pointer; font-family: inherit;
-      transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,166,81,0.4);
-    }
-    .btn-hero:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,166,81,0.5); }
-    .btn-hero-ghost {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.08); color: white;
-      padding: 16px 28px; border-radius: 14px;
-      font-weight: 600; font-size: 1rem;
-      border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-family: inherit;
-      transition: all 0.2s;
-    }
-    .btn-hero-ghost:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); }
     .hero-note { font-size: 0.8rem; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 16px; }
     .hero-note span { display: flex; align-items: center; gap: 4px; }
 
-    /* Report mockup in hero */
-    .hero-mockup {
-      background: var(--dark2);
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
-      overflow: hidden;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
-      transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
-      transition: transform 0.4s;
+    /* Upload Card in Hero */
+    .hero-upload-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
     }
-    .hero-mockup:hover { transform: perspective(1200px) rotateY(0deg) rotateX(0deg); }
-    .mockup-bar {
-      background: var(--dark);
-      padding: 12px 16px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    .upload-zone {
+      border: 2px dashed rgba(255,255,255,0.25);
+      border-radius: 16px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 20px;
     }
-    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .mockup-dot.r { background: #EF4444; }
-    .mockup-dot.y { background: #F59E0B; }
-    .mockup-dot.g { background: #22C55E; }
-    .mockup-url {
-      flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px;
-      padding: 4px 12px; font-size: 0.7rem; color: rgba(255,255,255,0.4);
-      margin-inline-start: 8px; text-align: center; direction: ltr;
+    .upload-zone:hover {
+      border-color: var(--primary);
+      background: rgba(0,166,81,0.06);
     }
-    .mockup-body { padding: 20px; }
+    .upload-zone-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    .upload-zone-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+    .upload-zone-sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+    }
+    .upload-file-input {
+      display: none;
+    }
+    .btn-upload-primary {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      background: var(--primary); color: white;
+      padding: 16px 24px; border-radius: 14px;
+      font-weight: 700; font-size: 1.05rem;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,166,81,0.4);
+      margin-bottom: 16px;
+    }
+    .btn-upload-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,166,81,0.5); }
+    .upload-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .upload-divider::before, .upload-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+    }
+    .upload-divider span {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      white-space: nowrap;
+    }
+    .btn-sample-ghost {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      background: rgba(255,255,255,0.06); color: white;
+      padding: 14px 24px; border-radius: 14px;
+      font-weight: 600; font-size: 0.95rem;
+      border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-sample-ghost:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); }
 
-    /* Mini report inside mockup */
-    .mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
-    .mini-stat {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px; padding: 12px 8px; text-align: center;
+    /* Hero badge (below upload card) */
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,166,81,0.15); border: 1px solid rgba(0,166,81,0.3);
+      border-radius: 9999px; padding: 8px 18px; margin-top: 16px;
+      font-size: 0.85rem; font-weight: 600; color: var(--primary);
     }
-    .mini-stat.hl { border-color: rgba(0,166,81,0.3); background: rgba(0,166,81,0.08); }
-    .mini-stat .v { font-size: 1.1rem; font-weight: 900; color: white; }
-    .mini-stat.hl .v { color: var(--primary); }
-    .mini-stat .l { font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
-    .mini-sub {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 12px; border-radius: 10px; margin-bottom: 6px;
-    }
-    .mini-sub.cancel { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); }
-    .mini-sub.keep { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.15); }
-    .mini-sub.investigate { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15); }
-    .mini-sub-left { display: flex; align-items: center; gap: 8px; }
-    .mini-sub-logo { width: 22px; height: 22px; border-radius: 6px; }
-    .mini-sub-name { font-size: 0.75rem; font-weight: 600; color: white; }
-    .mini-sub-badge { font-size: 0.55rem; font-weight: 700; padding: 2px 8px; border-radius: 9999px; }
-    .mini-sub.cancel .mini-sub-badge { background: rgba(239,68,68,0.2); color: #FCA5A5; }
-    .mini-sub.keep .mini-sub-badge { background: rgba(34,197,94,0.2); color: #86EFAC; }
-    .mini-sub.investigate .mini-sub-badge { background: rgba(245,158,11,0.2); color: #FDE68A; }
-    .mini-sub-price { font-size: 0.8rem; font-weight: 800; color: white; direction: ltr; }
-    .mini-sub-price small { font-size: 0.6rem; color: rgba(255,255,255,0.4); font-weight: 500; }
 
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; }
-      .hero-mockup { transform: none; }
     }
+
+    /* ══════════════════════════════════════════
+       ANALYZING OVERLAY
+    ══════════════════════════════════════════ */
+    .analyzing-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15,23,42,0.97);
+      z-index: 9999;
+      align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    .analyzing-overlay.active {
+      display: flex;
+    }
+    .analyzing-spinner {
+      width: 56px; height: 56px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .analyzing-text {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .analyzing-sub {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.85rem;
+      margin-bottom: 32px;
+    }
+    .progress-bar-wrap {
+      width: 320px;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      border-radius: 9999px;
+      transition: width 0.3s ease;
+    }
+
+    /* ══════════════════════════════════════════
+       REPORT PAGE (hidden by default)
+    ══════════════════════════════════════════ */
+    .report-page {
+      display: none;
+      min-height: 100vh;
+      background: var(--surface);
+    }
+    .report-page.active {
+      display: block;
+    }
+    .report-page-nav {
+      background: var(--dark);
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .report-page-nav .nav-logo {
+      font-family: "Inter", -apple-system, sans-serif;
+      font-size: 1.35rem; font-weight: 900; color: white;
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer;
+    }
+    .report-page-nav .nav-logo span { color: var(--primary); }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.08); color: white;
+      padding: 10px 20px; border-radius: 12px;
+      font-weight: 600; font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.14); }
+    .report-page-body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+    .report-page-header {
+      margin-bottom: 32px;
+    }
+    .report-page-header h2 {
+      font-size: 1.6rem; font-weight: 900; margin-bottom: 6px;
+    }
+    .report-page-header p {
+      font-size: 0.9rem; color: var(--text2);
+    }
+    .report-page-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 640px) { .report-page-stats { grid-template-columns: 1fr; } }
+    .rpage-stat {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px; text-align: center;
+    }
+    .rpage-stat.hl { border-color: var(--primary); background: var(--primary-bg); }
+    .rpage-stat .v { font-size: 1.5rem; font-weight: 900; }
+    .rpage-stat.hl .v { color: var(--primary); }
+    .rpage-stat .l { font-size: 0.8rem; color: var(--text2); margin-top: 4px; }
+    .report-page-list-title {
+      font-size: 1.1rem; font-weight: 800; margin-bottom: 16px;
+    }
+    .rpage-sub {
+      display: flex; align-items: center; justify-content: space-between;
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px 20px; margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+    .rpage-sub:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+    .rpage-sub-left { display: flex; align-items: center; gap: 14px; }
+    .rpage-sub-logo { width: 32px; height: 32px; border-radius: 8px; }
+    .rpage-sub-info {}
+    .rpage-sub-name { font-weight: 700; font-size: 0.95rem; }
+    .rpage-sub-meta { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+    .rpage-sub-freq { font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: #F1F5F9; color: #64748B; }
+    .rpage-sub-price { font-weight: 900; font-size: 1rem; color: var(--text); }
+    .rpage-sub-right { display: flex; align-items: center; gap: 8px; }
+    .btn-cancel-sub {
+      padding: 8px 18px; border-radius: 10px;
+      font-weight: 700; font-size: 0.8rem;
+      border: 1px solid #FECACA; background: #FEF2F2; color: #DC2626;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .btn-cancel-sub:hover { background: #FEE2E2; border-color: #F87171; }
+    .btn-keep-sub {
+      padding: 8px 18px; border-radius: 10px;
+      font-weight: 700; font-size: 0.8rem;
+      border: 1px solid #BBF7D0; background: #ECFDF5; color: #16A34A;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .btn-keep-sub:hover { background: #DCFCE7; border-color: #86EFAC; }
+
+    /* ══════════════════════════════════════════
+       LANDING PAGE wrapper
+    ══════════════════════════════════════════ */
+    .landing-page {}
+    .landing-page.hidden { display: none; }
 
     /* ══════════════════════════════════════════
        LOGO BAR
@@ -293,8 +434,8 @@
     .rp-header { margin-bottom: 24px; }
     .rp-header h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: 4px; }
     .rp-header p { font-size: 0.85rem; color: var(--muted); }
-    .rp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
-    @media (max-width: 640px) { .rp-stats { grid-template-columns: repeat(2, 1fr); } }
+    .rp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+    @media (max-width: 640px) { .rp-stats { grid-template-columns: 1fr; } }
     .rp-stat {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 16px; padding: 18px; text-align: center;
@@ -303,28 +444,34 @@
     .rp-stat .v { font-size: 1.4rem; font-weight: 900; }
     .rp-stat.hl .v { color: var(--primary); }
     .rp-stat .l { font-size: 0.7rem; color: var(--text2); margin-top: 2px; }
-    .rp-savings {
-      background: var(--primary-bg); border: 1px solid rgba(0,166,81,0.25);
-      border-radius: 14px; padding: 16px 20px;
-      display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
-    }
-    .rp-savings strong { color: var(--primary-dark); font-size: 0.95rem; }
-    .rp-savings p { font-size: 0.8rem; color: var(--text2); }
     .rp-section-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
     .rp-sub {
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 16px; border-radius: 14px; margin-bottom: 8px;
+      background: var(--surface); border: 1px solid var(--border);
     }
-    .rp-sub.cancel { background: #FEF2F2; border: 1px solid #FECACA; }
-    .rp-sub.keep { background: #ECFDF5; border: 1px solid #BBF7D0; }
-    .rp-sub.investigate { background: #FFFBEB; border: 1px solid #FDE68A; }
     .rp-sub-left { display: flex; align-items: center; gap: 12px; }
     .rp-sub-logo { width: 28px; height: 28px; border-radius: 8px; }
     .rp-sub-name { font-weight: 700; font-size: 0.9rem; }
     .rp-sub-freq { font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: #F1F5F9; color: #64748B; margin-inline-start: 8px; }
-    .rp-sub-right { text-align: left; }
+    .rp-sub-right { display: flex; align-items: center; gap: 10px; }
     .rp-sub-price { font-weight: 900; font-size: 1.05rem; }
     .rp-sub-unit { font-size: 0.7rem; color: var(--muted); }
+    .rp-sub-actions { display: flex; gap: 6px; margin-inline-start: 12px; }
+    .rp-btn-cancel {
+      padding: 5px 12px; border-radius: 8px;
+      font-weight: 700; font-size: 0.65rem;
+      border: 1px solid #FECACA; background: #FEF2F2; color: #DC2626;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .rp-btn-cancel:hover { background: #FEE2E2; }
+    .rp-btn-keep {
+      padding: 5px 12px; border-radius: 8px;
+      font-weight: 700; font-size: 0.65rem;
+      border: 1px solid #BBF7D0; background: #ECFDF5; color: #16A34A;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .rp-btn-keep:hover { background: #DCFCE7; }
 
     /* ══════════════════════════════════════════
        FEATURES GRID
@@ -443,7 +590,10 @@
     .footer-inner { max-width: 1200px; margin: 0 auto; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
     @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-    .footer-brand .footer-logo { font-size: 1.4rem; font-weight: 900; margin-bottom: 12px; }
+    .footer-brand .footer-logo {
+      font-family: "Inter", -apple-system, sans-serif;
+      font-size: 1.4rem; font-weight: 900; margin-bottom: 12px;
+    }
     .footer-brand .footer-logo span { color: var(--primary); }
     .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 20px; }
     .footer-social { display: flex; gap: 12px; }
@@ -479,16 +629,165 @@
 </head>
 <body>
 
+  <!-- ══════ ANALYZING OVERLAY ══════ -->
+  <div class="analyzing-overlay" id="analyzingOverlay">
+    <div class="analyzing-spinner"></div>
+    <div class="analyzing-text">نحلّل كشف حسابك...</div>
+    <div class="analyzing-sub">نفحص العمليات ونكتشف الاشتراكات المتكررة</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+  </div>
+
+  <!-- ══════ REPORT PAGE (hidden by default) ══════ -->
+  <div class="report-page" id="reportPage">
+    <div class="report-page-nav">
+      <div class="nav-logo" onclick="goBackToLanding()">Yalla <span>Cancel</span></div>
+      <button class="btn-back" onclick="goBackToLanding()">ارفع كشف آخر</button>
+    </div>
+    <div class="report-page-body">
+      <div class="report-page-header">
+        <h2>تقرير اشتراكاتك</h2>
+        <p>حللنا ٣٤٧ عملية من الأشهر الأربعة الأخيرة واكتشفنا ٨ اشتراكات متكررة</p>
+      </div>
+      <div class="report-page-stats">
+        <div class="rpage-stat">
+          <div class="v">٨</div>
+          <div class="l">اشتراكات مكتشفة</div>
+        </div>
+        <div class="rpage-stat hl">
+          <div class="v">٦٧٣ ريال</div>
+          <div class="l">المجموع الشهري</div>
+        </div>
+        <div class="rpage-stat">
+          <div class="v">٨,٠٧٦ ريال</div>
+          <div class="l">المجموع السنوي</div>
+        </div>
+      </div>
+      <p class="report-page-list-title">جميع اشتراكاتك</p>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">Netflix</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٦٠ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">Spotify</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٣٣ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">شاهد VIP</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٤٥ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">Adobe Creative Cloud</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">١٣٤ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">ChatGPT Plus</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٧٥ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">Calm</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٤٥ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">هنقرستيشن</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٢٩ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+      <div class="rpage-sub">
+        <div class="rpage-sub-left">
+          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt="">
+          <div class="rpage-sub-info">
+            <div class="rpage-sub-name">iCloud+</div>
+            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٢٥٢ ريال/شهر</span></div>
+          </div>
+        </div>
+        <div class="rpage-sub-right">
+          <button class="btn-cancel-sub">ألغي</button>
+          <button class="btn-keep-sub">خلّي</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════ LANDING PAGE ══════ -->
+  <div class="landing-page" id="landingPage">
+
   <!-- ══════ NAVIGATION ══════ -->
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-logo">Yalla <span>Cancel</span></div>
-      <div class="nav-links">
-        <a href="#how" class="nav-link">كيف يشتغل</a>
-        <a href="#features" class="nav-link">المميزات</a>
-        <a href="#faq" class="nav-link">الأسئلة</a>
-        <button class="nav-cta" onclick="document.querySelector('.hero').scrollIntoView()">ابدأ مجاناً</button>
-      </div>
+      <div class="nav-logo" onclick="goBackToLanding()">Yalla <span>Cancel</span></div>
     </div>
   </nav>
 
@@ -496,75 +795,29 @@
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-content">
-        <div class="hero-badge"><div class="dot"></div> مجاني · بدون تسجيل دخول</div>
         <h1>اشتراكاتك <em>تحت السيطرة</em></h1>
         <p class="hero-sub">ارفع كشف حسابك البنكي واكتشف كل الاشتراكات المتكررة اللي تنخصم منك — بخصوصية تامة وبدون ما تشارك بياناتك مع أحد.</p>
-        <div class="hero-actions">
-          <button class="btn-hero" onclick="startAnalysis()">ارفع كشف حسابك</button>
-          <button class="btn-hero-ghost" onclick="startAnalysis()">🧪 جرب بكشف تجريبي</button>
-        </div>
         <div class="hero-note">
           <span>🔒 بياناتك ما تطلع من جهازك</span>
           <span>⚡ النتيجة في ثوانٍ</span>
-          <span>🇸🇦 جميع البنوك السعودية</span>
         </div>
       </div>
 
-      <!-- Report Mockup -->
-      <div class="hero-mockup">
-        <div class="mockup-bar">
-          <div class="mockup-dot r"></div>
-          <div class="mockup-dot y"></div>
-          <div class="mockup-dot g"></div>
-          <div class="mockup-url">yallacancel.sa/report</div>
+      <!-- Upload Card -->
+      <div>
+        <div class="hero-upload-card">
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-zone-icon">📄</div>
+            <div class="upload-zone-title">اسحب كشف حسابك هنا أو اضغط للرفع</div>
+            <div class="upload-zone-sub">يدعم CSV و PDF</div>
+          </div>
+          <input type="file" class="upload-file-input" id="fileInput" accept=".csv,.pdf" onchange="handleFileUpload()">
+          <button class="btn-upload-primary" onclick="document.getElementById('fileInput').click()">اختر ملف</button>
+          <div class="upload-divider"><span>أو</span></div>
+          <button class="btn-sample-ghost" onclick="startAnalysis()">🧪 جرب بكشف تجريبي</button>
         </div>
-        <div class="mockup-body">
-          <div class="mini-stats">
-            <div class="mini-stat"><div class="v">٨</div><div class="l">اشتراكات</div></div>
-            <div class="mini-stat hl"><div class="v">٦٧٣</div><div class="l">ر.س/شهر</div></div>
-            <div class="mini-stat"><div class="v">٨,٠٧٦</div><div class="l">ر.س/سنة</div></div>
-            <div class="mini-stat"><div class="v">٢٢٤</div><div class="l">توفير/شهر</div></div>
-          </div>
-          <div class="mini-sub cancel">
-            <div class="mini-sub-left">
-              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="">
-              <span class="mini-sub-name">شاهد VIP</span>
-              <span class="mini-sub-badge">ألغِه</span>
-            </div>
-            <div class="mini-sub-price">٤٥ <small>ر.س</small></div>
-          </div>
-          <div class="mini-sub cancel">
-            <div class="mini-sub-left">
-              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="">
-              <span class="mini-sub-name">Adobe CC</span>
-              <span class="mini-sub-badge">ألغِه</span>
-            </div>
-            <div class="mini-sub-price">١٣٤ <small>ر.س</small></div>
-          </div>
-          <div class="mini-sub keep">
-            <div class="mini-sub-left">
-              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="">
-              <span class="mini-sub-name">Spotify</span>
-              <span class="mini-sub-badge">خلّيه</span>
-            </div>
-            <div class="mini-sub-price">٣٣ <small>ر.س</small></div>
-          </div>
-          <div class="mini-sub investigate">
-            <div class="mini-sub-left">
-              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt="">
-              <span class="mini-sub-name">هنقرستيشن</span>
-              <span class="mini-sub-badge">راجع</span>
-            </div>
-            <div class="mini-sub-price">٢٩ <small>ر.س</small></div>
-          </div>
-          <div class="mini-sub keep">
-            <div class="mini-sub-left">
-              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
-              <span class="mini-sub-name">Netflix</span>
-              <span class="mini-sub-badge">خلّيه</span>
-            </div>
-            <div class="mini-sub-price">٦٠ <small>ر.س</small></div>
-          </div>
+        <div style="text-align:center;">
+          <div class="hero-badge">🇸🇦 يدعم جميع البنوك السعودية</div>
         </div>
       </div>
     </div>
@@ -665,8 +918,8 @@
               <text x="50" y="16" text-anchor="middle" fill="#00A651" font-size="10" font-weight="900">٪</text>
             </svg>
           </div>
-          <h3>ألغِ ووفّر</h3>
-          <p>اختار اللي تبي تلغيه واللي تبي تخليه. نوريك كم توفر ونعطيك روابط الإلغاء.</p>
+          <h3>قرّر ووفّر</h3>
+          <p>اختار اللي تبي تلغيه واللي تبي تخليه. أنت تقرر — ونعطيك روابط الإلغاء المباشرة.</p>
         </div>
       </div>
     </div>
@@ -678,7 +931,7 @@
       <div style="text-align:center">
         <span class="section-label">التقرير</span>
         <h2 class="section-title">شوف كيف يطلع تقريرك</h2>
-        <p class="section-sub">تقرير تفصيلي بكل اشتراكاتك مع توصيات ذكية للإلغاء وحساب التوفير الشهري والسنوي.</p>
+        <p class="section-sub">تقرير تفصيلي بكل اشتراكاتك — أنت تقرر تلغي أو تخلّي كل اشتراك.</p>
       </div>
       <div class="showcase-frame">
         <div class="showcase-bar">
@@ -689,44 +942,38 @@
         </div>
         <div class="report-preview">
           <div class="rp-header">
-            <h2>📊 تقرير اشتراكاتك</h2>
+            <h2>تقرير اشتراكاتك</h2>
             <p>حللنا ٣٤٧ عملية من الأشهر الأربعة الأخيرة واكتشفنا ٨ اشتراكات متكررة</p>
           </div>
           <div class="rp-stats">
             <div class="rp-stat"><div class="v">٨</div><div class="l">اشتراكات مكتشفة</div></div>
-            <div class="rp-stat hl"><div class="v">٦٧٣ ر.س</div><div class="l">المجموع الشهري</div></div>
-            <div class="rp-stat"><div class="v">٨,٠٧٦ ر.س</div><div class="l">المجموع السنوي</div></div>
-            <div class="rp-stat"><div class="v">٢,٦٨٨ ر.س</div><div class="l">توفير محتمل/سنة</div></div>
+            <div class="rp-stat hl"><div class="v">٦٧٣ ريال</div><div class="l">المجموع الشهري</div></div>
+            <div class="rp-stat"><div class="v">٨,٠٧٦ ريال</div><div class="l">المجموع السنوي</div></div>
           </div>
-          <div class="rp-savings">
-            <span style="font-size:1.5rem">💰</span>
-            <div><strong>تقدر توفر ٢,٦٨٨ ر.س سنوياً بإلغاء ٣ اشتراكات فقط</strong></div>
-          </div>
-          <p class="rp-section-title">🚫 نقترح تلغيها</p>
-          <div class="rp-sub cancel">
-            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt=""><span class="rp-sub-name">شاهد VIP</span><span class="rp-sub-freq">شهري</span></div>
-            <div class="rp-sub-right"><span class="rp-sub-price">٤٥ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
-          </div>
-          <div class="rp-sub cancel">
-            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt=""><span class="rp-sub-name">Adobe Creative Cloud</span><span class="rp-sub-freq">شهري</span></div>
-            <div class="rp-sub-right"><span class="rp-sub-price">١٣٤ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
-          </div>
-          <div class="rp-sub cancel">
-            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt=""><span class="rp-sub-name">Calm</span><span class="rp-sub-freq">شهري</span></div>
-            <div class="rp-sub-right"><span class="rp-sub-price">٤٥ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
-          </div>
-          <p class="rp-section-title" style="margin-top:16px">✅ خلّيها</p>
-          <div class="rp-sub keep">
-            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt=""><span class="rp-sub-name">Spotify</span><span class="rp-sub-freq">شهري</span></div>
-            <div class="rp-sub-right"><span class="rp-sub-price">٣٣ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
-          </div>
-          <div class="rp-sub keep">
+          <p class="rp-section-title">جميع اشتراكاتك</p>
+          <div class="rp-sub">
             <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt=""><span class="rp-sub-name">Netflix</span><span class="rp-sub-freq">شهري</span></div>
-            <div class="rp-sub-right"><span class="rp-sub-price">٦٠ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٦٠ <span class="rp-sub-unit">ريال/شهر</span></span><div class="rp-sub-actions"><button class="rp-btn-cancel">ألغي</button><button class="rp-btn-keep">خلّي</button></div></div>
           </div>
-          <div class="rp-sub keep">
+          <div class="rp-sub">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt=""><span class="rp-sub-name">Spotify</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٣٣ <span class="rp-sub-unit">ريال/شهر</span></span><div class="rp-sub-actions"><button class="rp-btn-cancel">ألغي</button><button class="rp-btn-keep">خلّي</button></div></div>
+          </div>
+          <div class="rp-sub">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt=""><span class="rp-sub-name">شاهد VIP</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٤٥ <span class="rp-sub-unit">ريال/شهر</span></span><div class="rp-sub-actions"><button class="rp-btn-cancel">ألغي</button><button class="rp-btn-keep">خلّي</button></div></div>
+          </div>
+          <div class="rp-sub">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt=""><span class="rp-sub-name">Adobe Creative Cloud</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">١٣٤ <span class="rp-sub-unit">ريال/شهر</span></span><div class="rp-sub-actions"><button class="rp-btn-cancel">ألغي</button><button class="rp-btn-keep">خلّي</button></div></div>
+          </div>
+          <div class="rp-sub">
             <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt=""><span class="rp-sub-name">ChatGPT Plus</span><span class="rp-sub-freq">شهري</span></div>
-            <div class="rp-sub-right"><span class="rp-sub-price">٧٥ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٧٥ <span class="rp-sub-unit">ريال/شهر</span></span><div class="rp-sub-actions"><button class="rp-btn-cancel">ألغي</button><button class="rp-btn-keep">خلّي</button></div></div>
+          </div>
+          <div class="rp-sub">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt=""><span class="rp-sub-name">Calm</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٤٥ <span class="rp-sub-unit">ريال/شهر</span></span><div class="rp-sub-actions"><button class="rp-btn-cancel">ألغي</button><button class="rp-btn-keep">خلّي</button></div></div>
           </div>
         </div>
       </div>
@@ -759,8 +1006,8 @@
         </div>
         <div class="feature-card">
           <div class="feature-icon">📊</div>
-          <h3>تقرير ذكي</h3>
-          <p>نصنّف اشتراكاتك (ألغِ / خلّي / راجع) ونحسب لك التوفير الشهري والسنوي المحتمل.</p>
+          <h3>تقرير واضح</h3>
+          <p>نعرض لك كل اشتراكاتك بشكل واضح — وأنت تقرر تلغي أو تخلّي كل اشتراك.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔗</div>
@@ -855,7 +1102,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">هل الخدمة مجانية؟ <span class="arrow">▾</span></div>
-        <div class="faq-a"><p>التحليل الأول مجاني بالكامل. مع الترقية (٤٩ ر.س مرة واحدة) تحصل على تحليلات غير محدودة، تصدير PDF، وروابط إلغاء مباشرة لأكثر من ٥٠ خدمة.</p></div>
+        <div class="faq-a"><p>التحليل الأول مجاني بالكامل. مع الترقية (٤٩ ريال مرة واحدة) تحصل على تحليلات غير محدودة، تصدير PDF، وروابط إلغاء مباشرة لأكثر من ٥٠ خدمة.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">هل تدعمون بنكي؟ <span class="arrow">▾</span></div>
@@ -873,7 +1120,7 @@
     <div class="cta-inner">
       <h2>جاهز تكتشف اشتراكاتك المخفية؟</h2>
       <p>ارفع كشف حسابك الحين واعرف وين فلوسك رايحة — مجاناً وبخصوصية تامة.</p>
-      <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})">ابدأ الحين — مجاناً</button>
+      <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})">ابدأ الحين</button>
       <p class="cta-note">بدون تسجيل دخول · بدون بطاقة ائتمان · النتيجة في ثوانٍ</p>
     </div>
   </section>
@@ -933,7 +1180,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© ٢٠٢٦ Yalla Cancel · صُنع بـ ❤️ في السعودية 🇸🇦</p>
+        <p>&copy; ٢٠٢٦ Yalla Cancel · صُنع بـ ❤️ في السعودية 🇸🇦</p>
         <div class="footer-bottom-links">
           <a href="#">سياسة الخصوصية</a>
           <a href="#">الشروط والأحكام</a>
@@ -943,7 +1190,10 @@
     </div>
   </footer>
 
+  </div><!-- end landing-page -->
+
   <script>
+    // FAQ toggle
     function toggleFaq(el) {
       var item = el.parentElement;
       var allItems = document.querySelectorAll('.faq-item');
@@ -951,8 +1201,69 @@
       item.classList.toggle('open');
     }
 
+    // Drag & drop on upload zone
+    var uploadZone = document.getElementById('uploadZone');
+    if (uploadZone) {
+      uploadZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = '#00A651';
+        uploadZone.style.background = 'rgba(0,166,81,0.08)';
+      });
+      uploadZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = 'rgba(255,255,255,0.25)';
+        uploadZone.style.background = 'transparent';
+      });
+      uploadZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = 'rgba(255,255,255,0.25)';
+        uploadZone.style.background = 'transparent';
+        startAnalysis();
+      });
+    }
+
+    // Handle file upload
+    function handleFileUpload() {
+      startAnalysis();
+    }
+
+    // Start analysis flow
     function startAnalysis() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      var overlay = document.getElementById('analyzingOverlay');
+      var progressFill = document.getElementById('progressBarFill');
+      overlay.classList.add('active');
+      progressFill.style.width = '0%';
+
+      // Animate progress bar over ~3 seconds
+      var progress = 0;
+      var interval = setInterval(function() {
+        progress += Math.random() * 8 + 2;
+        if (progress >= 100) {
+          progress = 100;
+          progressFill.style.width = '100%';
+          clearInterval(interval);
+          setTimeout(function() {
+            overlay.classList.remove('active');
+            showReport();
+          }, 400);
+        } else {
+          progressFill.style.width = progress + '%';
+        }
+      }, 150);
+    }
+
+    // Show report page
+    function showReport() {
+      document.getElementById('landingPage').classList.add('hidden');
+      document.getElementById('reportPage').classList.add('active');
+      window.scrollTo({ top: 0 });
+    }
+
+    // Go back to landing
+    function goBackToLanding() {
+      document.getElementById('reportPage').classList.remove('active');
+      document.getElementById('landingPage').classList.remove('hidden');
+      window.scrollTo({ top: 0 });
     }
   </script>
 
