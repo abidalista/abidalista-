@@ -3,527 +3,955 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yalla Cancel — Version A</title>
+  <title>Yalla Cancel — اكتشف اشتراكاتك المخفية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #00A651; --primary-hover: #00C060; --primary-dark: #007A3D;
-      --primary-bg: #F0FBF4; --surface: #F5F5F5; --white: #FFFFFF;
-      --text: #111827; --text2: #6B7280; --muted: #9CA3AF; --border: #E5E7EB;
-      --danger-bg: #FEF2F2; --warning-bg: #FFFBEB; --success-bg: #ECFDF5;
+      --primary: #00A651;
+      --primary-hover: #00C060;
+      --primary-dark: #007A3D;
+      --primary-bg: #F0FBF4;
+      --dark: #0F172A;
+      --dark2: #1E293B;
+      --dark3: #334155;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+      --text: #0F172A;
+      --text2: #64748B;
+      --muted: #94A3B8;
+      --border: #E2E8F0;
+      --radius: 16px;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif; background: var(--white); color: var(--text); -webkit-font-smoothing: antialiased; }
-
-    /* ─── Header ─── */
-    .header { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
-    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .logo-text { font-size: 1.25rem; font-weight: 900; color: var(--text); letter-spacing: -0.02em; cursor: pointer; }
-    .logo-text span { color: var(--primary); }
-    .header-actions { display: flex; gap: 8px; }
-    .btn-ghost { display: inline-flex; align-items: center; gap: 4px; background: transparent; color: var(--text2); padding: 6px 12px; border-radius: 10px; font-weight: 500; font-size: 0.75rem; cursor: pointer; border: 1px solid var(--border); transition: all 0.15s; font-family: inherit; }
-    .btn-ghost:hover { background: var(--surface); color: var(--text); }
-
-    /* ─── Hero ─── */
-    .hero { max-width: 672px; margin: 0 auto; padding: 64px 24px 40px; text-align: center; }
-    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.2; margin-bottom: 12px; }
-    .hero p { font-size: 1.125rem; color: var(--text2); margin-bottom: 32px; }
-
-    /* ─── Upload Card ─── */
-    .upload-card { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 0; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-    .upload-zone { padding: 48px 24px; text-align: center; cursor: pointer; transition: all 0.25s; }
-    .upload-zone:hover { background: var(--primary-bg); }
-    .upload-zone .icon { font-size: 3rem; margin-bottom: 12px; }
-    .upload-zone .title { font-weight: 700; font-size: 1.125rem; margin-bottom: 4px; }
-    .upload-zone .subtitle { font-size: 0.875rem; color: var(--text2); margin-bottom: 20px; }
-    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: white; padding: 14px 32px; border-radius: 14px; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
-    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,166,81,0.35); }
-    .upload-test { border-top: 1px solid var(--border); padding: 16px; text-align: center; }
-    .upload-test button { background: none; border: none; font-family: inherit; font-size: 0.875rem; color: var(--text2); font-weight: 500; cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: all 0.15s; }
-    .upload-test button:hover { background: var(--surface); color: var(--text); }
-
-    .badge-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-bg); border: 1px solid rgba(0,166,81,0.2); border-radius: 9999px; padding: 6px 16px; font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-top: 20px; }
-
-    /* ─── Benefits (Petal-style) ─── */
-    .benefits-section { background: var(--surface); padding: 80px 24px; }
-    .benefits-inner { max-width: 1100px; margin: 0 auto; }
-    .benefits-header { text-align: center; margin-bottom: 56px; }
-    .benefits-header h2 { font-size: 1.75rem; font-weight: 900; margin-bottom: 8px; }
-    .benefits-header p { font-size: 1rem; color: var(--text2); }
-
-    .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    @media (max-width: 768px) { .benefits-grid { grid-template-columns: 1fr; } }
-
-    .benefit-card {
-      background: white; border-radius: 20px; padding: 48px 32px 40px; text-align: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Noto Sans Arabic", -apple-system, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
     }
-    .benefit-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-    .benefit-illustration { width: 120px; height: 120px; margin: 0 auto 28px; display: flex; align-items: center; justify-content: center; }
-    .benefit-illustration svg { width: 100%; height: 100%; }
-    .benefit-card h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
-    .benefit-card p { font-size: 0.95rem; color: var(--text2); line-height: 1.7; }
+    img { max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
 
-    /* ─── Banks Row ─── */
-    .banks-section { max-width: 1100px; margin: 0 auto; padding: 56px 24px; }
-    .banks-section h3 { font-size: 0.8rem; font-weight: 700; text-align: center; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
-    .banks-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
-    .bank-chip { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 10px 18px; transition: border-color 0.15s; }
-    .bank-chip:hover { border-color: var(--muted); }
-    .bank-chip img { width: 24px; height: 24px; border-radius: 4px; object-fit: contain; }
-    .bank-chip span { font-size: 0.875rem; font-weight: 500; color: var(--text2); }
-
-    /* ─── Subscriptions ─── */
-    .subs-section { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .subs-inner { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
-    .subs-inner h3 { font-size: 0.8rem; font-weight: 700; text-align: center; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
-    .subs-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-    .sub-pill { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 9999px; padding: 8px 18px; transition: background 0.15s; }
-    .sub-pill:hover { background: #EBEBEB; }
-    .sub-pill img { width: 22px; height: 22px; border-radius: 50%; object-fit: contain; }
-    .sub-pill span { font-size: 0.875rem; font-weight: 500; color: var(--text); }
-
-    /* ─── Privacy & Footer ─── */
-    .privacy { text-align: center; padding: 40px 24px; }
-    .privacy p { font-size: 0.875rem; font-weight: 500; color: var(--muted); }
-    .footer { border-top: 1px solid var(--border); background: white; text-align: center; padding: 20px; font-size: 0.75rem; color: var(--muted); }
-
-    /* ═══ Analyzing overlay ═══ */
-    .analyzing-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 200;
-      flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+    /* ══════════════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .analyzing-overlay.active { display: flex; }
-    .spinner { width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .analyzing-overlay h2 { font-size: 1.25rem; font-weight: 800; }
-    .analyzing-overlay p { font-size: 0.875rem; color: var(--text2); }
-    .progress-bar { width: 240px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; width: 0%; transition: width 0.3s; }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 32px;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 1.35rem; font-weight: 900; color: white;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo span { color: var(--primary); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link { color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover { color: white; }
+    .nav-cta {
+      background: var(--primary); color: white; padding: 10px 24px;
+      border-radius: 12px; font-weight: 700; font-size: 0.875rem;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
-    /* ═══ Report Section ═══ */
-    #report { display: none; }
-    #report.active { display: block; }
-    .report-wrap { max-width: 768px; margin: 0 auto; padding: 48px 16px; }
-    .report-header h1 { font-size: 1.5rem; font-weight: 900; margin-bottom: 4px; }
-    .report-header p { font-size: 0.875rem; color: var(--muted); margin-bottom: 24px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
-    .stat-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; }
-    .stat-card.highlight { border-color: var(--primary); background: var(--primary-bg); }
-    .stat-card .value { font-size: 1.5rem; font-weight: 900; }
-    .stat-card.highlight .value { color: var(--primary); }
-    .stat-card .label { font-size: 0.75rem; color: var(--text2); margin-top: 4px; }
-    .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; justify-content: space-between; }
-    .savings-banner { background: var(--primary-bg); border: 1px solid rgba(0,166,81,0.3); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-    .savings-banner strong { color: var(--primary-dark); }
-    .savings-banner p { font-size: 0.75rem; color: var(--text2); }
-    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
-    .sub-card { background: white; border: 2px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
-    .sub-card.cancel { border-color: #FECACA; background: rgba(254,242,242,0.4); }
-    .sub-card.keep { border-color: #BBF7D0; background: rgba(236,253,245,0.4); }
-    .sub-card.investigate { border-color: #FDE68A; background: rgba(255,251,235,0.3); }
-    .sub-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .sub-name { font-weight: 700; }
-    .sub-logo { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; margin-inline-end: 8px; vertical-align: middle; }
-    .badge { display: inline-flex; padding: 2px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; margin-inline-start: 8px; }
-    .badge-cancel { background: var(--danger-bg); color: #B91C1C; }
-    .badge-keep { background: var(--success-bg); color: #065F46; }
-    .badge-investigate { background: var(--warning-bg); color: #92400E; }
-    .badge-freq { background: #F3F4F6; color: #4B5563; }
-    .sub-meta { font-size: 0.75rem; color: var(--muted); margin-top: 4px; display: flex; gap: 16px; }
-    .sub-amount { text-align: left; flex-shrink: 0; }
-    .sub-amount .price { font-size: 1.25rem; font-weight: 900; }
-    .sub-amount .price-unit { font-size: 0.8rem; font-weight: 500; color: var(--muted); }
-    .sub-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-    .sub-action-btn { flex: 1; padding: 6px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-family: inherit; transition: all 0.15s; }
-    .sub-action-btn:hover { background: var(--surface); }
-    .sub-action-btn.active { outline: 2px solid currentColor; outline-offset: 1px; }
-    .promo-card { border: 2px dashed rgba(0,166,81,0.3); background: var(--primary-bg); border-radius: 16px; padding: 32px; text-align: center; margin-top: 24px; }
-    .promo-card h3 { font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
-    .promo-card p { font-size: 0.875rem; color: var(--text2); margin-bottom: 16px; }
-    @media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, #0F172A 0%, #1a2744 50%, #0d2618 100%);
+      padding: 140px 32px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(0,166,81,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 20%, rgba(0,166,81,0.06) 0%, transparent 50%);
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,166,81,0.15); border: 1px solid rgba(0,166,81,0.3);
+      border-radius: 9999px; padding: 6px 16px; margin-bottom: 24px;
+      font-size: 0.8rem; font-weight: 600; color: var(--primary);
+    }
+    .hero-badge .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      font-weight: 900; color: white; line-height: 1.2; margin-bottom: 20px;
+    }
+    .hero h1 em { font-style: normal; color: var(--primary); }
+    .hero-sub { font-size: 1.15rem; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 32px; max-width: 480px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--primary); color: white;
+      padding: 16px 36px; border-radius: 14px;
+      font-weight: 700; font-size: 1.05rem;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,166,81,0.4);
+    }
+    .btn-hero:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,166,81,0.5); }
+    .btn-hero-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.08); color: white;
+      padding: 16px 28px; border-radius: 14px;
+      font-weight: 600; font-size: 1rem;
+      border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-hero-ghost:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); }
+    .hero-note { font-size: 0.8rem; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 16px; }
+    .hero-note span { display: flex; align-items: center; gap: 4px; }
+
+    /* Report mockup in hero */
+    .hero-mockup {
+      background: var(--dark2);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
+      transition: transform 0.4s;
+    }
+    .hero-mockup:hover { transform: perspective(1200px) rotateY(0deg) rotateX(0deg); }
+    .mockup-bar {
+      background: var(--dark);
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-dot.r { background: #EF4444; }
+    .mockup-dot.y { background: #F59E0B; }
+    .mockup-dot.g { background: #22C55E; }
+    .mockup-url {
+      flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px;
+      padding: 4px 12px; font-size: 0.7rem; color: rgba(255,255,255,0.4);
+      margin-inline-start: 8px; text-align: center; direction: ltr;
+    }
+    .mockup-body { padding: 20px; }
+
+    /* Mini report inside mockup */
+    .mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+    .mini-stat {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 12px 8px; text-align: center;
+    }
+    .mini-stat.hl { border-color: rgba(0,166,81,0.3); background: rgba(0,166,81,0.08); }
+    .mini-stat .v { font-size: 1.1rem; font-weight: 900; color: white; }
+    .mini-stat.hl .v { color: var(--primary); }
+    .mini-stat .l { font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    .mini-sub {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; border-radius: 10px; margin-bottom: 6px;
+    }
+    .mini-sub.cancel { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); }
+    .mini-sub.keep { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.15); }
+    .mini-sub.investigate { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15); }
+    .mini-sub-left { display: flex; align-items: center; gap: 8px; }
+    .mini-sub-logo { width: 22px; height: 22px; border-radius: 6px; }
+    .mini-sub-name { font-size: 0.75rem; font-weight: 600; color: white; }
+    .mini-sub-badge { font-size: 0.55rem; font-weight: 700; padding: 2px 8px; border-radius: 9999px; }
+    .mini-sub.cancel .mini-sub-badge { background: rgba(239,68,68,0.2); color: #FCA5A5; }
+    .mini-sub.keep .mini-sub-badge { background: rgba(34,197,94,0.2); color: #86EFAC; }
+    .mini-sub.investigate .mini-sub-badge { background: rgba(245,158,11,0.2); color: #FDE68A; }
+    .mini-sub-price { font-size: 0.8rem; font-weight: 800; color: white; direction: ltr; }
+    .mini-sub-price small { font-size: 0.6rem; color: rgba(255,255,255,0.4); font-weight: 500; }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-mockup { transform: none; }
+    }
+
+    /* ══════════════════════════════════════════
+       LOGO BAR
+    ══════════════════════════════════════════ */
+    .logo-bar { background: white; border-bottom: 1px solid var(--border); padding: 40px 32px; }
+    .logo-bar-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+    .logo-bar-label {
+      font-size: 0.75rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;
+    }
+    .logo-bar-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .logo-chip {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 20px; transition: all 0.2s;
+    }
+    .logo-chip:hover { border-color: var(--primary); background: var(--primary-bg); }
+    .logo-chip img { width: 24px; height: 24px; border-radius: 4px; object-fit: contain; }
+    .logo-chip span { font-size: 0.85rem; font-weight: 600; color: var(--text2); }
+
+    /* ══════════════════════════════════════════
+       PROBLEM SECTION
+    ══════════════════════════════════════════ */
+    .problem { padding: 100px 32px; background: var(--surface); }
+    .problem-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-bg); color: var(--primary);
+      font-size: 0.75rem; font-weight: 700; padding: 6px 14px;
+      border-radius: 9999px; margin-bottom: 20px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; margin-bottom: 16px; line-height: 1.3; }
+    .section-sub { font-size: 1.05rem; color: var(--text2); max-width: 600px; margin: 0 auto 48px; line-height: 1.8; }
+    .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 640px) { .stat-cards { grid-template-columns: 1fr; } }
+    .stat-card-big {
+      background: white; border: 1px solid var(--border); border-radius: 20px;
+      padding: 36px 24px; text-align: center;
+      transition: all 0.25s;
+    }
+    .stat-card-big:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+    .stat-card-big .stat-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .stat-card-big .stat-num { font-size: 2rem; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
+    .stat-card-big .stat-text { font-size: 0.9rem; color: var(--text2); }
+
+    /* ══════════════════════════════════════════
+       HOW IT WORKS
+    ══════════════════════════════════════════ */
+    .how { padding: 100px 32px; background: white; }
+    .how-inner { max-width: 1100px; margin: 0 auto; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+    @media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; } }
+    .step-card {
+      background: var(--surface); border-radius: 24px; padding: 40px 28px;
+      text-align: center; position: relative;
+      transition: all 0.3s;
+    }
+    .step-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.06); }
+    .step-num {
+      position: absolute; top: -16px; right: 24px;
+      width: 40px; height: 40px; background: var(--primary); color: white;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(0,166,81,0.3);
+    }
+    .step-icon {
+      width: 80px; height: 80px; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+    .step-card p { font-size: 0.9rem; color: var(--text2); line-height: 1.7; }
+
+    /* ══════════════════════════════════════════
+       PRODUCT SHOWCASE (Report Preview)
+    ══════════════════════════════════════════ */
+    .showcase {
+      padding: 100px 32px;
+      background: linear-gradient(135deg, #0F172A 0%, #162415 100%);
+      position: relative;
+    }
+    .showcase::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(0,166,81,0.1) 0%, transparent 60%);
+    }
+    .showcase-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+    .showcase .section-label { background: rgba(0,166,81,0.15); border: 1px solid rgba(0,166,81,0.2); }
+    .showcase .section-title { color: white; }
+    .showcase .section-sub { color: rgba(255,255,255,0.6); }
+    .showcase-frame {
+      background: white; border-radius: 24px; overflow: hidden;
+      box-shadow: 0 32px 100px rgba(0,0,0,0.4);
+      margin-top: 48px;
+    }
+    .showcase-bar {
+      background: #F8FAFC; padding: 14px 20px;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .showcase-bar .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .showcase-bar .dot.r { background: #EF4444; }
+    .showcase-bar .dot.y { background: #F59E0B; }
+    .showcase-bar .dot.g { background: #22C55E; }
+    .showcase-bar .url {
+      flex: 1; background: white; border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 14px; font-size: 0.75rem;
+      color: var(--muted); text-align: center; margin-inline-start: 12px; direction: ltr;
+    }
+    .report-preview { padding: 32px; }
+    .rp-header { margin-bottom: 24px; }
+    .rp-header h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: 4px; }
+    .rp-header p { font-size: 0.85rem; color: var(--muted); }
+    .rp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+    @media (max-width: 640px) { .rp-stats { grid-template-columns: repeat(2, 1fr); } }
+    .rp-stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px; text-align: center;
+    }
+    .rp-stat.hl { border-color: var(--primary); background: var(--primary-bg); }
+    .rp-stat .v { font-size: 1.4rem; font-weight: 900; }
+    .rp-stat.hl .v { color: var(--primary); }
+    .rp-stat .l { font-size: 0.7rem; color: var(--text2); margin-top: 2px; }
+    .rp-savings {
+      background: var(--primary-bg); border: 1px solid rgba(0,166,81,0.25);
+      border-radius: 14px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+    }
+    .rp-savings strong { color: var(--primary-dark); font-size: 0.95rem; }
+    .rp-savings p { font-size: 0.8rem; color: var(--text2); }
+    .rp-section-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+    .rp-sub {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; border-radius: 14px; margin-bottom: 8px;
+    }
+    .rp-sub.cancel { background: #FEF2F2; border: 1px solid #FECACA; }
+    .rp-sub.keep { background: #ECFDF5; border: 1px solid #BBF7D0; }
+    .rp-sub.investigate { background: #FFFBEB; border: 1px solid #FDE68A; }
+    .rp-sub-left { display: flex; align-items: center; gap: 12px; }
+    .rp-sub-logo { width: 28px; height: 28px; border-radius: 8px; }
+    .rp-sub-name { font-weight: 700; font-size: 0.9rem; }
+    .rp-sub-freq { font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: #F1F5F9; color: #64748B; margin-inline-start: 8px; }
+    .rp-sub-right { text-align: left; }
+    .rp-sub-price { font-weight: 900; font-size: 1.05rem; }
+    .rp-sub-unit { font-size: 0.7rem; color: var(--muted); }
+
+    /* ══════════════════════════════════════════
+       FEATURES GRID
+    ══════════════════════════════════════════ */
+    .features { padding: 100px 32px; background: white; }
+    .features-inner { max-width: 1100px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    @media (max-width: 768px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px 28px;
+      transition: all 0.25s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); border-color: var(--primary); }
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: var(--primary-bg); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 20px;
+    }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.88rem; color: var(--text2); line-height: 1.7; }
+
+    /* ══════════════════════════════════════════
+       SUBSCRIPTIONS WE DETECT
+    ══════════════════════════════════════════ */
+    .subs-detect { padding: 80px 32px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .subs-detect-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+    .subs-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 40px; }
+    .sub-chip {
+      display: flex; align-items: center; gap: 10px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; padding: 12px 20px;
+      transition: all 0.2s;
+    }
+    .sub-chip:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+    .sub-chip img { width: 24px; height: 24px; border-radius: 6px; }
+    .sub-chip span { font-size: 0.9rem; font-weight: 600; }
+    .sub-chip .sub-price-tag { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+
+    /* ══════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════ */
+    .testimonials { padding: 100px 32px; background: white; }
+    .testimonials-inner { max-width: 1100px; margin: 0 auto; }
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    @media (max-width: 768px) { .test-grid { grid-template-columns: 1fr; } }
+    .test-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      transition: all 0.25s;
+    }
+    .test-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+    .test-stars { color: #F59E0B; font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .test-quote { font-size: 0.95rem; color: var(--text); line-height: 1.8; margin-bottom: 20px; }
+    .test-author { display: flex; align-items: center; gap: 12px; }
+    .test-avatar {
+      width: 40px; height: 40px; background: var(--primary-bg);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: var(--primary); font-size: 0.9rem;
+    }
+    .test-name { font-weight: 700; font-size: 0.85rem; }
+    .test-role { font-size: 0.75rem; color: var(--muted); }
+
+    /* ══════════════════════════════════════════
+       FAQ
+    ══════════════════════════════════════════ */
+    .faq { padding: 100px 32px; background: var(--surface); }
+    .faq-inner { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; margin-bottom: 12px; overflow: hidden;
+    }
+    .faq-q {
+      padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-weight: 700; font-size: 0.95rem;
+      transition: background 0.15s;
+    }
+    .faq-q:hover { background: var(--surface); }
+    .faq-q .arrow { transition: transform 0.3s; font-size: 1.2rem; color: var(--muted); }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+      padding: 0 24px;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+    .faq-a p { font-size: 0.9rem; color: var(--text2); line-height: 1.8; }
+
+    /* ══════════════════════════════════════════
+       CTA SECTION
+    ══════════════════════════════════════════ */
+    .cta-section {
+      padding: 80px 32px;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #00C060 100%);
+      text-align: center;
+    }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: white; margin-bottom: 12px; }
+    .cta-section p { font-size: 1rem; color: rgba(255,255,255,0.85); margin-bottom: 32px; }
+    .btn-cta-white {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: white; color: var(--primary-dark);
+      padding: 16px 40px; border-radius: 14px;
+      font-weight: 800; font-size: 1.05rem;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .cta-note { margin-top: 16px; font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+
+    /* ══════════════════════════════════════════
+       MEGA FOOTER
+    ══════════════════════════════════════════ */
+    .mega-footer { background: var(--dark); color: white; padding: 80px 32px 40px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    .footer-brand .footer-logo { font-size: 1.4rem; font-weight: 900; margin-bottom: 12px; }
+    .footer-brand .footer-logo span { color: var(--primary); }
+    .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.08); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; color: rgba(255,255,255,0.6);
+      transition: all 0.2s;
+    }
+    .footer-social a:hover { background: var(--primary); color: white; }
+    .footer-col h4 {
+      font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.4);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a {
+      font-size: 0.875rem; color: rgba(255,255,255,0.65);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--primary); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;
+    }
+    .footer-bottom p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,0.6); }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-inner">
-      <span class="logo-text" onclick="showLanding()">Yalla <span>Cancel</span></span>
-      <div class="header-actions">
-        <button class="btn-ghost">مفتوح المصدر</button>
-        <button class="btn-ghost" style="font-weight:700">EN</button>
+  <!-- ══════ NAVIGATION ══════ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">Yalla <span>Cancel</span></div>
+      <div class="nav-links">
+        <a href="#how" class="nav-link">كيف يشتغل</a>
+        <a href="#features" class="nav-link">المميزات</a>
+        <a href="#faq" class="nav-link">الأسئلة</a>
+        <button class="nav-cta" onclick="document.querySelector('.hero').scrollIntoView()">ابدأ مجاناً</button>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <!-- ═══ ANALYZING OVERLAY ═══ -->
-  <div class="analyzing-overlay" id="analyzing">
-    <div class="spinner"></div>
-    <h2>نحلّل كشف حسابك...</h2>
-    <p>نفحص العمليات ونكتشف الاشتراكات المتكررة</p>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <p style="font-size:0.75rem; color:var(--muted);" id="progressText">جاري القراءة...</p>
-  </div>
-
-  <!-- ═══ LANDING ═══ -->
-  <div id="landing">
-
-    <!-- Hero + Upload -->
-    <section class="hero">
-      <h1>وين رايحة فلوسك؟</h1>
-      <p>اكتشف كل الاشتراكات المخفية في كشف حسابك</p>
-
-      <div class="upload-card">
-        <div class="upload-zone" onclick="startAnalysis()">
-          <div class="icon">📊</div>
-          <p class="title">ارفع كشف حسابك هنا</p>
-          <p class="subtitle">اسحب الملف أو اضغط — نقبل CSV و PDF</p>
-          <button class="btn-primary" onclick="event.stopPropagation(); startAnalysis()">اختر ملف</button>
+  <!-- ══════ HERO ══════ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge"><div class="dot"></div> مجاني · بدون تسجيل دخول</div>
+        <h1>اشتراكاتك <em>تحت السيطرة</em></h1>
+        <p class="hero-sub">ارفع كشف حسابك البنكي واكتشف كل الاشتراكات المتكررة اللي تنخصم منك — بخصوصية تامة وبدون ما تشارك بياناتك مع أحد.</p>
+        <div class="hero-actions">
+          <button class="btn-hero" onclick="startAnalysis()">ارفع كشف حسابك</button>
+          <button class="btn-hero-ghost" onclick="startAnalysis()">🧪 جرب بكشف تجريبي</button>
         </div>
-        <div class="upload-test">
-          <button onclick="startAnalysis()">🧪 جرب بكشف تجريبي</button>
+        <div class="hero-note">
+          <span>🔒 بياناتك ما تطلع من جهازك</span>
+          <span>⚡ النتيجة في ثوانٍ</span>
+          <span>🇸🇦 جميع البنوك السعودية</span>
         </div>
       </div>
 
-      <span class="badge-pill">🇸🇦 يدعم جميع البنوك السعودية · بدون تسجيل دخول</span>
-    </section>
-
-    <!-- Benefits — Petal-style -->
-    <section class="benefits-section">
-      <div class="benefits-inner">
-        <div class="benefits-header">
-          <h2>كيف يشتغل؟</h2>
-          <p>ثلاث خطوات وتعرف وين فلوسك رايحة</p>
+      <!-- Report Mockup -->
+      <div class="hero-mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot r"></div>
+          <div class="mockup-dot y"></div>
+          <div class="mockup-dot g"></div>
+          <div class="mockup-url">yallacancel.sa/report</div>
         </div>
-
-        <div class="benefits-grid">
-          <div class="benefit-card">
-            <div class="benefit-illustration">
-              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="30" y="15" width="60" height="78" rx="6" stroke="#111827" stroke-width="2.5" fill="none"/>
-                <line x1="42" y1="35" x2="78" y2="35" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-                <line x1="42" y1="47" x2="72" y2="47" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-                <line x1="42" y1="59" x2="66" y2="59" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-                <path d="M60 110 L60 80" stroke="#111827" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M50 90 L60 80 L70 90" stroke="#111827" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="20" cy="50" r="3" fill="#111827" opacity="0.15"/>
-                <circle cx="100" cy="30" r="4" fill="#111827" opacity="0.1"/>
-                <circle cx="105" cy="70" r="2.5" fill="#111827" opacity="0.12"/>
-                <rect x="15" y="75" width="8" height="8" rx="2" stroke="#111827" stroke-width="1.5" opacity="0.15" fill="none"/>
-              </svg>
+        <div class="mockup-body">
+          <div class="mini-stats">
+            <div class="mini-stat"><div class="v">٨</div><div class="l">اشتراكات</div></div>
+            <div class="mini-stat hl"><div class="v">٦٧٣</div><div class="l">ر.س/شهر</div></div>
+            <div class="mini-stat"><div class="v">٨,٠٧٦</div><div class="l">ر.س/سنة</div></div>
+            <div class="mini-stat"><div class="v">٢٢٤</div><div class="l">توفير/شهر</div></div>
+          </div>
+          <div class="mini-sub cancel">
+            <div class="mini-sub-left">
+              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="">
+              <span class="mini-sub-name">شاهد VIP</span>
+              <span class="mini-sub-badge">ألغِه</span>
             </div>
-            <h3>ارفع كشف حسابك</h3>
-            <p>نزّل كشف الحساب من تطبيق بنكك وارفعه هنا. ندعم جميع البنوك السعودية بصيغة CSV أو PDF.</p>
+            <div class="mini-sub-price">٤٥ <small>ر.س</small></div>
           </div>
-
-          <div class="benefit-card">
-            <div class="benefit-illustration">
-              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="52" cy="52" r="28" stroke="#111827" stroke-width="2.5" fill="none"/>
-                <line x1="72" y1="72" x2="95" y2="95" stroke="#111827" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="40" cy="45" r="4" fill="#111827" opacity="0.2"/>
-                <circle cx="55" cy="40" r="5" fill="#111827" opacity="0.3"/>
-                <circle cx="48" cy="58" r="3.5" fill="#111827" opacity="0.25"/>
-                <circle cx="62" cy="55" r="4.5" fill="#111827" opacity="0.15"/>
-                <line x1="40" y1="45" x2="55" y2="40" stroke="#111827" stroke-width="1" opacity="0.2"/>
-                <line x1="55" y1="40" x2="62" y2="55" stroke="#111827" stroke-width="1" opacity="0.2"/>
-                <line x1="48" y1="58" x2="62" y2="55" stroke="#111827" stroke-width="1" opacity="0.2"/>
-                <rect x="10" y="20" width="10" height="10" rx="2" stroke="#111827" stroke-width="1.5" opacity="0.12" fill="none"/>
-                <circle cx="105" cy="25" r="3" fill="#111827" opacity="0.1"/>
-                <rect x="95" y="80" width="6" height="6" rx="1.5" fill="#111827" opacity="0.1"/>
-              </svg>
+          <div class="mini-sub cancel">
+            <div class="mini-sub-left">
+              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="">
+              <span class="mini-sub-name">Adobe CC</span>
+              <span class="mini-sub-badge">ألغِه</span>
             </div>
-            <h3>نحلّل اشتراكاتك</h3>
-            <p>نفحص كل العمليات ونكتشف الاشتراكات المتكررة اللي ممكن ما تنتبه لها — كل شيء على جهازك.</p>
+            <div class="mini-sub-price">١٣٤ <small>ر.س</small></div>
           </div>
-
-          <div class="benefit-card">
-            <div class="benefit-illustration">
-              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="35" cy="70" r="12" stroke="#111827" stroke-width="2.5" fill="none"/>
-                <circle cx="35" cy="50" r="12" stroke="#111827" stroke-width="2.5" fill="none"/>
-                <line x1="45" y1="64" x2="85" y2="35" stroke="#111827" stroke-width="2.5" stroke-linecap="round"/>
-                <line x1="45" y1="56" x2="85" y2="85" stroke="#111827" stroke-width="2.5" stroke-linecap="round"/>
-                <circle cx="90" cy="30" r="10" stroke="#111827" stroke-width="2" fill="none"/>
-                <text x="90" y="34" text-anchor="middle" fill="#111827" font-size="12" font-weight="700">٪</text>
-                <circle cx="15" cy="30" r="3" fill="#111827" opacity="0.12"/>
-                <rect x="95" y="65" width="8" height="8" rx="2" stroke="#111827" stroke-width="1.5" opacity="0.12" fill="none"/>
-                <circle cx="80" cy="100" r="2.5" fill="#111827" opacity="0.1"/>
-              </svg>
+          <div class="mini-sub keep">
+            <div class="mini-sub-left">
+              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="">
+              <span class="mini-sub-name">Spotify</span>
+              <span class="mini-sub-badge">خلّيه</span>
             </div>
-            <h3>ألغِ ووفّر فلوسك</h3>
-            <p>اختار الاشتراكات اللي تبي تلغيها. نوريك كم توفر شهرياً وسنوياً ونعطيك روابط الإلغاء.</p>
+            <div class="mini-sub-price">٣٣ <small>ر.س</small></div>
+          </div>
+          <div class="mini-sub investigate">
+            <div class="mini-sub-left">
+              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt="">
+              <span class="mini-sub-name">هنقرستيشن</span>
+              <span class="mini-sub-badge">راجع</span>
+            </div>
+            <div class="mini-sub-price">٢٩ <small>ر.س</small></div>
+          </div>
+          <div class="mini-sub keep">
+            <div class="mini-sub-left">
+              <img class="mini-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
+              <span class="mini-sub-name">Netflix</span>
+              <span class="mini-sub-badge">خلّيه</span>
+            </div>
+            <div class="mini-sub-price">٦٠ <small>ر.س</small></div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Supported Banks -->
-    <section class="banks-section">
-      <h3>يدعم جميع البنوك السعودية</h3>
-      <div class="banks-row">
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=alrajhibank.com.sa&sz=64" alt="الراجحي"><span>الراجحي</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=alahli.com&sz=64" alt="الأهلي"><span>الأهلي</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=riyadbank.com&sz=64" alt="بنك الرياض"><span>بنك الرياض</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=bankalbilad.com&sz=64" alt="البلاد"><span>البلاد</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=alinma.com&sz=64" alt="الإنماء"><span>الإنماء</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=sabb.com&sz=64" alt="ساب"><span>ساب</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=alfransi.com.sa&sz=64" alt="الفرنسي"><span>الفرنسي</span></div>
-        <div class="bank-chip"><img src="https://www.google.com/s2/favicons?domain=anb.com.sa&sz=64" alt="العربي الوطني"><span>العربي الوطني</span></div>
-      </div>
-    </section>
-
-    <!-- Example Subscriptions -->
-    <section class="subs-section">
-      <div class="subs-inner">
-        <h3>نكتشف اشتراكات مثل</h3>
-        <div class="subs-row">
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="Netflix"><span>Netflix</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="Spotify"><span>Spotify</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="شاهد"><span>شاهد</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=anghami.com&sz=64" alt="أنغامي"><span>أنغامي</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" alt="YouTube"><span>YouTube</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt="Apple"><span>Apple</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=amazon.sa&sz=64" alt="Amazon"><span>Amazon</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="Adobe"><span>Adobe</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="ChatGPT"><span>ChatGPT</span></div>
-          <div class="sub-pill"><img src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt="iCloud"><span>iCloud</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Privacy -->
-    <div class="privacy">
-      <p>🔒 بياناتك ما تطلع من جهازك — كل التحليل يصير محلياً</p>
-    </div>
-  </div>
-
-  <!-- ═══ REPORT ═══ -->
-  <div id="report">
-    <div class="report-wrap">
-      <div class="report-header">
-        <h1>تقرير اشتراكاتك</h1>
-        <p>حللنا ٣٤٧ عملية وطلعنا ٨ اشتراكات متكررة</p>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card"><div class="value">٨</div><div class="label">اشتراكات مكتشفة</div></div>
-        <div class="stat-card highlight"><div class="value">٦٧٣ ر.س</div><div class="label">المجموع الشهري</div></div>
-        <div class="stat-card"><div class="value">٨,٠٧٦ ر.س</div><div class="label">المجموع السنوي</div></div>
-        <div class="stat-card"><div class="value">٢٢٤ ر.س</div><div class="label">توفير محتمل/شهر</div></div>
-      </div>
-
-      <div class="controls">
-        <div style="display:flex; gap:8px">
-          <button class="btn-ghost">🙈 إخفاء الأسماء</button>
-          <button class="btn-ghost" onclick="showLanding()">↩ ارفع كشف آخر</button>
-        </div>
-        <button class="btn-primary" style="font-size:0.875rem; padding:8px 16px">📄 صدّر PDF — ترقية</button>
-      </div>
-
-      <div class="savings-banner">
-        <span style="font-size:1.5rem">💰</span>
-        <div><strong>تقدر توفر ٢,٦٨٨ ر.س سنوياً</strong><p>بإلغاء ٣ اشتراكات اخترتها</p></div>
-      </div>
-
-      <!-- Cancel section -->
-      <h3 class="section-title">🚫 ألغِها</h3>
-
-      <div class="sub-card cancel">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="شاهد">
-            <span class="sub-name">شاهد VIP</span>
-            <span class="badge badge-cancel">يُلغى</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ١٥ فبراير ٢٠٢٦</span><span>عدد المرات: ٦</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">٤٥ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn active" style="color:#B91C1C">🚫 ألغِه</button>
-          <button class="sub-action-btn">✅ خلّيه</button>
-          <button class="sub-action-btn">🔍 راجع</button>
-        </div>
-      </div>
-
-      <div class="sub-card cancel">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="Adobe">
-            <span class="sub-name">Adobe Creative Cloud</span>
-            <span class="badge badge-cancel">يُلغى</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ١ فبراير ٢٠٢٦</span><span>عدد المرات: ٤</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">١٣٤ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn active" style="color:#B91C1C">🚫 ألغِه</button>
-          <button class="sub-action-btn">✅ خلّيه</button>
-          <button class="sub-action-btn">🔍 راجع</button>
-        </div>
-      </div>
-
-      <div class="sub-card cancel">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt="Calm">
-            <span class="sub-name">Calm</span>
-            <span class="badge badge-cancel">يُلغى</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ١٠ فبراير ٢٠٢٦</span><span>عدد المرات: ٥</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">٤٥ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn active" style="color:#B91C1C">🚫 ألغِه</button>
-          <button class="sub-action-btn">✅ خلّيه</button>
-          <button class="sub-action-btn">🔍 راجع</button>
-        </div>
-      </div>
-
-      <!-- Investigate section -->
-      <h3 class="section-title" style="margin-top:24px">🔍 راجعها</h3>
-
-      <div class="sub-card investigate">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt="هنقرستيشن">
-            <span class="sub-name">هنقرستيشن</span>
-            <span class="badge badge-investigate">مراجعة</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ١٨ فبراير ٢٠٢٦</span><span>عدد المرات: ٨</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">٢٩ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn">🚫 ألغِه</button>
-          <button class="sub-action-btn">✅ خلّيه</button>
-          <button class="sub-action-btn active" style="color:#92400E">🔍 راجع</button>
-        </div>
-      </div>
-
-      <div class="sub-card investigate">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt="iCloud">
-            <span class="sub-name">iCloud+</span>
-            <span class="badge badge-investigate">مراجعة</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ٢٠ فبراير ٢٠٢٦</span><span>عدد المرات: ١٢</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">١٥ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn">🚫 ألغِه</button>
-          <button class="sub-action-btn">✅ خلّيه</button>
-          <button class="sub-action-btn active" style="color:#92400E">🔍 راجع</button>
-        </div>
-      </div>
-
-      <!-- Keep section -->
-      <h3 class="section-title" style="margin-top:24px">✅ خلّيها</h3>
-
-      <div class="sub-card keep">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="Spotify">
-            <span class="sub-name">Spotify</span>
-            <span class="badge badge-keep">يُبقى</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ١٢ فبراير ٢٠٢٦</span><span>عدد المرات: ١٢</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">٣٣ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn">🚫 ألغِه</button>
-          <button class="sub-action-btn active" style="color:#065F46">✅ خلّيه</button>
-          <button class="sub-action-btn">🔍 راجع</button>
-        </div>
-      </div>
-
-      <div class="sub-card keep">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="ChatGPT">
-            <span class="sub-name">ChatGPT Plus</span>
-            <span class="badge badge-keep">يُبقى</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ٥ فبراير ٢٠٢٦</span><span>عدد المرات: ١٠</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">٧٥ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn">🚫 ألغِه</button>
-          <button class="sub-action-btn active" style="color:#065F46">✅ خلّيه</button>
-          <button class="sub-action-btn">🔍 راجع</button>
-        </div>
-      </div>
-
-      <div class="sub-card keep">
-        <div class="sub-card-top">
-          <div>
-            <img class="sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="Netflix">
-            <span class="sub-name">Netflix</span>
-            <span class="badge badge-keep">يُبقى</span><span class="badge badge-freq">شهري</span>
-            <div class="sub-meta"><span>آخر خصم: ٨ فبراير ٢٠٢٦</span><span>عدد المرات: ١٢</span></div>
-          </div>
-          <div class="sub-amount"><div class="price">٦٠ <span class="price-unit">ر.س</span></div></div>
-        </div>
-        <div class="sub-actions">
-          <button class="sub-action-btn">🚫 ألغِه</button>
-          <button class="sub-action-btn active" style="color:#065F46">✅ خلّيه</button>
-          <button class="sub-action-btn">🔍 راجع</button>
-        </div>
-      </div>
-
-      <!-- Promo -->
-      <div class="promo-card">
-        <div style="font-size:2rem; margin-bottom:8px;">🔗</div>
-        <h3>تبي روابط الإلغاء المباشرة لكل خدمة؟</h3>
-        <p>مع الترقية تحصل على روابط مباشرة + خطوات إلغاء لأكثر من ٥٠ خدمة سعودية</p>
-        <button class="btn-primary">ترقية — ٤٩ ر.س مرة واحدة</button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <footer class="footer">Yalla Cancel · صُنع في السعودية 🇸🇦</footer>
+  <!-- ══════ LOGO BAR ══════ -->
+  <section class="logo-bar">
+    <div class="logo-bar-inner">
+      <p class="logo-bar-label">يدعم جميع البنوك السعودية</p>
+      <div class="logo-bar-row">
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=alrajhibank.com.sa&sz=64" alt=""><span>الراجحي</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=alahli.com&sz=64" alt=""><span>الأهلي</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=riyadbank.com&sz=64" alt=""><span>بنك الرياض</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=bankalbilad.com&sz=64" alt=""><span>البلاد</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=alinma.com&sz=64" alt=""><span>الإنماء</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=sabb.com&sz=64" alt=""><span>ساب</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=alfransi.com.sa&sz=64" alt=""><span>الفرنسي</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=anb.com.sa&sz=64" alt=""><span>العربي</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ PROBLEM ══════ -->
+  <section class="problem">
+    <div class="problem-inner">
+      <span class="section-label">المشكلة</span>
+      <h2 class="section-title">السعوديين يخسرون آلاف الريالات سنوياً على اشتراكات منسية</h2>
+      <p class="section-sub">اشتراكات تنخصم كل شهر بدون ما تنتبه — تطبيقات ما تستخدمها، خدمات نسيتها، وفترات تجريبية تحولت لاشتراكات.</p>
+      <div class="stat-cards">
+        <div class="stat-card-big">
+          <div class="stat-icon">💳</div>
+          <div class="stat-num">١٢+</div>
+          <div class="stat-text">متوسط الاشتراكات لكل شخص</div>
+        </div>
+        <div class="stat-card-big">
+          <div class="stat-icon">🫣</div>
+          <div class="stat-num">٨٤٪</div>
+          <div class="stat-text">ما يعرفون كم يدفعون بالضبط</div>
+        </div>
+        <div class="stat-card-big">
+          <div class="stat-icon">💸</div>
+          <div class="stat-num">٣,٦٠٠+</div>
+          <div class="stat-text">ريال سنوياً على اشتراكات غير مستخدمة</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ HOW IT WORKS ══════ -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <div style="text-align:center">
+        <span class="section-label">كيف يشتغل</span>
+        <h2 class="section-title">ثلاث خطوات وتكتشف كل اشتراكاتك</h2>
+        <p class="section-sub">بدون تسجيل دخول، بدون ربط حساب بنكي، وبدون مشاركة بياناتك مع أي طرف ثالث.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">١</div>
+          <div class="step-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="16" y="8" width="32" height="42" rx="4" stroke="#0F172A" stroke-width="2.5" fill="none"/>
+              <line x1="22" y1="18" x2="42" y2="18" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round"/>
+              <line x1="22" y1="24" x2="38" y2="24" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round"/>
+              <line x1="22" y1="30" x2="35" y2="30" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round"/>
+              <line x1="22" y1="36" x2="40" y2="36" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round"/>
+              <path d="M32 58 L32 46" stroke="#00A651" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M26 52 L32 46 L38 52" stroke="#00A651" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>ارفع كشف حسابك</h3>
+          <p>نزّل كشف الحساب من تطبيق بنكك بصيغة CSV أو PDF وارفعه هنا مباشرة.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">٢</div>
+          <div class="step-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <circle cx="28" cy="28" r="16" stroke="#0F172A" stroke-width="2.5" fill="none"/>
+              <line x1="40" y1="40" x2="54" y2="54" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="24" cy="25" r="3" fill="#00A651" opacity="0.3"/>
+              <circle cx="32" cy="22" r="3.5" fill="#00A651" opacity="0.5"/>
+              <circle cx="27" cy="33" r="2.5" fill="#00A651" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>نحلّل اشتراكاتك</h3>
+          <p>نفحص كل عملية ونكتشف الاشتراكات المتكررة والرسوم المخفية — على جهازك فقط.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">٣</div>
+          <div class="step-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="8" y="16" width="48" height="14" rx="7" stroke="#EF4444" stroke-width="2" fill="none" opacity="0.5"/>
+              <line x1="18" y1="23" x2="28" y2="23" stroke="#EF4444" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+              <rect x="8" y="34" width="48" height="14" rx="7" stroke="#22C55E" stroke-width="2" fill="none"/>
+              <path d="M16 41 L19 44 L26 37" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="30" y1="41" x2="42" y2="41" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="50" cy="12" r="8" fill="#00A651" opacity="0.12"/>
+              <text x="50" y="16" text-anchor="middle" fill="#00A651" font-size="10" font-weight="900">٪</text>
+            </svg>
+          </div>
+          <h3>ألغِ ووفّر</h3>
+          <p>اختار اللي تبي تلغيه واللي تبي تخليه. نوريك كم توفر ونعطيك روابط الإلغاء.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ PRODUCT SHOWCASE ══════ -->
+  <section class="showcase">
+    <div class="showcase-inner">
+      <div style="text-align:center">
+        <span class="section-label">التقرير</span>
+        <h2 class="section-title">شوف كيف يطلع تقريرك</h2>
+        <p class="section-sub">تقرير تفصيلي بكل اشتراكاتك مع توصيات ذكية للإلغاء وحساب التوفير الشهري والسنوي.</p>
+      </div>
+      <div class="showcase-frame">
+        <div class="showcase-bar">
+          <div class="dot r"></div>
+          <div class="dot y"></div>
+          <div class="dot g"></div>
+          <div class="url">yallacancel.sa/report</div>
+        </div>
+        <div class="report-preview">
+          <div class="rp-header">
+            <h2>📊 تقرير اشتراكاتك</h2>
+            <p>حللنا ٣٤٧ عملية من الأشهر الأربعة الأخيرة واكتشفنا ٨ اشتراكات متكررة</p>
+          </div>
+          <div class="rp-stats">
+            <div class="rp-stat"><div class="v">٨</div><div class="l">اشتراكات مكتشفة</div></div>
+            <div class="rp-stat hl"><div class="v">٦٧٣ ر.س</div><div class="l">المجموع الشهري</div></div>
+            <div class="rp-stat"><div class="v">٨,٠٧٦ ر.س</div><div class="l">المجموع السنوي</div></div>
+            <div class="rp-stat"><div class="v">٢,٦٨٨ ر.س</div><div class="l">توفير محتمل/سنة</div></div>
+          </div>
+          <div class="rp-savings">
+            <span style="font-size:1.5rem">💰</span>
+            <div><strong>تقدر توفر ٢,٦٨٨ ر.س سنوياً بإلغاء ٣ اشتراكات فقط</strong></div>
+          </div>
+          <p class="rp-section-title">🚫 نقترح تلغيها</p>
+          <div class="rp-sub cancel">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt=""><span class="rp-sub-name">شاهد VIP</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٤٥ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+          </div>
+          <div class="rp-sub cancel">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt=""><span class="rp-sub-name">Adobe Creative Cloud</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">١٣٤ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+          </div>
+          <div class="rp-sub cancel">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt=""><span class="rp-sub-name">Calm</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٤٥ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+          </div>
+          <p class="rp-section-title" style="margin-top:16px">✅ خلّيها</p>
+          <div class="rp-sub keep">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt=""><span class="rp-sub-name">Spotify</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٣٣ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+          </div>
+          <div class="rp-sub keep">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt=""><span class="rp-sub-name">Netflix</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٦٠ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+          </div>
+          <div class="rp-sub keep">
+            <div class="rp-sub-left"><img class="rp-sub-logo" src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt=""><span class="rp-sub-name">ChatGPT Plus</span><span class="rp-sub-freq">شهري</span></div>
+            <div class="rp-sub-right"><span class="rp-sub-price">٧٥ <span class="rp-sub-unit">ر.س/شهر</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ FEATURES ══════ -->
+  <section class="features" id="features">
+    <div class="features-inner">
+      <div style="text-align:center">
+        <span class="section-label">المميزات</span>
+        <h2 class="section-title">ليش Yalla Cancel؟</h2>
+        <p class="section-sub">مصمم خصيصاً للمستخدم السعودي — يدعم جميع البنوك ويحترم خصوصيتك.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>خصوصية ١٠٠٪</h3>
+          <p>كل التحليل يصير على جهازك. ما نرفع بياناتك لأي سيرفر ولا نخزنها أبداً.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏦</div>
+          <h3>جميع البنوك السعودية</h3>
+          <p>ندعم الراجحي، الأهلي، الرياض، البلاد، الإنماء، ساب، الفرنسي، والعربي الوطني.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>نتيجة في ثوانٍ</h3>
+          <p>ارفع الكشف وخلال ثوانٍ تحصل على تقرير تفصيلي بكل اشتراكاتك المتكررة.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>تقرير ذكي</h3>
+          <p>نصنّف اشتراكاتك (ألغِ / خلّي / راجع) ونحسب لك التوفير الشهري والسنوي المحتمل.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>روابط إلغاء مباشرة</h3>
+          <p>نعطيك الرابط المباشر لإلغاء كل خدمة — بدون ما تدور في الإعدادات.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>تصدير PDF</h3>
+          <p>حمّل تقريرك كملف PDF لمراجعته لاحقاً أو مشاركته مع المحاسب.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ SUBSCRIPTIONS WE DETECT ══════ -->
+  <section class="subs-detect">
+    <div class="subs-detect-inner">
+      <span class="section-label">+٥٠ خدمة</span>
+      <h2 class="section-title">نكتشف أكثر من ٥٠ خدمة واشتراك</h2>
+      <p class="section-sub">من منصات المشاهدة والموسيقى للتطبيقات والألعاب والخدمات السحابية.</p>
+      <div class="subs-grid">
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt=""><span>Netflix</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt=""><span>Spotify</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt=""><span>شاهد</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=anghami.com&sz=64" alt=""><span>أنغامي</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" alt=""><span>YouTube</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""><span>Apple</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=amazon.sa&sz=64" alt=""><span>Amazon</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt=""><span>Adobe</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt=""><span>ChatGPT</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt=""><span>iCloud</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt=""><span>هنقرستيشن</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt=""><span>Calm</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=gym.sa&sz=64" alt=""><span>نوادي رياضية</span></div>
+        <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=stcplay.com.sa&sz=64" alt=""><span>STC Play</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ TESTIMONIALS ══════ -->
+  <section class="testimonials">
+    <div class="testimonials-inner">
+      <div style="text-align:center">
+        <span class="section-label">آراء المستخدمين</span>
+        <h2 class="section-title">اللي جربوه عجبهم</h2>
+      </div>
+      <div class="test-grid">
+        <div class="test-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-quote">"اكتشفت إني أدفع لثلاث تطبيقات ما فتحتها من سنة. وفرت أكثر من ٢٠٠ ريال بالشهر!"</p>
+          <div class="test-author">
+            <div class="test-avatar">م</div>
+            <div><div class="test-name">محمد</div><div class="test-role">مستخدم من الرياض</div></div>
+          </div>
+        </div>
+        <div class="test-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-quote">"أحسن شي إنه ما يطلب مني أربط حسابي البنكي. بس أرفع الكشف وخلاص. أمان وسرعة."</p>
+          <div class="test-author">
+            <div class="test-avatar">ن</div>
+            <div><div class="test-name">نورة</div><div class="test-role">مستخدمة من جدة</div></div>
+          </div>
+        </div>
+        <div class="test-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-quote">"كنت أحسب إني أدفع ٣٠٠ ريال اشتراكات بالشهر. طلع الرقم الحقيقي ٧٠٠! شكراً يلا كانسل."</p>
+          <div class="test-author">
+            <div class="test-avatar">ع</div>
+            <div><div class="test-name">عبدالله</div><div class="test-role">مستخدم من الدمام</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ FAQ ══════ -->
+  <section class="faq" id="faq">
+    <div class="faq-inner">
+      <div style="text-align:center; margin-bottom:48px;">
+        <span class="section-label">أسئلة شائعة</span>
+        <h2 class="section-title">عندك سؤال؟</h2>
+      </div>
+
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">هل بياناتي البنكية آمنة؟ <span class="arrow">▾</span></div>
+        <div class="faq-a"><p>نعم ١٠٠٪. كل التحليل يتم على جهازك مباشرة (client-side). ما نرفع كشف حسابك لأي سيرفر، وما نخزن أي بيانات. بعد ما تقفل الصفحة، كل شي ينمسح.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">كيف أنزّل كشف حسابي؟ <span class="arrow">▾</span></div>
+        <div class="faq-a"><p>ادخل تطبيق بنكك (مثل الراجحي أو الأهلي)، روح للحساب الجاري، واختر "تصدير كشف الحساب" أو "Export Statement" بصيغة CSV أو PDF. عادة تلقاها في قسم الحساب أو العمليات.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">هل الخدمة مجانية؟ <span class="arrow">▾</span></div>
+        <div class="faq-a"><p>التحليل الأول مجاني بالكامل. مع الترقية (٤٩ ر.س مرة واحدة) تحصل على تحليلات غير محدودة، تصدير PDF، وروابط إلغاء مباشرة لأكثر من ٥٠ خدمة.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">هل تدعمون بنكي؟ <span class="arrow">▾</span></div>
+        <div class="faq-a"><p>ندعم جميع البنوك السعودية الرئيسية: الراجحي، الأهلي، بنك الرياض، البلاد، الإنماء، ساب، الفرنسي، والعربي الوطني. وعندنا محلل عام يشتغل مع أي كشف CSV.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">هل تلغون الاشتراكات عني؟ <span class="arrow">▾</span></div>
+        <div class="faq-a"><p>حالياً نوفر لك تقرير تفصيلي مع روابط إلغاء مباشرة. الإلغاء نفسه تسويه بنفسك عبر الرابط — عادة يأخذ أقل من دقيقة لكل اشتراك.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ CTA ══════ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>جاهز تكتشف اشتراكاتك المخفية؟</h2>
+      <p>ارفع كشف حسابك الحين واعرف وين فلوسك رايحة — مجاناً وبخصوصية تامة.</p>
+      <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})">ابدأ الحين — مجاناً</button>
+      <p class="cta-note">بدون تسجيل دخول · بدون بطاقة ائتمان · النتيجة في ثوانٍ</p>
+    </div>
+  </section>
+
+  <!-- ══════ MEGA FOOTER ══════ -->
+  <footer class="mega-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Yalla <span>Cancel</span></div>
+          <p>أداة سعودية تساعدك تكتشف اشتراكاتك المخفية وتوفر فلوسك — بخصوصية تامة وبدون مشاركة بياناتك البنكية.</p>
+          <div class="footer-social">
+            <a href="#">𝕏</a>
+            <a href="#">in</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>المنتج</h4>
+          <ul>
+            <li><a href="#">كيف يشتغل</a></li>
+            <li><a href="#">المميزات</a></li>
+            <li><a href="#">الأسعار</a></li>
+            <li><a href="#">ابدأ مجاناً</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>البنوك المدعومة</h4>
+          <ul>
+            <li><a href="#">إلغاء اشتراكات الراجحي</a></li>
+            <li><a href="#">إلغاء اشتراكات الأهلي</a></li>
+            <li><a href="#">إلغاء اشتراكات بنك الرياض</a></li>
+            <li><a href="#">إلغاء اشتراكات الإنماء</a></li>
+            <li><a href="#">إلغاء اشتراكات ساب</a></li>
+            <li><a href="#">إلغاء اشتراكات البلاد</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>أدلة الإلغاء</h4>
+          <ul>
+            <li><a href="#">كيف ألغي Netflix</a></li>
+            <li><a href="#">كيف ألغي شاهد VIP</a></li>
+            <li><a href="#">كيف ألغي Spotify</a></li>
+            <li><a href="#">كيف ألغي Apple Music</a></li>
+            <li><a href="#">كيف ألغي Adobe</a></li>
+            <li><a href="#">كيف ألغي YouTube Premium</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>الموارد</h4>
+          <ul>
+            <li><a href="#">مدونة</a></li>
+            <li><a href="#">دليل توفير الاشتراكات</a></li>
+            <li><a href="#">مقارنة الاشتراكات بالسعودية</a></li>
+            <li><a href="#">إحصائيات الإنفاق على الاشتراكات</a></li>
+            <li><a href="#">مفتوح المصدر</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© ٢٠٢٦ Yalla Cancel · صُنع بـ ❤️ في السعودية 🇸🇦</p>
+        <div class="footer-bottom-links">
+          <a href="#">سياسة الخصوصية</a>
+          <a href="#">الشروط والأحكام</a>
+          <a href="#">تواصل معنا</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    function startAnalysis() {
-      document.getElementById('landing').style.display = 'none';
-      var overlay = document.getElementById('analyzing');
-      overlay.classList.add('active');
-      var fill = document.getElementById('progressFill');
-      var text = document.getElementById('progressText');
-
-      var steps = [
-        { pct: 15, msg: 'جاري قراءة الملف...' },
-        { pct: 35, msg: 'نفحص العمليات...' },
-        { pct: 55, msg: 'نكتشف الاشتراكات المتكررة...' },
-        { pct: 75, msg: 'نحسب التكاليف الشهرية...' },
-        { pct: 90, msg: 'نجهّز التقرير...' },
-        { pct: 100, msg: 'جاهز!' }
-      ];
-
-      var i = 0;
-      var interval = setInterval(function() {
-        if (i < steps.length) {
-          fill.style.width = steps[i].pct + '%';
-          text.textContent = steps[i].msg;
-          i++;
-        } else {
-          clearInterval(interval);
-          setTimeout(function() {
-            overlay.classList.remove('active');
-            fill.style.width = '0%';
-            document.getElementById('report').classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 400);
-        }
-      }, 500);
+    function toggleFaq(el) {
+      var item = el.parentElement;
+      var allItems = document.querySelectorAll('.faq-item');
+      allItems.forEach(function(i) { if (i !== item) i.classList.remove('open'); });
+      item.classList.toggle('open');
     }
 
-    function showLanding() {
-      document.getElementById('report').classList.remove('active');
-      document.getElementById('landing').style.display = 'block';
+    function startAnalysis() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
