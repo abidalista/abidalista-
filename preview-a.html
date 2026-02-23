@@ -316,6 +316,84 @@
     }
     .btn-keep-sub:hover { background: #DCFCE7; border-color: #86EFAC; }
 
+    /* Difficulty badges */
+    .difficulty-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.65rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 9999px; letter-spacing: 0.02em;
+    }
+    .difficulty-badge.easy  { background: #DCFCE7; color: #15803D; }
+    .difficulty-badge.medium{ background: #FEF3C7; color: #B45309; }
+    .difficulty-badge.hard  { background: #FEE2E2; color: #B91C1C; }
+
+    /* Subscription card wrapper (row + steps panel) */
+    .rpage-sub-card { margin-bottom: 12px; border-radius: 16px; overflow: hidden; }
+    .rpage-sub-card .rpage-sub { margin-bottom: 0; border-radius: 16px; cursor: pointer; }
+    .rpage-sub-card.has-steps-open .rpage-sub { border-radius: 16px 16px 0 0; }
+
+    /* Steps panel */
+    .steps-panel {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+      background: #F8FAFC;
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 16px 16px;
+    }
+    .steps-panel.open { max-height: 500px; }
+    .steps-content { padding: 16px 20px; }
+    .steps-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .steps-header-title { font-size: 0.85rem; font-weight: 800; color: var(--text); }
+    .btn-direct-cancel {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #DC2626; color: white;
+      padding: 8px 18px; border-radius: 10px;
+      font-size: 0.75rem; font-weight: 700;
+      text-decoration: none; border: none; cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-direct-cancel:hover { background: #B91C1C; transform: translateY(-1px); }
+    .steps-list {
+      list-style: none; counter-reset: steps;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .steps-list li {
+      counter-increment: steps;
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.82rem; color: #475569; line-height: 1.5;
+    }
+    .steps-list li::before {
+      content: counter(steps);
+      min-width: 22px; height: 22px;
+      background: var(--dark); color: white;
+      border-radius: 50%; font-size: 0.65rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .steps-warning {
+      margin-top: 12px; padding: 10px 14px;
+      background: #FEF3C7; border-radius: 10px;
+      font-size: 0.78rem; color: #92400E; font-weight: 600;
+    }
+
+    /* Kept state */
+    .rpage-sub-card.kept { opacity: 0.45; }
+    .rpage-sub-card.kept .rpage-sub { background: #F8FAFC; }
+
+    /* Annual savings callout */
+    .savings-callout {
+      background: linear-gradient(135deg, #0F172A, #162415);
+      border-radius: 16px; padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .savings-callout-text { color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.5; }
+    .savings-callout-text strong { color: white; font-size: 1.25rem; display: block; font-weight: 900; }
+    .savings-callout-sub { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+
     /* ══════════════════════════════════════════
        LANDING PAGE wrapper
     ══════════════════════════════════════════ */
@@ -661,120 +739,310 @@
         </div>
         <div class="rpage-stat">
           <div class="v">٨,٠٧٦ ريال</div>
-          <div class="l">المجموع السنوي</div>
-        </div>
-      </div>
-      <p class="report-page-list-title">جميع اشتراكاتك</p>
-
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">Netflix</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٦٠ ريال/شهر</span></div>
-          </div>
-        </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+          <div class="l">إجمالي سنوي تدفعه</div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">Spotify</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٣٣ ريال/شهر</span></div>
+      <!-- Annual savings callout -->
+      <div class="savings-callout">
+        <div class="savings-callout-text">
+          <strong>٨,٠٧٦ ريال</strong>
+          تدفعها سنوياً على الاشتراكات — اضغط على أي اشتراك لتشوف خطوات الإلغاء المباشرة
+        </div>
+        <div class="savings-callout-sub">اضغط "ألغي" لتظهر خطوات إلغاء كل خدمة</div>
+      </div>
+
+      <p class="report-page-list-title">جميع اشتراكاتك — اضغط للتفاصيل</p>
+
+      <!-- Netflix -->
+      <div class="rpage-sub-card" id="card-netflix">
+        <div class="rpage-sub" onclick="toggleSteps('netflix')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">Netflix</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٦٠ ريال/شهر</span>
+                <span class="difficulty-badge easy">سهل الإلغاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('netflix')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('netflix')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-netflix">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء Netflix</span>
+              <a href="https://www.netflix.com/cancelplan" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح netflix.com أو تطبيق Netflix</li>
+              <li>اضغط على صورتك أو الحرف في أعلى اليمين</li>
+              <li>اختر "الحساب" (Account)</li>
+              <li>ابحث عن "إلغاء العضوية" واضغط عليه</li>
+              <li>أكّد الإلغاء — الاشتراك يبقى حتى نهاية الفترة المدفوعة</li>
+            </ol>
+          </div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">شاهد VIP</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٤٥ ريال/شهر</span></div>
+      <!-- Spotify -->
+      <div class="rpage-sub-card" id="card-spotify">
+        <div class="rpage-sub" onclick="toggleSteps('spotify')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">Spotify</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٣٣ ريال/شهر</span>
+                <span class="difficulty-badge easy">سهل الإلغاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('spotify')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('spotify')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-spotify">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء Spotify Premium</span>
+              <a href="https://www.spotify.com/account/subscription/" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح spotify.com/account على المتصفح (مو التطبيق)</li>
+              <li>سجّل دخول بحسابك</li>
+              <li>اضغط "تغيير الخطة" (Change Plan)</li>
+              <li>اختر "إلغاء Premium" (Cancel Premium)</li>
+              <li>أكّد الإلغاء — تقدر تشوف موسيقى مجانية بعدها</li>
+            </ol>
+          </div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">Adobe Creative Cloud</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">١٣٤ ريال/شهر</span></div>
+      <!-- Shahid -->
+      <div class="rpage-sub-card" id="card-shahid">
+        <div class="rpage-sub" onclick="toggleSteps('shahid')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">شاهد VIP</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٤٥ ريال/شهر</span>
+                <span class="difficulty-badge medium">متوسط</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('shahid')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('shahid')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-shahid">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء شاهد VIP</span>
+              <a href="https://shahid.mbc.net/ar/subscription" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح shahid.mbc.net أو تطبيق شاهد</li>
+              <li>سجّل دخول بحسابك</li>
+              <li>اضغط على صورتك أو اسمك أعلى الصفحة</li>
+              <li>اختر "اشتراكاتي" أو "Subscriptions"</li>
+              <li>اضغط "إلغاء الاشتراك" وأكّد</li>
+            </ol>
+            <div class="steps-warning">⚠️ إذا اشتركت عن طريق Apple أو Google، ألغي من هناك مباشرة وليس من التطبيق</div>
+          </div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">ChatGPT Plus</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٧٥ ريال/شهر</span></div>
+      <!-- Adobe -->
+      <div class="rpage-sub-card" id="card-adobe">
+        <div class="rpage-sub" onclick="toggleSteps('adobe')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">Adobe Creative Cloud</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">١٣٤ ريال/شهر</span>
+                <span class="difficulty-badge hard">صعب الإلغاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('adobe')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('adobe')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-adobe">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء Adobe Creative Cloud</span>
+              <a href="https://account.adobe.com/plans" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح account.adobe.com/plans بالمتصفح</li>
+              <li>سجّل دخول بحساب Adobe الخاص بك</li>
+              <li>ابحث عن الخطة الفعالة واضغط "إدارة الخطة"</li>
+              <li>اختر "إلغاء الخطة" (Cancel Plan)</li>
+              <li>Adobe ستحاول إبقاءك — تجاهل العروض وأكّد الإلغاء</li>
+            </ol>
+            <div class="steps-warning">⚠️ تنبيه: إذا كانت خطتك سنوية وإلغاؤها مبكر، قد تُطبَّق رسوم إلغاء تصل لـ ٥٠٪ من الرسوم المتبقية. تحقق من تاريخ تجديدك أولاً.</div>
+          </div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">Calm</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٤٥ ريال/شهر</span></div>
+      <!-- ChatGPT -->
+      <div class="rpage-sub-card" id="card-chatgpt">
+        <div class="rpage-sub" onclick="toggleSteps('chatgpt')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">ChatGPT Plus</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٧٥ ريال/شهر</span>
+                <span class="difficulty-badge easy">سهل الإلغاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('chatgpt')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('chatgpt')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-chatgpt">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء ChatGPT Plus</span>
+              <a href="https://chat.openai.com/#settings" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح chat.openai.com وسجّل دخول</li>
+              <li>اضغط على اسمك في أسفل القائمة الجانبية</li>
+              <li>اختر "إدارة الاشتراك" (Manage Subscription)</li>
+              <li>اضغط "إلغاء الخطة" (Cancel Plan)</li>
+              <li>أكّد الإلغاء — تقدر تستخدم ChatGPT المجاني بعدها</li>
+            </ol>
+          </div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">هنقرستيشن</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٢٩ ريال/شهر</span></div>
+      <!-- Calm -->
+      <div class="rpage-sub-card" id="card-calm">
+        <div class="rpage-sub" onclick="toggleSteps('calm')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=calm.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">Calm</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٤٥ ريال/شهر</span>
+                <span class="difficulty-badge easy">سهل الإلغاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('calm')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('calm')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-calm">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء Calm</span>
+              <a href="https://www.calm.com/subscriptions" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح calm.com/subscriptions بالمتصفح</li>
+              <li>سجّل دخول بحسابك</li>
+              <li>اضغط "Manage Subscription"</li>
+              <li>اختر "Cancel Subscription"</li>
+              <li>أكّد الإلغاء</li>
+            </ol>
+            <div class="steps-warning">⚠️ إذا اشتركت عن طريق App Store، ألغي من إعدادات iPhone ← حسابك ← الاشتراكات</div>
+          </div>
         </div>
       </div>
 
-      <div class="rpage-sub">
-        <div class="rpage-sub-left">
-          <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt="">
-          <div class="rpage-sub-info">
-            <div class="rpage-sub-name">iCloud+</div>
-            <div class="rpage-sub-meta"><span class="rpage-sub-freq">شهري</span><span class="rpage-sub-price">٢٥٢ ريال/شهر</span></div>
+      <!-- هنقرستيشن -->
+      <div class="rpage-sub-card" id="card-hunger">
+        <div class="rpage-sub" onclick="toggleSteps('hunger')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">هنقرستيشن Pro</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٢٩ ريال/شهر</span>
+                <span class="difficulty-badge easy">سهل الإلغاء</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('hunger')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('hunger')">خلّي</button>
           </div>
         </div>
-        <div class="rpage-sub-right">
-          <button class="btn-cancel-sub">ألغي</button>
-          <button class="btn-keep-sub">خلّي</button>
+        <div class="steps-panel" id="steps-hunger">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات إلغاء هنقرستيشن Pro</span>
+              <a href="https://hungerstation.com/" target="_blank" class="btn-direct-cancel">إلغاء مباشر ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح تطبيق هنقرستيشن</li>
+              <li>اضغط على أيقونة الشخص في أسفل الشاشة</li>
+              <li>اختر "Hungerstation Pro" أو "اشتراكاتي"</li>
+              <li>اضغط "إلغاء الاشتراك"</li>
+              <li>أكّد الإلغاء</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- iCloud -->
+      <div class="rpage-sub-card" id="card-icloud">
+        <div class="rpage-sub" onclick="toggleSteps('icloud')">
+          <div class="rpage-sub-left">
+            <img class="rpage-sub-logo" src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt="">
+            <div class="rpage-sub-info">
+              <div class="rpage-sub-name">iCloud+</div>
+              <div class="rpage-sub-meta">
+                <span class="rpage-sub-freq">شهري</span>
+                <span class="rpage-sub-price">٢٥٢ ريال/شهر</span>
+                <span class="difficulty-badge medium">متوسط</span>
+              </div>
+            </div>
+          </div>
+          <div class="rpage-sub-right">
+            <button class="btn-cancel-sub" onclick="event.stopPropagation(); toggleSteps('icloud')">ألغي</button>
+            <button class="btn-keep-sub" onclick="event.stopPropagation(); markKept('icloud')">خلّي</button>
+          </div>
+        </div>
+        <div class="steps-panel" id="steps-icloud">
+          <div class="steps-content">
+            <div class="steps-header">
+              <span class="steps-header-title">خطوات تخفيض أو إلغاء iCloud+</span>
+              <a href="https://appleid.apple.com/" target="_blank" class="btn-direct-cancel">إدارة Apple ID ←</a>
+            </div>
+            <ol class="steps-list">
+              <li>افتح الإعدادات على iPhone أو iPad</li>
+              <li>اضغط على اسمك في أعلى الشاشة (Apple ID)</li>
+              <li>اضغط "iCloud"</li>
+              <li>اختر "إدارة مساحة التخزين" ثم "تغيير الخطة"</li>
+              <li>اختر خطة أصغر أو "إلغاء الاشتراك في iCloud+"</li>
+            </ol>
+            <div class="steps-warning">⚠️ تأكد من نسخ بياناتك احتياطياً قبل تخفيض الخطة إذا كانت مساحتك الحالية تتجاوز الخطة الجديدة</div>
+          </div>
         </div>
       </div>
 
@@ -1048,6 +1316,84 @@
     </div>
   </section>
 
+  <!-- ══════ DESCRIPTOR DECODER ══════ -->
+  <section style="padding: 100px 32px; background: white; border-top: 1px solid var(--border);">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <span class="section-label">مفكك رموز البنك</span>
+        <h2 class="section-title">شوفت رمز غريب على كشف حسابك؟</h2>
+        <p class="section-sub">البنوك تكتب أسماء الشركات بطريقة غير مفهومة — نفكك لك أكثر الرموز شيوعاً في السعودية.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 40px;">
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">NFLX.COM</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Netflix</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك Netflix الشهري</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">APPLE.COM/BILL</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Apple</div><div style="font-size: 0.78rem; color: var(--text2);">iCloud+ أو Apple Music أو App Store</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">SPOTIFY AB</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Spotify</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك Spotify Premium</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">OPENAI *CHATGPT</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">ChatGPT Plus</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك ChatGPT Plus الشهري</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">GOOG*YOUTUBE</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">YouTube Premium</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك YouTube Premium أو Music</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">ADOBE SYSTEMS</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Adobe</div><div style="font-size: 0.78rem; color: var(--text2);">Creative Cloud أو Acrobat Pro</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">AMZN MKTP SA</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Amazon</div><div style="font-size: 0.78rem; color: var(--text2);">مشتريات Amazon.sa أو Prime</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">SHAHID.MBC</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">شاهد VIP</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك منصة شاهد</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">MSFT *XBOX</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Xbox / Microsoft</div><div style="font-size: 0.78rem; color: var(--text2);">Game Pass أو Microsoft 365</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">CALM.COM</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Calm</div><div style="font-size: 0.78rem; color: var(--text2);">تطبيق التأمل والنوم Calm</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">DROPBOX INC</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">Dropbox</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك Dropbox Plus أو Business</div></div>
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
+          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">HUNGERSTATION</div>
+          <div><div style="font-weight: 700; font-size: 0.9rem;">هنقرستيشن</div><div style="font-size: 0.78rem; color: var(--text2);">Hungerstation Pro الشهري</div></div>
+        </div>
+
+      </div>
+      <div style="text-align: center;">
+        <p style="font-size: 0.9rem; color: var(--text2); margin-bottom: 16px;">ما لقيت الرمز اللي عندك؟ ارفع كشف حسابك وسنعرفه تلقائياً</p>
+        <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="background: var(--primary); color: white; border: none;">ارفع كشفك وافهم كل رمز ←</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ══════ TESTIMONIALS ══════ -->
   <section class="testimonials">
     <div class="testimonials-inner">
@@ -1058,26 +1404,26 @@
       <div class="test-grid">
         <div class="test-card">
           <div class="test-stars">★★★★★</div>
-          <p class="test-quote">"اكتشفت إني أدفع لثلاث تطبيقات ما فتحتها من سنة. وفرت أكثر من ٢٠٠ ريال بالشهر!"</p>
+          <p class="test-quote">"ما توقعت إن Calm وDropbox وشيء اسمه Adobe Stock ما فتحته من سنتين ينخصمون كلهم. ألغيتهم كلهم في دقيقتين وأنا أشرب قهوتي."</p>
           <div class="test-author">
             <div class="test-avatar">م</div>
-            <div><div class="test-name">محمد</div><div class="test-role">مستخدم من الرياض</div></div>
+            <div><div class="test-name">محمد ع.</div><div class="test-role">مهندس برمجيات — الرياض</div></div>
           </div>
         </div>
         <div class="test-card">
           <div class="test-stars">★★★★★</div>
-          <p class="test-quote">"أحسن شي إنه ما يطلب مني أربط حسابي البنكي. بس أرفع الكشف وخلاص. أمان وسرعة."</p>
+          <p class="test-quote">"كنت أشوف APPLE.COM/BILL كل شهر وما أعرف وش هي بالضبط. يلا كانسل فكّها وعرّفتني إنها iCloud+ و Apple Music وApple TV+ — دفعتهن ثلاثتهن بدون ما أقصد!"</p>
           <div class="test-author">
             <div class="test-avatar">ن</div>
-            <div><div class="test-name">نورة</div><div class="test-role">مستخدمة من جدة</div></div>
+            <div><div class="test-name">نورة الغامدي</div><div class="test-role">معلمة — جدة</div></div>
           </div>
         </div>
         <div class="test-card">
           <div class="test-stars">★★★★★</div>
-          <p class="test-quote">"كنت أحسب إني أدفع ٣٠٠ ريال اشتراكات بالشهر. طلع الرقم الحقيقي ٧٠٠! شكراً يلا كانسل."</p>
+          <p class="test-quote">"Adobe وأنا ما أحتاجه — بس خفت من رسوم الإلغاء المبكر. الموقع حذّرني من التوقيت الصح وأنقذني من دفع رسوم إضافية. وفرت ١,٦٠٨ ريال."</p>
           <div class="test-author">
             <div class="test-avatar">ع</div>
-            <div><div class="test-name">عبدالله</div><div class="test-role">مستخدم من الدمام</div></div>
+            <div><div class="test-name">عبدالرحمن ف.</div><div class="test-role">مصمم مستقل — الدمام</div></div>
           </div>
         </div>
       </div>
@@ -1160,12 +1506,12 @@
         <div class="footer-col">
           <h4>أدلة الإلغاء</h4>
           <ul>
-            <li><a href="#">كيف ألغي Netflix</a></li>
-            <li><a href="#">كيف ألغي شاهد VIP</a></li>
-            <li><a href="#">كيف ألغي Spotify</a></li>
-            <li><a href="#">كيف ألغي Apple Music</a></li>
-            <li><a href="#">كيف ألغي Adobe</a></li>
-            <li><a href="#">كيف ألغي YouTube Premium</a></li>
+            <li><a href="cancel-netflix.html">كيف ألغي Netflix</a></li>
+            <li><a href="cancel-shahid.html">كيف ألغي شاهد VIP</a></li>
+            <li><a href="cancel-spotify.html">كيف ألغي Spotify</a></li>
+            <li><a href="cancel-apple-music.html">كيف ألغي Apple Music</a></li>
+            <li><a href="cancel-adobe.html">كيف ألغي Adobe</a></li>
+            <li><a href="cancel-youtube-premium.html">كيف ألغي YouTube Premium</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1182,7 +1528,7 @@
       <div class="footer-bottom">
         <p>&copy; ٢٠٢٦ Yalla Cancel · صُنع بـ ❤️ في السعودية 🇸🇦</p>
         <div class="footer-bottom-links">
-          <a href="#">سياسة الخصوصية</a>
+          <a href="privacy.html">سياسة الخصوصية</a>
           <a href="#">الشروط والأحكام</a>
           <a href="#">تواصل معنا</a>
         </div>
@@ -1264,6 +1610,40 @@
       document.getElementById('reportPage').classList.remove('active');
       document.getElementById('landingPage').classList.remove('hidden');
       window.scrollTo({ top: 0 });
+    }
+
+    // Toggle steps panel for a subscription
+    function toggleSteps(id) {
+      var panel = document.getElementById('steps-' + id);
+      var card  = document.getElementById('card-' + id);
+      if (!panel || !card) return;
+      var isOpen = panel.classList.contains('open');
+      // Close all other panels first
+      document.querySelectorAll('.steps-panel.open').forEach(function(p) {
+        p.classList.remove('open');
+        var c = p.closest('.rpage-sub-card');
+        if (c) c.classList.remove('has-steps-open');
+      });
+      if (!isOpen) {
+        panel.classList.add('open');
+        card.classList.add('has-steps-open');
+        // Scroll card into view
+        setTimeout(function() { card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+      }
+    }
+
+    // Mark a subscription as kept (dim it)
+    function markKept(id) {
+      var card = document.getElementById('card-' + id);
+      if (!card) return;
+      if (card.classList.contains('kept')) {
+        card.classList.remove('kept'); // toggle off
+      } else {
+        card.classList.add('kept');
+        // Close steps if open
+        var panel = document.getElementById('steps-' + id);
+        if (panel) { panel.classList.remove('open'); card.classList.remove('has-steps-open'); }
+      }
     }
   </script>
 
