@@ -711,7 +711,7 @@
   <div class="analyzing-overlay" id="analyzingOverlay">
     <div class="analyzing-spinner"></div>
     <div class="analyzing-text">نحلّل كشف حسابك...</div>
-    <div class="analyzing-sub">نفحص العمليات ونكتشف الاشتراكات المتكررة</div>
+    <div class="analyzing-sub">نفحص كل عملية ونطلع لك الاشتراكات المتكررة</div>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="progressBarFill"></div>
     </div>
@@ -747,9 +747,9 @@
       <div class="savings-callout">
         <div class="savings-callout-text">
           <strong>٨,٠٧٦ ريال</strong>
-          تدفعها سنوياً على الاشتراكات — اضغط على أي اشتراك لتشوف خطوات الإلغاء المباشرة
+          تدفعها سنوياً على الاشتراكات — اضغط على أي اشتراك عشان تشوف خطوات الإلغاء
         </div>
-        <div class="savings-callout-sub">اضغط "ألغي" لتظهر خطوات إلغاء كل خدمة</div>
+        <div class="savings-callout-sub">اضغط "ألغي" وتطلع لك خطوات إلغاء كل خدمة</div>
       </div>
 
       <p class="report-page-list-title">جميع اشتراكاتك — اضغط للتفاصيل</p>
@@ -1063,8 +1063,8 @@
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-content">
-        <h1>اشتراكاتك <em>تحت السيطرة</em></h1>
-        <p class="hero-sub">ارفع كشف حسابك البنكي واكتشف كل الاشتراكات المتكررة اللي تنخصم منك — بخصوصية تامة وبدون ما تشارك بياناتك مع أحد.</p>
+        <h1>كم اشتراك <em>ناسيه؟</em></h1>
+        <p class="hero-sub">ارفع كشف حسابك واكتشف كل الاشتراكات اللي تنخصم منك كل شهر — على جهازك، بدون ما ترسل بياناتك لأحد.</p>
         <div class="hero-note">
           <span>🔒 بياناتك ما تطلع من جهازك</span>
           <span>⚡ النتيجة في ثوانٍ</span>
@@ -1076,13 +1076,13 @@
         <div class="hero-upload-card">
           <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
             <div class="upload-zone-icon">📄</div>
-            <div class="upload-zone-title">اسحب كشف حسابك هنا أو اضغط للرفع</div>
+            <div class="upload-zone-title">حط الملف هنا أو اضغط للرفع</div>
             <div class="upload-zone-sub">يدعم CSV و PDF</div>
           </div>
           <input type="file" class="upload-file-input" id="fileInput" accept=".csv,.pdf" onchange="handleFileUpload()">
-          <button class="btn-upload-primary" onclick="document.getElementById('fileInput').click()">اختر ملف</button>
+          <button class="btn-upload-primary" onclick="document.getElementById('fileInput').click()">اختر الملف</button>
           <div class="upload-divider"><span>أو</span></div>
-          <button class="btn-sample-ghost" onclick="startAnalysis()">🧪 جرب بكشف تجريبي</button>
+          <button class="btn-sample-ghost" onclick="startAnalysis()">🧪 جرّب بمثال جاهز</button>
         </div>
         <div style="text-align:center;">
           <div class="hero-badge">🇸🇦 يدعم جميع البنوك السعودية</div>
@@ -1101,9 +1101,10 @@
         <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=riyadbank.com&sz=64" alt=""><span>بنك الرياض</span></div>
         <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=bankalbilad.com&sz=64" alt=""><span>البلاد</span></div>
         <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=alinma.com&sz=64" alt=""><span>الإنماء</span></div>
-        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=sabb.com&sz=64" alt=""><span>ساب</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=sabb.com&sz=64" alt=""><span>الأول (ساب)</span></div>
         <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=alfransi.com.sa&sz=64" alt=""><span>الفرنسي</span></div>
-        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=anb.com.sa&sz=64" alt=""><span>العربي</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=anb.com.sa&sz=64" alt=""><span>العربي الوطني</span></div>
+        <div class="logo-chip"><img src="https://www.google.com/s2/favicons?domain=stcbank.com.sa&sz=64" alt=""><span>stc bank</span></div>
       </div>
     </div>
   </section>
@@ -1112,7 +1113,7 @@
   <section class="problem">
     <div class="problem-inner">
       <span class="section-label">المشكلة</span>
-      <h2 class="section-title">السعوديين يخسرون آلاف الريالات سنوياً على اشتراكات منسية</h2>
+      <h2 class="section-title">السعوديين يضيّعون آلاف الريالات سنوياً على اشتراكات منسية</h2>
       <p class="section-sub">اشتراكات تنخصم كل شهر بدون ما تنتبه — تطبيقات ما تستخدمها، خدمات نسيتها، وفترات تجريبية تحولت لاشتراكات.</p>
       <div class="stat-cards">
         <div class="stat-card-big">
@@ -1254,7 +1255,7 @@
       <div style="text-align:center">
         <span class="section-label">المميزات</span>
         <h2 class="section-title">ليش Yalla Cancel؟</h2>
-        <p class="section-sub">مصمم خصيصاً للمستخدم السعودي — يدعم جميع البنوك ويحترم خصوصيتك.</p>
+        <p class="section-sub">مبني للسوق السعودي — يدعم بنوكنا ويحترم خصوصيتك.</p>
       </div>
       <div class="features-grid">
         <div class="feature-card">
@@ -1265,7 +1266,7 @@
         <div class="feature-card">
           <div class="feature-icon">🏦</div>
           <h3>جميع البنوك السعودية</h3>
-          <p>ندعم الراجحي، الأهلي، الرياض، البلاد، الإنماء، ساب، الفرنسي، والعربي الوطني.</p>
+          <p>ندعم الراجحي، الأهلي، الرياض، البلاد، الإنماء، الأول (ساب)، الفرنسي، العربي الوطني، وstc bank.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">⚡</div>
@@ -1285,7 +1286,7 @@
         <div class="feature-card">
           <div class="feature-icon">📄</div>
           <h3>تصدير PDF</h3>
-          <p>حمّل تقريرك كملف PDF لمراجعته لاحقاً أو مشاركته مع المحاسب.</p>
+          <p>حمّل تقريرك كملف PDF عشان ترجع له بعدين أو تشاركه مع أي أحد.</p>
         </div>
       </div>
     </div>
@@ -1296,7 +1297,7 @@
     <div class="subs-detect-inner">
       <span class="section-label">+٥٠ خدمة</span>
       <h2 class="section-title">نكتشف أكثر من ٥٠ خدمة واشتراك</h2>
-      <p class="section-sub">من منصات المشاهدة والموسيقى للتطبيقات والألعاب والخدمات السحابية.</p>
+      <p class="section-sub">من منصات المشاهدة والموسيقى للتطبيقات والألعاب والتخزين.</p>
       <div class="subs-grid">
         <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt=""><span>Netflix</span></div>
         <div class="sub-chip"><img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt=""><span>Spotify</span></div>
@@ -1320,9 +1321,9 @@
   <section style="padding: 100px 32px; background: white; border-top: 1px solid var(--border);">
     <div style="max-width: 1100px; margin: 0 auto;">
       <div style="text-align: center; margin-bottom: 48px;">
-        <span class="section-label">مفكك رموز البنك</span>
+        <span class="section-label">وش معنى رموز البنك؟</span>
         <h2 class="section-title">شوفت رمز غريب على كشف حسابك؟</h2>
-        <p class="section-sub">البنوك تكتب أسماء الشركات بطريقة غير مفهومة — نفكك لك أكثر الرموز شيوعاً في السعودية.</p>
+        <p class="section-sub">البنوك تكتب أسماء الشركات بطريقة غير مفهومة — نفكك لك أكثر الرموز اللي تطلع في كشوفات السعودية.</p>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 40px;">
 
@@ -1388,7 +1389,7 @@
 
       </div>
       <div style="text-align: center;">
-        <p style="font-size: 0.9rem; color: var(--text2); margin-bottom: 16px;">ما لقيت الرمز اللي عندك؟ ارفع كشف حسابك وسنعرفه تلقائياً</p>
+        <p style="font-size: 0.9rem; color: var(--text2); margin-bottom: 16px;">ما لقيت الرمز اللي عندك؟ ارفع كشف حسابك ونعرفه لك تلقائياً</p>
         <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="background: var(--primary); color: white; border: none;">ارفع كشفك وافهم كل رمز ←</button>
       </div>
     </div>
@@ -1404,7 +1405,7 @@
       <div class="test-grid">
         <div class="test-card">
           <div class="test-stars">★★★★★</div>
-          <p class="test-quote">"ما توقعت إن Calm وDropbox وشيء اسمه Adobe Stock ما فتحته من سنتين ينخصمون كلهم. ألغيتهم كلهم في دقيقتين وأنا أشرب قهوتي."</p>
+          <p class="test-quote">"ما توقعت إن Calm وDropbox وشي اسمه Adobe Stock ما فتحته من سنتين ينخصمون كلهم. ألغيتهم كلهم في دقيقتين وأنا أشرب قهوتي."</p>
           <div class="test-author">
             <div class="test-avatar">م</div>
             <div><div class="test-name">محمد ع.</div><div class="test-role">مهندس برمجيات — الرياض</div></div>
@@ -1412,7 +1413,7 @@
         </div>
         <div class="test-card">
           <div class="test-stars">★★★★★</div>
-          <p class="test-quote">"كنت أشوف APPLE.COM/BILL كل شهر وما أعرف وش هي بالضبط. يلا كانسل فكّها وعرّفتني إنها iCloud+ و Apple Music وApple TV+ — دفعتهن ثلاثتهن بدون ما أقصد!"</p>
+          <p class="test-quote">"كنت أشوف APPLE.COM/BILL كل شهر وما أعرف وش هي بالضبط. يلا كانسل فكّها وعرّفتني إنها iCloud+ و Apple Music وApple TV+ — دفعت فيهم ثلاثتهم بدون ما أقصد!"</p>
           <div class="test-author">
             <div class="test-avatar">ن</div>
             <div><div class="test-name">نورة الغامدي</div><div class="test-role">معلمة — جدة</div></div>
@@ -1420,7 +1421,7 @@
         </div>
         <div class="test-card">
           <div class="test-stars">★★★★★</div>
-          <p class="test-quote">"Adobe وأنا ما أحتاجه — بس خفت من رسوم الإلغاء المبكر. الموقع حذّرني من التوقيت الصح وأنقذني من دفع رسوم إضافية. وفرت ١,٦٠٨ ريال."</p>
+          <p class="test-quote">"كنت مشترك في Adobe وأنا ما أحتاجه — بس خفت من رسوم الإلغاء المبكر. الموقع حذّرني من التوقيت الصح وأنقذني من دفع رسوم إضافية. وفرت ١,٦٠٨ ريال."</p>
           <div class="test-author">
             <div class="test-avatar">ع</div>
             <div><div class="test-name">عبدالرحمن ف.</div><div class="test-role">مصمم مستقل — الدمام</div></div>
@@ -1440,7 +1441,7 @@
 
       <div class="faq-item open">
         <div class="faq-q" onclick="toggleFaq(this)">هل بياناتي البنكية آمنة؟ <span class="arrow">▾</span></div>
-        <div class="faq-a"><p>نعم ١٠٠٪. كل التحليل يتم على جهازك مباشرة (client-side). ما نرفع كشف حسابك لأي سيرفر، وما نخزن أي بيانات. بعد ما تقفل الصفحة، كل شي ينمسح.</p></div>
+        <div class="faq-a"><p>نعم ١٠٠٪. كل التحليل يتم على جهازك مباشرة — ما يطلع من تلفونك أو كمبيوترك. ما نرفع كشف حسابك لأي سيرفر، وما نخزن أي بيانات. بعد ما تقفل الصفحة، كل شي ينمسح.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">كيف أنزّل كشف حسابي؟ <span class="arrow">▾</span></div>
@@ -1452,7 +1453,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">هل تدعمون بنكي؟ <span class="arrow">▾</span></div>
-        <div class="faq-a"><p>ندعم جميع البنوك السعودية الرئيسية: الراجحي، الأهلي، بنك الرياض، البلاد، الإنماء، ساب، الفرنسي، والعربي الوطني. وعندنا محلل عام يشتغل مع أي كشف CSV.</p></div>
+        <div class="faq-a"><p>ندعم جميع البنوك السعودية الرئيسية: الراجحي، الأهلي، بنك الرياض، البلاد، الإنماء، الأول (ساب)، الفرنسي، العربي الوطني، وstc bank. وعندنا محلل عام يشتغل مع أي كشف CSV.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">هل تلغون الاشتراكات عني؟ <span class="arrow">▾</span></div>
@@ -1465,7 +1466,7 @@
   <section class="cta-section">
     <div class="cta-inner">
       <h2>جاهز تكتشف اشتراكاتك المخفية؟</h2>
-      <p>ارفع كشف حسابك الحين واعرف وين فلوسك رايحة — مجاناً وبخصوصية تامة.</p>
+      <p>ارفع كشف حسابك الحين واعرف وين فلوسك رايحة — مجاناً وبدون ما ترسل بياناتك لأحد.</p>
       <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})">ابدأ الحين</button>
       <p class="cta-note">بدون تسجيل دخول · بدون بطاقة ائتمان · النتيجة في ثوانٍ</p>
     </div>
