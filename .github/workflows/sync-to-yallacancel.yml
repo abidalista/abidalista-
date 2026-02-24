@@ -1,0 +1,63 @@
+name: Sync to yallacancel
+
+on:
+  push:
+    branches:
+      - claude/saudi-bank-platform-r7Eqn
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout abidalista-
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Checkout yallacancel
+        uses: actions/checkout@v4
+        with:
+          repository: abidalista/yallacancel
+          token: ${{ secrets.YALLACANCEL_PAT }}
+          path: target
+          ref: main
+
+      - name: Sync files
+        run: |
+          cd target
+
+          # Sync src/
+          rm -rf src
+          cp -r ../source/src .
+
+          # Sync public/
+          rm -rf public
+          cp -r ../source/public .
+
+          # Sync blog/
+          rm -rf blog
+          cp -r ../source/blog .
+
+          # Sync cancel guide pages
+          rm -f cancel-*.html
+          cp ../source/cancel-*.html .
+
+          # Sync config files
+          cp ../source/postcss.config.mjs .
+          cp ../source/tsconfig.json .
+          cp ../source/package.json .
+          cp ../source/package-lock.json .
+          cp ../source/preview-a.html .
+
+          # Force static export config (overwrite whatever is in the repo)
+          rm -f next.config.ts next.config.js next.config.mjs
+          printf 'module.exports = { output: "export", images: { unoptimized: true } };\n' > next.config.js
+
+      - name: Commit and push
+        run: |
+          cd target
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --staged --quiet || git commit -m "Auto-sync from abidalista- [$(date '+%Y-%m-%d %H:%M')]"
+          git push origin main
