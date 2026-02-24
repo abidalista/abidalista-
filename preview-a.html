@@ -692,6 +692,148 @@
     .footer-bottom-links { display: flex; gap: 24px; }
     .footer-bottom-links a { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
     .footer-bottom-links a:hover { color: rgba(255,255,255,0.6); }
+
+    /* ══════════════════════════════════════════
+       DESCRIPTOR DECODER
+    ══════════════════════════════════════════ */
+    .decoder-section {
+      padding: 100px 32px;
+      background: white;
+      border-top: 1px solid var(--border);
+    }
+    .decoder-inner { max-width: 1100px; margin: 0 auto; }
+
+    /* ══════════════════════════════════════════
+       MOBILE — 768px (tablets / large phones)
+    ══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Nav */
+      .nav-inner { padding: 0 16px; height: 56px; }
+      .nav-logo { font-size: 1.25rem; }
+
+      /* Hero */
+      .hero { padding: 90px 16px 48px; min-height: auto; }
+      .hero-inner { max-width: 100%; }
+      .hero h1 { font-size: 2rem; margin-bottom: 10px; }
+      .hero-sub { font-size: 0.9rem; margin-bottom: 28px; max-width: 100%; }
+      .upload-zone { padding: 48px 24px 36px; border-radius: 20px; }
+      .upload-zone-icon { font-size: 2.2rem; }
+      .upload-zone-title { font-size: 0.95rem; }
+      .btn-upload-primary { padding: 14px 20px; font-size: 0.95rem; border-radius: 14px; }
+      .btn-sample-ghost { padding: 12px 20px; font-size: 0.88rem; }
+      .hero-badge { font-size: 0.75rem; padding: 6px 14px; margin-top: 16px; }
+
+      /* Sections — compact vertical padding */
+      .problem, .how, .features, .testimonials, .faq { padding: 60px 16px; }
+      .showcase { padding: 60px 16px; }
+      .subs-detect { padding: 48px 16px; }
+      .cta-section { padding: 56px 16px; }
+
+      /* Section titles */
+      .section-sub { font-size: 0.9rem; margin: 0 auto 32px; }
+
+      /* Logo bar */
+      .logo-bar { padding: 32px 16px; }
+      .logo-bar-row { gap: 10px; }
+      .logo-chip { padding: 8px 14px; border-radius: 10px; }
+      .logo-chip img { width: 20px; height: 20px; }
+      .logo-chip span { font-size: 0.78rem; }
+
+      /* Step cards */
+      .step-card { padding: 32px 20px; }
+      .step-icon { width: 60px; height: 60px; margin: 0 auto 16px; }
+      .step-card h3 { font-size: 1.05rem; }
+      .step-card p { font-size: 0.85rem; }
+
+      /* Showcase */
+      .showcase-frame { border-radius: 16px; margin-top: 32px; }
+      .showcase-bar { padding: 10px 14px; gap: 6px; }
+      .showcase-bar .dot { width: 10px; height: 10px; }
+      .report-preview { padding: 16px; }
+      .rp-header h2 { font-size: 1.15rem; }
+      .rp-sub { padding: 12px; border-radius: 12px; flex-wrap: wrap; gap: 8px; }
+      .rp-sub-right { width: 100%; justify-content: space-between; }
+      .rp-sub-actions { margin-inline-start: 0; }
+
+      /* Feature cards */
+      .feature-card { padding: 24px 20px; }
+      .feature-icon { width: 44px; height: 44px; font-size: 1.3rem; margin-bottom: 14px; }
+      .feature-card h3 { font-size: 1rem; }
+
+      /* Sub chips */
+      .subs-grid { gap: 10px; }
+      .sub-chip { padding: 10px 14px; border-radius: 12px; }
+      .sub-chip img { width: 20px; height: 20px; }
+      .sub-chip span { font-size: 0.82rem; }
+
+      /* Testimonials */
+      .test-card { padding: 24px; }
+      .test-quote { font-size: 0.88rem; }
+
+      /* FAQ */
+      .faq-q { padding: 16px 18px; font-size: 0.88rem; }
+      .faq-item.open .faq-a { padding: 0 18px 16px; }
+      .faq-a p { font-size: 0.85rem; }
+
+      /* CTA */
+      .btn-cta-white { padding: 14px 32px; font-size: 0.95rem; }
+      .cta-note { font-size: 0.75rem; }
+
+      /* Footer */
+      .mega-footer { padding: 48px 16px 32px; }
+      .footer-grid { grid-template-columns: 1fr !important; gap: 28px; margin-bottom: 36px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .footer-bottom-links { justify-content: center; gap: 16px; }
+
+      /* Descriptor decoder */
+      .decoder-section { padding: 60px 16px; }
+      .section-title { font-size: 1.3rem; }
+    }
+
+    /* ══════════════════════════════════════════
+       MOBILE — 480px (small phones)
+    ══════════════════════════════════════════ */
+    @media (max-width: 480px) {
+      .hero { padding: 76px 14px 40px; }
+      .hero h1 { font-size: 1.7rem; }
+      .hero-sub { font-size: 0.85rem; margin-bottom: 24px; }
+      .upload-zone { padding: 40px 16px 28px; }
+      .upload-zone-icon { font-size: 2rem; margin-bottom: 8px; }
+      .upload-zone-title { font-size: 0.9rem; }
+      .upload-format-badges span { font-size: 0.6rem; padding: 2px 8px; }
+      .btn-upload-primary { padding: 13px 16px; font-size: 0.9rem; }
+      .btn-sample-ghost { padding: 11px 16px; font-size: 0.85rem; }
+
+      .problem, .how, .features, .testimonials, .faq { padding: 44px 14px; }
+      .showcase { padding: 44px 14px; }
+      .subs-detect { padding: 36px 14px; }
+      .cta-section { padding: 44px 14px; }
+
+      .stat-card-big { padding: 24px 16px; }
+      .stat-card-big .stat-num { font-size: 1.6rem; }
+      .stat-card-big .stat-text { font-size: 0.82rem; }
+
+      .logo-bar-row { gap: 8px; }
+      .logo-chip { padding: 6px 10px; }
+      .logo-chip span { font-size: 0.72rem; }
+
+      .step-card { padding: 24px 16px; border-radius: 18px; }
+      .step-num { width: 32px; height: 32px; font-size: 0.9rem; top: -12px; right: 16px; }
+
+      .rp-sub { flex-direction: column; align-items: flex-start; }
+      .rp-sub-right { width: 100%; }
+
+      .sub-chip { padding: 8px 12px; }
+      .sub-chip span { font-size: 0.78rem; }
+
+      .section-title { font-size: 1.15rem; }
+      .section-sub { font-size: 0.82rem; }
+
+      .decoder-section { padding: 44px 14px; }
+
+      .nav-inner { padding: 0 14px; }
+      .nav-logo { font-size: 1.15rem; }
+    }
   </style>
 </head>
 <body>
@@ -1299,8 +1441,8 @@
   </section>
 
   <!-- ══════ DESCRIPTOR DECODER ══════ -->
-  <section style="padding: 100px 32px; background: white; border-top: 1px solid var(--border);">
-    <div style="max-width: 1100px; margin: 0 auto;">
+  <section class="decoder-section">
+    <div class="decoder-inner">
       <div style="text-align: center; margin-bottom: 48px;">
         <span class="section-label">رموز كشف الحساب</span>
         <h2 class="section-title">شفت رمز غريب في كشف حسابك؟</h2>
