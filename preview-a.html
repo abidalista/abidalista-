@@ -62,6 +62,35 @@
     }
     .nav-logo span { color: var(--primary); }
 
+    /* Sticky CTA bar — hidden by default, appears on scroll */
+    .sticky-cta {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 24px;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sticky-cta.visible { transform: translateY(0); }
+    .sticky-cta-inner {
+      max-width: 680px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .sticky-cta-text {
+      font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+    .sticky-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary); color: white;
+      padding: 11px 24px; border-radius: 12px;
+      font-family: inherit; font-weight: 700; font-size: 0.88rem;
+      border: none; cursor: pointer; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .sticky-cta-btn:hover { background: var(--primary-hover); }
+
     /* ══════════════════════════════════════════
        HERO — centered, upload-first
     ══════════════════════════════════════════ */
@@ -703,6 +732,25 @@
     .decoder-inner { max-width: 1100px; margin: 0 auto; }
 
     /* ══════════════════════════════════════════
+       CANCEL GUIDES DIRECTORY
+    ══════════════════════════════════════════ */
+    .guides-section { padding: 80px 32px; background: var(--surface); }
+    .guides-inner { max-width: 1100px; margin: 0 auto; }
+    .guides-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin-top: 40px;
+    }
+    .guide-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 16px;
+      font-size: 0.85rem; font-weight: 600; color: var(--text2);
+      transition: all 0.2s;
+    }
+    .guide-chip:hover { border-color: var(--primary); background: var(--primary-bg); color: var(--primary); transform: translateY(-2px); }
+    .guide-chip img { width: 20px; height: 20px; border-radius: 4px; }
+
+    /* ══════════════════════════════════════════
        MOBILE — 768px (tablets / large phones)
     ══════════════════════════════════════════ */
     @media (max-width: 768px) {
@@ -744,15 +792,28 @@
       .step-card h3 { font-size: 1.05rem; }
       .step-card p { font-size: 0.85rem; }
 
-      /* Showcase */
-      .showcase-frame { border-radius: 16px; margin-top: 32px; }
-      .showcase-bar { padding: 10px 14px; gap: 6px; }
-      .showcase-bar .dot { width: 10px; height: 10px; }
-      .report-preview { padding: 16px; }
-      .rp-header h2 { font-size: 1.15rem; }
-      .rp-sub { padding: 12px; border-radius: 12px; flex-wrap: wrap; gap: 8px; }
-      .rp-sub-right { width: 100%; justify-content: space-between; }
-      .rp-sub-actions { margin-inline-start: 0; }
+      /* Showcase — compact on mobile */
+      .showcase-frame { border-radius: 12px; margin-top: 24px; max-height: 360px; overflow: hidden; position: relative; }
+      .showcase-frame::after {
+        content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+        background: linear-gradient(transparent, white); pointer-events: none;
+      }
+      .showcase-bar { padding: 8px 12px; gap: 4px; }
+      .showcase-bar .dot { width: 8px; height: 8px; }
+      .showcase-bar .url { font-size: 0.65rem; padding: 4px 10px; }
+      .report-preview { padding: 12px; }
+      .rp-header h2 { font-size: 1rem; }
+      .rp-header p { font-size: 0.75rem; }
+      .rp-stats { gap: 8px; }
+      .rp-stat { padding: 12px; border-radius: 12px; }
+      .rp-stat .v { font-size: 1.1rem; }
+      .rp-stat .l { font-size: 0.6rem; }
+      .rp-sub { padding: 10px; border-radius: 10px; gap: 6px; }
+      .rp-sub-logo { width: 22px; height: 22px; }
+      .rp-sub-name { font-size: 0.8rem; }
+      .rp-sub-price { font-size: 0.85rem; }
+      .rp-sub-actions { display: none; }
+      .rp-sub-right { gap: 6px; }
 
       /* Feature cards */
       .feature-card { padding: 24px 20px; }
@@ -787,6 +848,18 @@
       /* Descriptor decoder */
       .decoder-section { padding: 60px 16px; }
       .section-title { font-size: 1.3rem; }
+
+      /* Guides section — mobile */
+      .guides-section { padding: 60px 16px; }
+      .guides-grid { gap: 8px; margin-top: 28px; }
+      .guide-chip { padding: 8px 12px; border-radius: 10px; font-size: 0.78rem; }
+      .guide-chip img { width: 18px; height: 18px; }
+
+      /* Sticky CTA — mobile */
+      .sticky-cta { padding: 10px 16px; }
+      .sticky-cta-inner { gap: 12px; }
+      .sticky-cta-text { font-size: 0; width: 0; overflow: hidden; } /* hide text on mobile */
+      .sticky-cta-btn { width: 100%; justify-content: center; padding: 13px 20px; font-size: 0.9rem; border-radius: 14px; }
     }
 
     /* ══════════════════════════════════════════
@@ -832,6 +905,15 @@
 
       .nav-inner { padding: 0 14px; }
       .nav-logo { font-size: 1.15rem; }
+
+      /* Guides — small phones */
+      .guides-section { padding: 44px 14px; }
+      .guide-chip { padding: 7px 10px; font-size: 0.72rem; gap: 6px; }
+      .guide-chip img { width: 16px; height: 16px; }
+
+      /* Sticky CTA — small phones */
+      .sticky-cta { padding: 8px 14px; }
+      .sticky-cta-btn { padding: 12px 16px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -1582,6 +1664,48 @@
   </section>
 
   <!-- ══════ CTA ══════ -->
+  <!-- ══════ CANCEL GUIDES DIRECTORY ══════ -->
+  <section class="guides-section" id="guides">
+    <div class="guides-inner">
+      <div style="text-align:center">
+        <span class="section-label">أدلة الإلغاء</span>
+        <h2 class="section-title">٦٠+ دليل إلغاء خطوة بخطوة</h2>
+        <p class="section-sub">اختر الخدمة اللي تبغى تلغيها ونوريك الطريقة بالتفصيل.</p>
+      </div>
+      <div class="guides-grid">
+        <a href="cancel-netflix.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt=""><span>Netflix</span></a>
+        <a href="cancel-spotify.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt=""><span>Spotify</span></a>
+        <a href="cancel-shahid.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=shahid.mbc.net&sz=64" alt=""><span>شاهد</span></a>
+        <a href="cancel-disney-plus.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=disneyplus.com&sz=64" alt=""><span>Disney+</span></a>
+        <a href="cancel-youtube-premium.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" alt=""><span>YouTube Premium</span></a>
+        <a href="cancel-apple-music.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""><span>Apple Music</span></a>
+        <a href="cancel-amazon-prime.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=amazon.sa&sz=64" alt=""><span>Amazon Prime</span></a>
+        <a href="cancel-chatgpt.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt=""><span>ChatGPT Plus</span></a>
+        <a href="cancel-adobe.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=adobe.com&sz=64" alt=""><span>Adobe</span></a>
+        <a href="cancel-stc.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=stc.com.sa&sz=64" alt=""><span>stc</span></a>
+        <a href="cancel-mobily.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=mobily.com.sa&sz=64" alt=""><span>موبايلي</span></a>
+        <a href="cancel-zain.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=sa.zain.com&sz=64" alt=""><span>زين</span></a>
+        <a href="cancel-hungerstation-pro.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=hungerstation.com&sz=64" alt=""><span>هنقرستيشن</span></a>
+        <a href="cancel-jahez-plus.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=jahez.net&sz=64" alt=""><span>جاهز</span></a>
+        <a href="cancel-careem-plus.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=careem.com&sz=64" alt=""><span>كريم</span></a>
+        <a href="cancel-osn-plus.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=osnplus.com&sz=64" alt=""><span>OSN+</span></a>
+        <a href="cancel-anghami.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=anghami.com&sz=64" alt=""><span>أنغامي</span></a>
+        <a href="cancel-icloud.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=icloud.com&sz=64" alt=""><span>iCloud+</span></a>
+        <a href="cancel-noon-vip.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=noon.com&sz=64" alt=""><span>Noon VIP</span></a>
+        <a href="cancel-xbox-game-pass.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=xbox.com&sz=64" alt=""><span>Xbox Game Pass</span></a>
+        <a href="cancel-playstation-plus.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=playstation.com&sz=64" alt=""><span>PlayStation Plus</span></a>
+        <a href="cancel-x-premium.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=x.com&sz=64" alt=""><span>X Premium</span></a>
+        <a href="cancel-snapchat-plus.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=snapchat.com&sz=64" alt=""><span>Snapchat+</span></a>
+        <a href="cancel-linkedin-premium.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt=""><span>LinkedIn</span></a>
+        <a href="cancel-microsoft-365.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64" alt=""><span>Microsoft 365</span></a>
+        <a href="cancel-google-one.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt=""><span>Google One</span></a>
+        <a href="cancel-nordvpn.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=nordvpn.com&sz=64" alt=""><span>NordVPN</span></a>
+        <a href="cancel-claude-pro.html" class="guide-chip"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt=""><span>Claude Pro</span></a>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:0.85rem;color:var(--text2);">وأكثر من ٣٠ خدمة أخرى — ارفع كشفك ونطلعلك أدلة الإلغاء تلقائياً.</p>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="cta-inner">
       <h2>جاهز تكتشف اشتراكاتك المخفية؟</h2>
@@ -1655,6 +1779,17 @@
       </div>
     </div>
   </footer>
+
+  <!-- ══════ STICKY CTA BAR — appears when scrolling past hero ══════ -->
+  <div class="sticky-cta" id="stickyCta">
+    <div class="sticky-cta-inner">
+      <span class="sticky-cta-text">اكتشف اشتراكاتك المخفية الحين</span>
+      <button class="sticky-cta-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        ارفع كشفك مجاناً
+      </button>
+    </div>
+  </div>
 
   </div><!-- end landing-page -->
 
@@ -1765,6 +1900,29 @@
         if (panel) { panel.classList.remove('open'); card.classList.remove('has-steps-open'); }
       }
     }
+
+    // Sticky CTA bar — show when scrolled past hero section
+    (function() {
+      var stickyCta = document.getElementById('stickyCta');
+      var heroSection = document.querySelector('.hero');
+      if (!stickyCta || !heroSection) return;
+
+      var ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            var heroBottom = heroSection.getBoundingClientRect().bottom;
+            if (heroBottom < 0) {
+              stickyCta.classList.add('visible');
+            } else {
+              stickyCta.classList.remove('visible');
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
   </script>
 
 </body>
