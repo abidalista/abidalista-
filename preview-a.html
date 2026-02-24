@@ -126,8 +126,8 @@
     .hero-upload-wrap { width: 100%; }
     .upload-zone {
       border: 2px dashed rgba(255,255,255,0.22);
-      border-radius: 24px;
-      padding: 72px 48px 56px;
+      border-radius: 20px;
+      padding: 64px 40px 48px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s;
@@ -152,7 +152,7 @@
       display: flex; align-items: center; justify-content: center;
       width: 100%;
       background: var(--primary); color: white;
-      padding: 16px 24px; border-radius: 16px;
+      padding: 16px 24px; border-radius: 12px;
       font-weight: 700; font-size: 1.05rem;
       border: none; cursor: pointer; font-family: inherit;
       transition: all 0.25s;
@@ -171,7 +171,7 @@
       display: flex; align-items: center; justify-content: center; gap: 8px;
       width: 100%;
       background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7);
-      padding: 14px 24px; border-radius: 16px;
+      padding: 14px 24px; border-radius: 12px;
       font-weight: 600; font-size: 0.95rem;
       border: 1px solid rgba(255,255,255,0.13); cursor: pointer; font-family: inherit;
       transition: all 0.2s;
@@ -430,7 +430,7 @@
     .logo-chip {
       display: flex; align-items: center; gap: 10px;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 10px 20px; transition: all 0.2s;
+      border-radius: 12px; padding: 10px 18px; transition: all 0.2s;
     }
     .logo-chip:hover { border-color: var(--primary); background: var(--primary-bg); }
     .logo-chip img { width: 24px; height: 24px; border-radius: 4px; object-fit: contain; }
@@ -453,9 +453,9 @@
     .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     @media (max-width: 640px) { .stat-cards { grid-template-columns: 1fr; } }
     .stat-card-big {
-      background: white; border: 1px solid var(--border); border-radius: 20px;
-      padding: 36px 24px; text-align: center;
-      transition: all 0.25s;
+      background: white; border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px 24px; text-align: center;
+      transition: all 0.2s;
     }
     .stat-card-big:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .stat-card-big .stat-icon { font-size: 2.5rem; margin-bottom: 16px; }
@@ -470,17 +470,17 @@
     .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
     @media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; } }
     .step-card {
-      background: var(--surface); border-radius: 20px; padding: 28px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px;
       text-align: center; position: relative;
-      transition: all 0.3s;
+      transition: all 0.2s;
     }
-    .step-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .step-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: var(--primary); }
     .step-num {
       position: absolute; top: -16px; right: 24px;
       width: 40px; height: 40px; background: var(--primary); color: white;
       border-radius: 12px; display: flex; align-items: center; justify-content: center;
       font-weight: 900; font-size: 1.1rem;
-      box-shadow: 0 4px 12px rgba(0,166,81,0.3);
+      box-shadow: 0 4px 12px rgba(0,166,81,0.2);
     }
     .step-icon {
       width: 80px; height: 80px; margin: 0 auto 24px;
@@ -494,7 +494,7 @@
     ══════════════════════════════════════════ */
     .showcase {
       padding: 80px 32px;
-      background: linear-gradient(135deg, #0F172A 0%, #162415 100%);
+      background: var(--dark);
       position: relative;
     }
     .showcase::before {
@@ -507,8 +507,8 @@
     .showcase .section-title { color: white; }
     .showcase .section-sub { color: rgba(255,255,255,0.6); }
     .showcase-frame {
-      background: white; border-radius: 24px; overflow: hidden;
-      box-shadow: 0 32px 100px rgba(0,0,0,0.4);
+      background: white; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.25);
       margin-top: 48px;
     }
     .showcase-bar {
@@ -577,13 +577,13 @@
     @media (max-width: 768px) { .features-grid { grid-template-columns: 1fr; } }
     .feature-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 28px;
-      transition: all 0.25s;
+      border-radius: 16px; padding: 24px;
+      transition: all 0.2s;
     }
     .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: var(--primary); }
     .feature-icon {
       width: 48px; height: 48px;
-      background: var(--primary-bg); border-radius: 14px;
+      background: var(--primary-bg); border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       color: var(--primary); margin-bottom: 20px;
     }
@@ -599,10 +599,10 @@
     .sub-chip {
       display: flex; align-items: center; gap: 10px;
       background: white; border: 1px solid var(--border);
-      border-radius: 14px; padding: 12px 20px;
+      border-radius: 12px; padding: 12px 20px;
       transition: all 0.2s;
     }
-    .sub-chip:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+    .sub-chip:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .sub-chip img { width: 24px; height: 24px; border-radius: 6px; }
     .sub-chip span { font-size: 0.9rem; font-weight: 600; }
     .sub-chip .sub-price-tag { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
@@ -610,14 +610,14 @@
     /* ══════════════════════════════════════════
        TESTIMONIALS
     ══════════════════════════════════════════ */
-    .testimonials { padding: 80px 32px; background: white; }
+    .testimonials { padding: 80px 32px; background: var(--surface); }
     .testimonials-inner { max-width: 1100px; margin: 0 auto; }
     .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
     @media (max-width: 768px) { .test-grid { grid-template-columns: 1fr; } }
     .test-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 28px;
-      transition: all 0.25s;
+      border-radius: 16px; padding: 24px;
+      transition: all 0.2s;
     }
     .test-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .test-stars { color: #F59E0B; font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
@@ -634,23 +634,23 @@
     /* ══════════════════════════════════════════
        FAQ
     ══════════════════════════════════════════ */
-    .faq { padding: 80px 32px; background: var(--surface); }
+    .faq { padding: 80px 32px; background: white; }
     .faq-inner { max-width: 720px; margin: 0 auto; }
     .faq-item {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; margin-bottom: 12px; overflow: hidden;
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; margin-bottom: 12px; overflow: hidden;
     }
     .faq-q {
-      padding: 20px 24px;
+      padding: 18px 24px;
       display: flex; align-items: center; justify-content: space-between;
       cursor: pointer; font-weight: 700; font-size: 0.95rem;
-      transition: background 0.15s;
+      transition: background 0.2s;
     }
     .faq-q:hover { background: var(--surface); }
-    .faq-q .arrow { transition: transform 0.3s; font-size: 1.2rem; color: var(--muted); }
+    .faq-q .arrow { transition: transform 0.2s; font-size: 1.2rem; color: var(--muted); }
     .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
     .faq-a {
-      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+      max-height: 0; overflow: hidden; transition: max-height 0.2s ease;
       padding: 0 24px;
     }
     .faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
@@ -661,7 +661,7 @@
     ══════════════════════════════════════════ */
     .cta-section {
       padding: 80px 32px;
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #00C060 100%);
+      background: var(--primary);
       text-align: center;
     }
     .cta-inner { max-width: 600px; margin: 0 auto; }
@@ -670,12 +670,12 @@
     .btn-cta-white {
       display: inline-flex; align-items: center; gap: 10px;
       background: white; color: var(--primary-dark);
-      padding: 16px 40px; border-radius: 14px;
+      padding: 16px 40px; border-radius: 12px;
       font-weight: 800; font-size: 1.05rem;
       border: none; cursor: pointer; font-family: inherit;
       transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
-    .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
     .cta-note { margin-top: 16px; font-size: 0.8rem; color: rgba(255,255,255,0.6); }
 
     /* ══════════════════════════════════════════
@@ -730,6 +730,25 @@
       background: white;
     }
     .decoder-inner { max-width: 1100px; margin: 0 auto; }
+    .decoder-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px; margin-bottom: 40px;
+    }
+    .decoder-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+      display: flex; align-items: center; gap: 16px;
+      transition: all 0.2s;
+    }
+    .decoder-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .decoder-code {
+      background: var(--dark); color: #CBD5E1;
+      font-family: monospace; font-size: 0.75rem; font-weight: 700;
+      padding: 8px 12px; border-radius: 10px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .decoder-name { font-weight: 700; font-size: 0.9rem; }
+    .decoder-desc { font-size: 0.78rem; color: var(--text2); }
 
     /* ══════════════════════════════════════════
        CANCEL GUIDES DIRECTORY
@@ -847,6 +866,9 @@
 
       /* Descriptor decoder */
       .decoder-section { padding: 60px 16px; }
+      .decoder-grid { grid-template-columns: 1fr; }
+      .decoder-card { padding: 16px; gap: 12px; }
+      .decoder-code { font-size: 0.7rem; padding: 6px 10px; }
       .section-title { font-size: 1.3rem; }
 
       /* Guides section — mobile */
@@ -1526,71 +1548,58 @@
         <h2 class="section-title">شفت رمز غريب في كشف حسابك؟</h2>
         <p class="section-sub">البنوك تكتب أسماء الشركات بطريقة غير مفهومة — نفكك لك أكثر الرموز اللي تطلع في كشوفات السعودية.</p>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 40px;">
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">NFLX.COM</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Netflix</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك Netflix الشهري</div></div>
+      <div class="decoder-grid">
+        <div class="decoder-card">
+          <div class="decoder-code">NFLX.COM</div>
+          <div><div class="decoder-name">Netflix</div><div class="decoder-desc">اشتراك Netflix الشهري</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">APPLE.COM/BILL</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Apple</div><div style="font-size: 0.78rem; color: var(--text2);">iCloud+ أو Apple Music أو App Store</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">APPLE.COM/BILL</div>
+          <div><div class="decoder-name">Apple</div><div class="decoder-desc">iCloud+ أو Apple Music أو App Store</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">SPOTIFY AB</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Spotify</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك Spotify Premium</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">SPOTIFY AB</div>
+          <div><div class="decoder-name">Spotify</div><div class="decoder-desc">اشتراك Spotify Premium</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">OPENAI *CHATGPT</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">ChatGPT Plus</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك ChatGPT Plus الشهري</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">OPENAI *CHATGPT</div>
+          <div><div class="decoder-name">ChatGPT Plus</div><div class="decoder-desc">اشتراك ChatGPT Plus الشهري</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">GOOG*YOUTUBE</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">YouTube Premium</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك YouTube Premium أو Music</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">GOOG*YOUTUBE</div>
+          <div><div class="decoder-name">YouTube Premium</div><div class="decoder-desc">اشتراك YouTube Premium أو Music</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">ADOBE SYSTEMS</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Adobe</div><div style="font-size: 0.78rem; color: var(--text2);">Creative Cloud أو Acrobat Pro</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">ADOBE SYSTEMS</div>
+          <div><div class="decoder-name">Adobe</div><div class="decoder-desc">Creative Cloud أو Acrobat Pro</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">AMZN MKTP SA</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Amazon</div><div style="font-size: 0.78rem; color: var(--text2);">مشتريات Amazon.sa أو Prime</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">AMZN MKTP SA</div>
+          <div><div class="decoder-name">Amazon</div><div class="decoder-desc">مشتريات Amazon.sa أو Prime</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">SHAHID.MBC</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">شاهد VIP</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك منصة شاهد</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">SHAHID.MBC</div>
+          <div><div class="decoder-name">شاهد VIP</div><div class="decoder-desc">اشتراك منصة شاهد</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">MSFT *XBOX</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Xbox / Microsoft</div><div style="font-size: 0.78rem; color: var(--text2);">Game Pass أو Microsoft 365</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">MSFT *XBOX</div>
+          <div><div class="decoder-name">Xbox / Microsoft</div><div class="decoder-desc">Game Pass أو Microsoft 365</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">CALM.COM</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Calm</div><div style="font-size: 0.78rem; color: var(--text2);">تطبيق التأمل والنوم Calm</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">CALM.COM</div>
+          <div><div class="decoder-name">Calm</div><div class="decoder-desc">تطبيق التأمل والنوم Calm</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">DROPBOX INC</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">Dropbox</div><div style="font-size: 0.78rem; color: var(--text2);">اشتراك Dropbox Plus أو Business</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">DROPBOX INC</div>
+          <div><div class="decoder-name">Dropbox</div><div class="decoder-desc">اشتراك Dropbox Plus أو Business</div></div>
         </div>
-
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='#00A651'" onmouseout="this.style.borderColor='#E2E8F0'">
-          <div style="background: #0F172A; color: #CBD5E1; font-family: monospace; font-size: 0.75rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;">HUNGERSTATION</div>
-          <div><div style="font-weight: 700; font-size: 0.9rem;">هنقرستيشن</div><div style="font-size: 0.78rem; color: var(--text2);">Hungerstation Pro الشهري</div></div>
+        <div class="decoder-card">
+          <div class="decoder-code">HUNGERSTATION</div>
+          <div><div class="decoder-name">هنقرستيشن</div><div class="decoder-desc">Hungerstation Pro الشهري</div></div>
         </div>
-
       </div>
       <div style="text-align: center;">
-        <p style="font-size: 0.9rem; color: var(--text2); margin-bottom: 16px;">ما لقيت الرمز اللي عندك؟ ارفع كشف حسابك ونعرفه لك تلقائياً</p>
+        <p class="decoder-desc" style="margin-bottom: 16px;">ما لقيت الرمز اللي عندك؟ ارفع كشف حسابك ونعرفه لك تلقائياً</p>
         <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="background: var(--primary); color: white; border: none;">ارفع كشفك وافهم كل رمز ←</button>
       </div>
     </div>
