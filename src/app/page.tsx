@@ -57,28 +57,34 @@ const COPY = {
   },
 };
 
+const FAV = (domain: string) =>
+  `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+
 const BANKS = [
-  { ar: "الراجحي",      en: "Al Rajhi",   logo: "https://logo.clearbit.com/alrajhibank.com.sa" },
-  { ar: "الأهلي",        en: "SNB",        logo: "https://logo.clearbit.com/alahli.com" },
-  { ar: "بنك الرياض",    en: "Riyad Bank", logo: "https://logo.clearbit.com/riyadbank.com" },
-  { ar: "البلاد",        en: "Al Bilad",   logo: "https://logo.clearbit.com/bankalbilad.com" },
-  { ar: "الإنماء",       en: "Alinma",     logo: "https://logo.clearbit.com/alinma.com" },
-  { ar: "ساب",           en: "SABB",       logo: "https://logo.clearbit.com/sabb.com" },
-  { ar: "الفرنسي",       en: "BSF",        logo: "https://logo.clearbit.com/alfransi.com.sa" },
-  { ar: "العربي الوطني", en: "ANB",        logo: "https://logo.clearbit.com/anb.com.sa" },
+  { ar: "الراجحي",       en: "Al Rajhi",   logo: FAV("alrajhibank.com.sa") },
+  { ar: "الأهلي",         en: "SNB",        logo: FAV("alahli.com") },
+  { ar: "بنك الرياض",     en: "Riyad Bank", logo: FAV("riyadbank.com") },
+  { ar: "البلاد",         en: "Al Bilad",   logo: FAV("bankalbilad.com") },
+  { ar: "الإنماء",        en: "Alinma",     logo: FAV("alinma.com") },
+  { ar: "الأول (ساب)",    en: "SAB",        logo: FAV("sabb.com") },
+  { ar: "الفرنسي",        en: "BSF",        logo: FAV("alfransi.com.sa") },
+  { ar: "العربي الوطني",  en: "ANB",        logo: FAV("anb.com.sa") },
+  { ar: "stc bank",       en: "stc bank",   logo: FAV("stcbank.com.sa") },
 ];
 
 const EXAMPLE_SUBS = [
-  { name: "Netflix",     logo: "https://logo.clearbit.com/netflix.com" },
-  { name: "Spotify",     logo: "https://logo.clearbit.com/spotify.com" },
-  { name: "شاهد",        logo: "https://logo.clearbit.com/shahid.mbc.net" },
-  { name: "أنغامي",      logo: "https://logo.clearbit.com/anghami.com" },
-  { name: "YouTube",     logo: "https://logo.clearbit.com/youtube.com" },
-  { name: "Apple",       logo: "https://logo.clearbit.com/apple.com" },
-  { name: "Amazon",      logo: "https://logo.clearbit.com/amazon.sa" },
-  { name: "Adobe",       logo: "https://logo.clearbit.com/adobe.com" },
-  { name: "ChatGPT",     logo: "https://logo.clearbit.com/openai.com" },
-  { name: "iCloud",      logo: "https://logo.clearbit.com/icloud.com" },
+  { name: "Netflix",   logo: FAV("netflix.com") },
+  { name: "Spotify",   logo: FAV("spotify.com") },
+  { name: "شاهد",      logo: FAV("shahid.mbc.net") },
+  { name: "أنغامي",    logo: FAV("anghami.com") },
+  { name: "YouTube",   logo: FAV("youtube.com") },
+  { name: "Apple",     logo: FAV("apple.com") },
+  { name: "Amazon",    logo: FAV("amazon.sa") },
+  { name: "Adobe",     logo: FAV("adobe.com") },
+  { name: "ChatGPT",   logo: FAV("openai.com") },
+  { name: "iCloud",    logo: FAV("icloud.com") },
+  { name: "STC Play",  logo: FAV("stcplay.com.sa") },
+  { name: "هنقرستيشن", logo: FAV("hungerstation.com") },
 ];
 
 export default function HomePage() {
@@ -211,25 +217,49 @@ export default function HomePage() {
         {/* ── LANDING ────────────────────────────── */}
         {step === "landing" && (
           <>
-            {/* Hero + Upload */}
-            <section className="max-w-2xl mx-auto px-4 pt-12 pb-8">
-              <div className="text-center mb-6">
-                <h1 className="text-4xl sm:text-5xl font-black leading-tight mb-2">
-                  {c.heroHeadline}
-                </h1>
-                <p className="text-lg text-[var(--color-text-secondary)]">
-                  {c.heroSub}
-                </p>
-              </div>
+            {/* ── DARK HERO: centered upload box ── */}
+            <section
+              className="relative flex flex-col items-center justify-center px-4 py-20 overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #0F172A 0%, #1a2744 50%, #0d2618 100%)",
+                minHeight: "calc(100vh - 64px)",
+              }}
+            >
+              {/* Background glow */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at 50% 40%, rgba(0,166,81,0.12) 0%, transparent 65%)",
+                }}
+              />
 
-              {error && (
-                <div className="mb-4 bg-red-50 border border-red-200 rounded-xl p-4 text-center">
-                  <p className="font-bold text-red-700 mb-1">{c.errorTitle}</p>
-                  <p className="text-sm text-red-600">{c.errorNote}</p>
+              <div className="relative z-10 w-full max-w-md">
+                {/* Headline */}
+                <div className="text-center mb-8">
+                  <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-3">
+                    {ar ? (
+                      <>كم اشتراك <em className="not-italic text-[#00A651]">ناسيه؟</em></>
+                    ) : (
+                      <>How many subscriptions <em className="not-italic text-[#00A651]">forgotten?</em></>
+                    )}
+                  </h1>
+                  <p className="text-white/60 text-base leading-relaxed">
+                    {ar
+                      ? "ارفع كشف حسابك واكتشف كل الاشتراكات اللي تنخصم منك كل شهر"
+                      : "Upload your bank statement and find every subscription draining your account"}
+                  </p>
                 </div>
-              )}
 
-              <div className="card shadow-sm">
+                {/* Error */}
+                {error && (
+                  <div className="mb-4 bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center">
+                    <p className="font-bold text-red-400 mb-1">{c.errorTitle}</p>
+                    <p className="text-sm text-red-400/70">{c.errorNote}</p>
+                  </div>
+                )}
+
+                {/* Upload zone — no card wrapper, floats on dark bg */}
                 <UploadZone
                   locale={locale}
                   uploadsUsed={uploadsUsed}
@@ -238,83 +268,60 @@ export default function HomePage() {
                   onTestClick={handleTestStatement}
                   onUpgradeClick={() => setShowPaywall(true)}
                 />
-              </div>
 
-              {/* Badge — below the card */}
-              <div className="text-center mt-5">
-                <span className="inline-flex items-center gap-2 bg-[var(--color-primary-bg)] border border-[var(--color-primary)]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[var(--color-primary)]">
-                  {c.badge}
-                </span>
+                {/* Badge */}
+                <div className="mt-6 text-center">
+                  <span className="inline-flex items-center gap-2 bg-[#00A651]/15 border border-[#00A651]/30 rounded-full px-4 py-1.5 text-xs font-semibold text-[#00A651]">
+                    {c.badge}
+                  </span>
+                </div>
+
+                {/* Privacy note */}
+                <p className="mt-4 text-center text-xs text-white/30">
+                  {ar ? "🔒 بياناتك ما تطلع من جهازك أبداً" : "🔒 Your data never leaves your device"}
+                </p>
               </div>
             </section>
 
-            {/* How it works */}
-            <section className="bg-white border-y border-[var(--color-border)]">
-              <div className="max-w-4xl mx-auto px-4 py-12">
-                <h2 className="text-xl font-black text-center mb-8">{c.howTitle}</h2>
-                <div className="grid sm:grid-cols-3 gap-6">
+            {/* ── HOW IT WORKS ── */}
+            <section className="bg-white border-b border-[var(--color-border)]">
+              <div className="max-w-3xl mx-auto px-4 py-14">
+                <h2 className="text-lg font-black text-center mb-10 text-[var(--color-text-secondary)] uppercase tracking-wider text-sm">
+                  {c.howTitle}
+                </h2>
+                <div className="grid sm:grid-cols-3 gap-8">
                   {[
-                    { title: c.step1, desc: c.step1d, icon: "📤" },
-                    { title: c.step2, desc: c.step2d, icon: "🔍" },
-                    { title: c.step3, desc: c.step3d, icon: "✂️" },
+                    { title: c.step1, desc: c.step1d, n: "١" },
+                    { title: c.step2, desc: c.step2d, n: "٢" },
+                    { title: c.step3, desc: c.step3d, n: "٣" },
                   ].map((s) => (
-                    <div key={s.icon} className="text-center">
-                      <div className="w-14 h-14 bg-[var(--color-primary-bg)] rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
-                        {s.icon}
+                    <div key={s.n} className="text-center">
+                      <div className="w-10 h-10 bg-[#0F172A] text-white rounded-xl flex items-center justify-center font-black text-sm mx-auto mb-4">
+                        {s.n}
                       </div>
-                      <h3 className="font-bold mb-1">{s.title}</h3>
-                      <p className="text-sm text-[var(--color-text-secondary)]">{s.desc}</p>
+                      <h3 className="font-black mb-1">{s.title}</h3>
+                      <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{s.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </section>
 
-            {/* Supported banks with logos */}
-            <section className="max-w-4xl mx-auto px-4 py-12">
-              <h3 className="text-sm font-bold text-center text-[var(--color-text-secondary)] mb-6">
-                {c.banksTitle}
-              </h3>
-              <div className="flex flex-wrap justify-center gap-4">
-                {BANKS.map((bank) => (
-                  <div
-                    key={bank.en}
-                    className="flex items-center gap-2 bg-white border border-[var(--color-border)] rounded-xl px-4 py-2.5"
-                  >
-                    <img
-                      src={bank.logo}
-                      alt={ar ? bank.ar : bank.en}
-                      className="w-6 h-6 rounded object-contain"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                    <span className="text-sm font-medium text-[var(--color-text-secondary)]">
-                      {ar ? bank.ar : bank.en}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Example subscriptions with logos */}
-            <section className="bg-white border-y border-[var(--color-border)]">
+            {/* ── BANKS ── */}
+            <section className="bg-[var(--color-surface)] border-b border-[var(--color-border)]">
               <div className="max-w-4xl mx-auto px-4 py-10">
-                <h3 className="text-sm font-bold text-center text-[var(--color-text-secondary)] mb-6">
-                  {c.subsTitle}
-                </h3>
+                <p className="text-xs font-bold text-center text-[var(--color-text-muted)] uppercase tracking-widest mb-7">
+                  {c.banksTitle}
+                </p>
                 <div className="flex flex-wrap justify-center gap-3">
-                  {EXAMPLE_SUBS.map((sub) => (
+                  {BANKS.map((bank) => (
                     <div
-                      key={sub.name}
-                      className="flex items-center gap-2 bg-[var(--color-surface)] rounded-full px-4 py-2"
+                      key={bank.en}
+                      className="flex items-center gap-2 bg-white border border-[var(--color-border)] rounded-xl px-4 py-2.5 hover:border-[#00A651] transition-colors"
                     >
-                      <img
-                        src={sub.logo}
-                        alt={sub.name}
-                        className="w-5 h-5 rounded-full object-contain"
-                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                      />
-                      <span className="text-sm font-medium text-[var(--color-text-primary)]">
-                        {sub.name}
+                      <img src={bank.logo} alt={ar ? bank.ar : bank.en} className="w-6 h-6 rounded object-contain" />
+                      <span className="text-sm font-semibold text-[var(--color-text-secondary)]">
+                        {ar ? bank.ar : bank.en}
                       </span>
                     </div>
                   ))}
@@ -322,9 +329,24 @@ export default function HomePage() {
               </div>
             </section>
 
-            {/* Privacy */}
-            <section className="max-w-4xl mx-auto px-4 py-8 text-center">
-              <p className="text-sm font-medium text-[var(--color-text-muted)]">{c.privacy}</p>
+            {/* ── EXAMPLE SUBS ── */}
+            <section className="bg-white border-b border-[var(--color-border)]">
+              <div className="max-w-4xl mx-auto px-4 py-10">
+                <p className="text-xs font-bold text-center text-[var(--color-text-muted)] uppercase tracking-widest mb-7">
+                  {c.subsTitle}
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {EXAMPLE_SUBS.map((sub) => (
+                    <div
+                      key={sub.name}
+                      className="flex items-center gap-2 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full px-4 py-2 hover:border-[#00A651] transition-colors"
+                    >
+                      <img src={sub.logo} alt={sub.name} className="w-5 h-5 rounded-full object-contain" />
+                      <span className="text-sm font-semibold">{sub.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </section>
           </>
         )}
