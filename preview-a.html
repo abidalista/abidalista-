@@ -6,7 +6,7 @@
   <title>Yalla Cancel — اكتشف اشتراكاتك المخفية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #00A651;
@@ -51,9 +51,10 @@
       height: 64px; display: flex; align-items: center; justify-content: flex-start;
     }
     .nav-logo {
-      font-family: "Inter", -apple-system, sans-serif;
-      font-size: 1.35rem; font-weight: 900; color: white;
-      display: flex; align-items: center; gap: 8px;
+      font-family: "DM Sans", "Inter", -apple-system, sans-serif;
+      font-size: 1.45rem; font-weight: 800; color: white;
+      display: flex; align-items: center; gap: 0;
+      letter-spacing: -0.03em;
       cursor: pointer;
       direction: ltr;
       unicode-bidi: bidi-override;
@@ -76,7 +77,7 @@
       background: radial-gradient(ellipse at 50% 40%, rgba(0,166,81,0.13) 0%, transparent 65%);
     }
     .hero-inner {
-      max-width: 480px; width: 100%; margin: 0 auto;
+      max-width: 680px; width: 100%; margin: 0 auto;
       position: relative; z-index: 2;
       display: flex; flex-direction: column; align-items: center;
       text-align: center;
@@ -95,8 +96,8 @@
     .hero-upload-wrap { width: 100%; }
     .upload-zone {
       border: 2px dashed rgba(255,255,255,0.22);
-      border-radius: 20px;
-      padding: 52px 24px 36px;
+      border-radius: 24px;
+      padding: 72px 48px 56px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s;
@@ -224,9 +225,10 @@
       position: sticky; top: 0; z-index: 100;
     }
     .report-page-nav .nav-logo {
-      font-family: "Inter", -apple-system, sans-serif;
-      font-size: 1.35rem; font-weight: 900; color: white;
-      display: flex; align-items: center; gap: 8px;
+      font-family: "DM Sans", "Inter", -apple-system, sans-serif;
+      font-size: 1.45rem; font-weight: 800; color: white;
+      display: flex; align-items: center; gap: 0;
+      letter-spacing: -0.03em;
       cursor: pointer;
       direction: ltr;
       unicode-bidi: bidi-override;
@@ -654,8 +656,9 @@
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
     @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
     .footer-brand .footer-logo {
-      font-family: "Inter", -apple-system, sans-serif;
-      font-size: 1.4rem; font-weight: 900; margin-bottom: 12px;
+      font-family: "DM Sans", "Inter", -apple-system, sans-serif;
+      font-size: 1.45rem; font-weight: 800; margin-bottom: 12px;
+      letter-spacing: -0.03em; direction: ltr; unicode-bidi: bidi-override;
     }
     .footer-brand .footer-logo span { color: var(--primary); }
     .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 20px; }
@@ -705,7 +708,7 @@
   <!-- ══════ REPORT PAGE (hidden by default) ══════ -->
   <div class="report-page" id="reportPage">
     <div class="report-page-nav">
-      <div class="nav-logo" onclick="goBackToLanding()">Yalla <span>Cancel</span></div>
+      <div class="nav-logo" onclick="goBackToLanding()">yalla<span>cancel</span></div>
       <button class="btn-back" onclick="goBackToLanding()">ارفع كشف آخر</button>
     </div>
     <div class="report-page-body">
@@ -1040,7 +1043,7 @@
   <!-- ══════ NAVIGATION ══════ -->
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-logo" onclick="goBackToLanding()">Yalla <span>Cancel</span></div>
+      <div class="nav-logo" onclick="goBackToLanding()">yalla<span>cancel</span></div>
     </div>
   </nav>
 
@@ -1048,7 +1051,7 @@
   <section class="hero">
     <div class="hero-inner">
       <h1>كم اشتراك <em>ناسيه؟</em></h1>
-      <p class="hero-sub">ارفع كشف حسابك واكتشف كل الاشتراكات اللي تنخصم منك كل شهر — على جهازك، بدون ما ترسل بياناتك لأحد.</p>
+      <p class="hero-sub">ارفع كشف حسابك واكتشف كل الاشتراكات اللي تنخصم منك كل شهر.</p>
 
       <div class="hero-upload-wrap">
         <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
@@ -1064,7 +1067,6 @@
         <div class="upload-divider"><span>أو</span></div>
         <button class="btn-sample-ghost" onclick="startAnalysis()">🧪 جرّب بمثال جاهز</button>
         <div class="hero-badge">🇸🇦 يدعم جميع البنوك السعودية</div>
-        <p class="hero-privacy-note">🔒 بياناتك ما تطلع من جهازك أبداً</p>
       </div>
     </div>
   </section>
@@ -1119,7 +1121,7 @@
       <div style="text-align:center">
         <span class="section-label">كيف يشتغل</span>
         <h2 class="section-title">ثلاث خطوات وتكتشف كل اشتراكاتك</h2>
-        <p class="section-sub">بدون تسجيل دخول، بدون ربط حساب بنكي، وبدون مشاركة بياناتك مع أي طرف ثالث.</p>
+        <p class="section-sub">ثلاث خطوات وتعرف وين فلوسك تروح.</p>
       </div>
       <div class="steps-grid">
         <div class="step-card">
@@ -1444,7 +1446,7 @@
   <section class="cta-section">
     <div class="cta-inner">
       <h2>جاهز تكتشف اشتراكاتك المخفية؟</h2>
-      <p>ارفع كشف حسابك الحين واعرف وين فلوسك رايحة — مجاناً وبدون ما ترسل بياناتك لأحد.</p>
+      <p>ارفع كشف حسابك واعرف وين فلوسك رايحة — مجاناً.</p>
       <button class="btn-cta-white" onclick="window.scrollTo({top:0,behavior:'smooth'})">ابدأ الحين</button>
       <p class="cta-note">بدون تسجيل دخول · بدون بطاقة ائتمان · النتيجة في ثوانٍ</p>
     </div>
@@ -1455,8 +1457,8 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo">Yalla <span>Cancel</span></div>
-          <p>أداة سعودية تساعدك تكتشف اشتراكاتك المخفية وتوفر فلوسك — بخصوصية تامة وبدون مشاركة بياناتك البنكية.</p>
+          <div class="footer-logo">yalla<span>cancel</span></div>
+          <p>أداة سعودية تساعدك تكتشف اشتراكاتك المخفية وتوفر فلوسك.</p>
           <div class="footer-social">
             <a href="#">𝕏</a>
             <a href="#">in</a>
