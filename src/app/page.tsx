@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Header from "@/components/Header";
 import UploadZone from "@/components/UploadZone";
 import AuditReport from "@/components/AuditReport";
@@ -14,77 +14,170 @@ const STORAGE_KEY = "yc_uploads_used";
 
 type Step = "landing" | "analyzing" | "results";
 
-const COPY = {
-  ar: {
-    heroHeadline: "وين رايحة فلوسك؟",
-    heroSub: "اكتشف كل الاشتراكات المخفية في كشف حسابك",
-    analyzing: "جاري التحليل...",
-    analyzingNote: "كل شيء يتم على جهازك",
-    errorTitle: "ما قدرنا نقرأ الملف",
-    errorNote: "تأكد إن الملف CSV أو PDF وجرب مرة ثانية",
-    howTitle: "كيف يشتغل؟",
-    step1: "ارفع الكشف",
-    step1d: "نزّل كشف الحساب من تطبيق بنكك",
-    step2: "نحلّل لك",
-    step2d: "نكتشف كل الاشتراكات المتكررة",
-    step3: "ألغِ ووفّر",
-    step3d: "اختار اللي تبي تلغيه واللي تبي تخليه",
-    banksTitle: "يدعم جميع البنوك السعودية",
-    subsTitle: "نكتشف اشتراكات مثل",
-    badge: "🇸🇦 يدعم جميع البنوك السعودية · بدون تسجيل دخول",
-    privacy: "🔒 بياناتك ما تطلع من جهازك",
-    footer: "Yalla Cancel · صُنع في السعودية 🇸🇦",
-  },
-  en: {
-    heroHeadline: "Where is your money going?",
-    heroSub: "Find every hidden subscription in your bank statement",
-    analyzing: "Analyzing...",
-    analyzingNote: "Everything stays on your device",
-    errorTitle: "Couldn't read the file",
-    errorNote: "Make sure the file is CSV or PDF and try again",
-    howTitle: "How does it work?",
-    step1: "Upload statement",
-    step1d: "Download your bank statement from your banking app",
-    step2: "We analyze it",
-    step2d: "We detect all recurring subscriptions",
-    step3: "Cancel & save",
-    step3d: "Pick what to cancel and what to keep",
-    banksTitle: "Supports all Saudi banks",
-    subsTitle: "We detect subscriptions like",
-    badge: "🇸🇦 Supports all Saudi banks · No login required",
-    privacy: "🔒 Your data never leaves your device",
-    footer: "Yalla Cancel · Made in Saudi Arabia 🇸🇦",
-  },
-};
-
 const FAV = (domain: string) =>
   `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
 const BANKS = [
-  { ar: "الراجحي",       en: "Al Rajhi",   logo: FAV("alrajhibank.com.sa") },
-  { ar: "الأهلي",         en: "SNB",        logo: FAV("alahli.com") },
-  { ar: "بنك الرياض",     en: "Riyad Bank", logo: FAV("riyadbank.com") },
-  { ar: "البلاد",         en: "Al Bilad",   logo: FAV("bankalbilad.com") },
-  { ar: "الإنماء",        en: "Alinma",     logo: FAV("alinma.com") },
-  { ar: "الأول (ساب)",    en: "SAB",        logo: FAV("sabb.com") },
-  { ar: "الفرنسي",        en: "BSF",        logo: FAV("alfransi.com.sa") },
-  { ar: "العربي الوطني",  en: "ANB",        logo: FAV("anb.com.sa") },
-  { ar: "stc bank",       en: "stc bank",   logo: FAV("stcbank.com.sa") },
+  { name: "الراجحي", logo: FAV("alrajhibank.com.sa") },
+  { name: "الأهلي", logo: FAV("alahli.com") },
+  { name: "بنك الرياض", logo: FAV("riyadbank.com") },
+  { name: "البلاد", logo: FAV("bankalbilad.com") },
+  { name: "الإنماء", logo: FAV("alinma.com") },
+  { name: "الأول (ساب)", logo: FAV("sabb.com") },
+  { name: "الفرنسي", logo: FAV("alfransi.com.sa") },
+  { name: "العربي الوطني", logo: FAV("anb.com.sa") },
+  { name: "stc bank", logo: FAV("stcbank.com.sa") },
 ];
 
-const EXAMPLE_SUBS = [
-  { name: "Netflix",   logo: FAV("netflix.com") },
-  { name: "Spotify",   logo: FAV("spotify.com") },
-  { name: "شاهد",      logo: FAV("shahid.mbc.net") },
-  { name: "أنغامي",    logo: FAV("anghami.com") },
-  { name: "YouTube",   logo: FAV("youtube.com") },
-  { name: "Apple",     logo: FAV("apple.com") },
-  { name: "Amazon",    logo: FAV("amazon.sa") },
-  { name: "Adobe",     logo: FAV("adobe.com") },
-  { name: "ChatGPT",   logo: FAV("openai.com") },
-  { name: "iCloud",    logo: FAV("icloud.com") },
-  { name: "STC Play",  logo: FAV("stcplay.com.sa") },
+const PROBLEM_STATS = [
+  { num: "٣٨٢ ر.س", text: "متوسط إنفاق السعودي على الاشتراكات شهرياً" },
+  { num: "٧٣٪", text: "من السعوديين ناسين على الأقل اشتراك واحد" },
+  { num: "٤,٥٨٤ ر.س", text: "متوسط التوفير المحتمل سنوياً" },
+];
+
+const FEATURES = [
+  {
+    icon: (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+    ),
+    title: "خصوصية كاملة",
+    desc: "كل التحليل يتم على جهازك — ما نحتفظ بأي بيانات.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    ),
+    title: "يفهم بنكك",
+    desc: "يقرأ كشوفات ٩ بنوك سعودية ويفكك الرموز الغريبة تلقائياً.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    ),
+    title: "نتيجة في ثوانٍ",
+    desc: "ارفع الكشف وخلال ثوانٍ تشوف كل اشتراكاتك مع روابط الإلغاء.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M21 3v5h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    ),
+    title: "تقرير تفصيلي",
+    desc: "نوريك المبلغ الشهري والسنوي ونقترح لك وش تلغي ووش تخلي.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+    ),
+    title: "روابط إلغاء مباشرة",
+    desc: "لكل اشتراك رابط مباشر يوديك صفحة الإلغاء — بدون دوخة.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+    ),
+    title: "أدلة إلغاء خطوة بخطوة",
+    desc: "٦٠+ دليل إلغاء مفصّل لأشهر الخدمات في السعودية والعالم.",
+  },
+];
+
+const SUB_CHIPS = [
+  { name: "Netflix", logo: FAV("netflix.com") },
+  { name: "Spotify", logo: FAV("spotify.com") },
+  { name: "شاهد", logo: FAV("shahid.mbc.net") },
+  { name: "Disney+", logo: FAV("disneyplus.com") },
+  { name: "YouTube", logo: FAV("youtube.com") },
+  { name: "Apple", logo: FAV("apple.com") },
+  { name: "Amazon", logo: FAV("amazon.sa") },
+  { name: "Adobe", logo: FAV("adobe.com") },
+  { name: "ChatGPT", logo: FAV("openai.com") },
+  { name: "iCloud", logo: FAV("icloud.com") },
   { name: "هنقرستيشن", logo: FAV("hungerstation.com") },
+  { name: "stc", logo: FAV("stc.com.sa") },
+  { name: "موبايلي", logo: FAV("mobily.com.sa") },
+  { name: "Xbox", logo: FAV("xbox.com") },
+  { name: "PlayStation", logo: FAV("playstation.com") },
+];
+
+const DECODER_ITEMS = [
+  { code: "NFLX.COM", name: "Netflix", desc: "اشتراك Netflix الشهري" },
+  { code: "APPLE.COM/BILL", name: "Apple", desc: "iCloud+ أو Apple Music أو App Store" },
+  { code: "SPOTIFY AB", name: "Spotify", desc: "اشتراك Spotify Premium" },
+  { code: "OPENAI *CHATGPT", name: "ChatGPT Plus", desc: "اشتراك ChatGPT Plus الشهري" },
+  { code: "GOOG*YOUTUBE", name: "YouTube Premium", desc: "اشتراك YouTube Premium أو Music" },
+  { code: "ADOBE SYSTEMS", name: "Adobe", desc: "Creative Cloud أو Acrobat Pro" },
+  { code: "AMZN MKTP SA", name: "Amazon", desc: "مشتريات Amazon.sa أو Prime" },
+  { code: "SHAHID.MBC", name: "شاهد VIP", desc: "اشتراك منصة شاهد" },
+  { code: "MSFT *XBOX", name: "Xbox / Microsoft", desc: "Game Pass أو Microsoft 365" },
+  { code: "HUNGERSTATION", name: "هنقرستيشن", desc: "Hungerstation Pro الشهري" },
+  { code: "CALM.COM", name: "Calm", desc: "تطبيق التأمل والنوم Calm" },
+  { code: "DROPBOX INC", name: "Dropbox", desc: "اشتراك Dropbox Plus أو Business" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "ما توقعت إن Calm وDropbox وشي اسمه Adobe Stock ما فتحته من سنتين ينخصمون كلهم. ألغيتهم كلهم في دقيقتين وأنا أشرب قهوتي.",
+    name: "محمد ع.",
+    role: "مهندس برمجيات — الرياض",
+    initial: "م",
+  },
+  {
+    quote: "كنت أشوف APPLE.COM/BILL كل شهر وما أعرف وش هي بالضبط. يلا كانسل فكّها وعرّفتني إنها iCloud+ و Apple Music وApple TV+ — دفعت فيهم ثلاثتهم بدون ما أقصد!",
+    name: "نورة الغامدي",
+    role: "معلمة — جدة",
+    initial: "ن",
+  },
+  {
+    quote: "كنت مشترك في Adobe وأنا ما أحتاجه — بس خفت من رسوم الإلغاء المبكر. الموقع حذّرني من التوقيت الصح وأنقذني من دفع رسوم إضافية. وفرت ١,٦٠٨ ريال.",
+    name: "عبدالرحمن ف.",
+    role: "مصمم مستقل — الدمام",
+    initial: "ع",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "هل بياناتي آمنة؟",
+    a: "نعم. كل التحليل يتم داخل متصفحك — ملفك ما يتم رفعه لأي سيرفر. ما نحتفظ بأي بيانات.",
+  },
+  {
+    q: "أي بنوك تدعمون؟",
+    a: "ندعم جميع البنوك السعودية: الراجحي، الأهلي، بنك الرياض، البلاد، الإنماء، ساب، الفرنسي، العربي الوطني، و stc bank.",
+  },
+  {
+    q: "كيف أنزّل كشف حسابي؟",
+    a: "افتح تطبيق بنكك → الحسابات → كشف الحساب → اختر آخر ٣-٦ أشهر → نزّله كـ CSV أو PDF.",
+  },
+  {
+    q: "هل الأداة مجانية؟",
+    a: "التحليل الأول مجاني. بعدها تقدر تترقى بـ ٤٩ ريال لمرة واحدة — بدون اشتراك شهري.",
+  },
+  {
+    q: "هل يلا كانسل يلغي الاشتراكات عني؟",
+    a: "حالياً نوفر لك تقرير تفصيلي مع روابط إلغاء مباشرة. الإلغاء نفسه تسويه بنفسك عبر الرابط — عادة يأخذ أقل من دقيقة لكل اشتراك.",
+  },
+];
+
+const GUIDE_CHIPS = [
+  { name: "Netflix", slug: "cancel-netflix", domain: "netflix.com" },
+  { name: "Spotify", slug: "cancel-spotify", domain: "spotify.com" },
+  { name: "شاهد", slug: "cancel-shahid", domain: "shahid.mbc.net" },
+  { name: "Disney+", slug: "cancel-disney-plus", domain: "disneyplus.com" },
+  { name: "YouTube Premium", slug: "cancel-youtube-premium", domain: "youtube.com" },
+  { name: "Apple Music", slug: "cancel-apple-music", domain: "apple.com" },
+  { name: "Amazon Prime", slug: "cancel-amazon-prime", domain: "amazon.sa" },
+  { name: "ChatGPT Plus", slug: "cancel-chatgpt", domain: "openai.com" },
+  { name: "Adobe", slug: "cancel-adobe", domain: "adobe.com" },
+  { name: "stc", slug: "cancel-stc", domain: "stc.com.sa" },
+  { name: "موبايلي", slug: "cancel-mobily", domain: "mobily.com.sa" },
+  { name: "زين", slug: "cancel-zain", domain: "sa.zain.com" },
+  { name: "هنقرستيشن", slug: "cancel-hungerstation-pro", domain: "hungerstation.com" },
+  { name: "جاهز", slug: "cancel-jahez-plus", domain: "jahez.net" },
+  { name: "كريم", slug: "cancel-careem-plus", domain: "careem.com" },
+  { name: "OSN+", slug: "cancel-osn-plus", domain: "osnplus.com" },
+  { name: "أنغامي", slug: "cancel-anghami", domain: "anghami.com" },
+  { name: "iCloud+", slug: "cancel-icloud", domain: "icloud.com" },
+  { name: "Xbox Game Pass", slug: "cancel-xbox-game-pass", domain: "xbox.com" },
+  { name: "NordVPN", slug: "cancel-nordvpn", domain: "nordvpn.com" },
 ];
 
 export default function HomePage() {
@@ -94,8 +187,10 @@ export default function HomePage() {
   const [error, setError] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
   const [uploadsUsed, setUploadsUsed] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [stickyCta, setStickyCta] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
 
-  const c = COPY[locale];
   const ar = locale === "ar";
 
   useEffect(() => {
@@ -108,26 +203,36 @@ export default function HomePage() {
     document.documentElement.setAttribute("lang", locale);
   }, [locale, ar]);
 
+  // Sticky CTA scroll detection
+  useEffect(() => {
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (heroRef.current) {
+            const heroBottom = heroRef.current.getBoundingClientRect().bottom;
+            setStickyCta(heroBottom < 0);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   async function processCSV(text: string) {
     setStep("analyzing");
     setError(false);
-
     try {
       const transactions = parseCSV(text, "other");
-
-      if (transactions.length === 0) {
-        setError(true);
-        setStep("landing");
-        return;
-      }
-
+      if (transactions.length === 0) { setError(true); setStep("landing"); return; }
       const result = analyzeTransactions(transactions);
       setReport(result);
-
       const newCount = uploadsUsed + 1;
       setUploadsUsed(newCount);
       localStorage.setItem(STORAGE_KEY, String(newCount));
-
       setStep("results");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -171,192 +276,455 @@ export default function HomePage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen">
       <Header
         locale={locale}
         onLocaleChange={setLocale}
-        onLogoClick={() => { setStep("landing"); setReport(null); window.scrollTo({ top: 0 }); }}
+        onLogoClick={() => { setStep("landing"); setReport(null); scrollToTop(); }}
       />
 
       {showPaywall && (
         <PaywallModal locale={locale} onClose={() => setShowPaywall(false)} />
       )}
 
-      <main className="flex-1">
-        {/* ── RESULTS ─────────────────────────── */}
-        {step === "results" && report && (
-          <div className="max-w-3xl mx-auto px-4 py-8">
-            <div className="mb-6">
-              <h1 className="text-2xl font-black">{ar ? "تقرير اشتراكاتك" : "Your subscription report"}</h1>
-              <p className="text-sm text-[var(--color-text-muted)] mt-1">
-                {ar
-                  ? `حللنا ${report.analyzedTransactions} عملية وطلعنا ${report.subscriptions.length} اشتراك متكرر`
-                  : `Analyzed ${report.analyzedTransactions} transactions, found ${report.subscriptions.length} recurring subscriptions`}
-              </p>
-            </div>
-            <AuditReport
-              report={report}
-              locale={locale}
-              onStatusChange={handleStatusChange}
-              onStartOver={handleStartOver}
-              onUpgradeClick={() => setShowPaywall(true)}
+      {/* ── RESULTS ── */}
+      {step === "results" && report && (
+        <div className="max-w-3xl mx-auto px-4 py-8 pt-24">
+          <div className="mb-6">
+            <h1 className="text-2xl font-black">
+              {ar ? "تقرير اشتراكاتك" : "Your subscription report"}
+            </h1>
+            <p className="text-sm text-[var(--color-text-muted)] mt-1">
+              {ar
+                ? `حللنا ${report.analyzedTransactions} عملية وطلعنا ${report.subscriptions.length} اشتراك متكرر`
+                : `Analyzed ${report.analyzedTransactions} transactions, found ${report.subscriptions.length} recurring subscriptions`}
+            </p>
+          </div>
+          <AuditReport
+            report={report}
+            locale={locale}
+            onStatusChange={handleStatusChange}
+            onStartOver={handleStartOver}
+            onUpgradeClick={() => setShowPaywall(true)}
+          />
+        </div>
+      )}
+
+      {/* ── ANALYZING ── */}
+      {step === "analyzing" && (
+        <div
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+          style={{ background: "rgba(15,23,42,0.97)" }}
+        >
+          <div
+            className="w-14 h-14 border-4 border-white/10 rounded-full mb-6"
+            style={{
+              borderTopColor: "var(--color-primary)",
+              animation: "spin 0.8s linear infinite",
+            }}
+          />
+          <p className="font-bold text-lg text-white mb-2">
+            {ar ? "نحلّل كشف حسابك..." : "Analyzing your statement..."}
+          </p>
+          <p className="text-sm text-white/50">
+            {ar ? "كل شيء يتم على جهازك" : "Everything stays on your device"}
+          </p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
+
+      {/* ── LANDING ── */}
+      {step === "landing" && (
+        <>
+          {/* ══════ HERO ══════ */}
+          <section
+            ref={heroRef}
+            className="relative flex flex-col items-center justify-center px-6 py-20 overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, #0F172A 0%, #1a2744 50%, #0d2618 100%)",
+              minHeight: "calc(100vh - 64px)",
+              paddingTop: "100px",
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(0,166,81,0.13) 0%, transparent 65%)" }}
             />
-          </div>
-        )}
+            <div className="relative z-10 w-full max-w-[680px]">
+              <div className="text-center mb-9">
+                <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-3.5">
+                  {ar ? (
+                    <>اشتراكاتك.. <em className="not-italic text-[var(--color-primary)]">تحت السيطرة.</em></>
+                  ) : (
+                    <>Your subscriptions.. <em className="not-italic text-[var(--color-primary)]">under control.</em></>
+                  )}
+                </h1>
+                <p className="text-base text-white/60 leading-relaxed max-w-[380px] mx-auto">
+                  {ar
+                    ? "لا تترك تطبيقاتك تسحب من رصيدك. تابع وألغِ اشتراكاتك من مكان واحد."
+                    : "Don't let apps drain your balance. Track and cancel subscriptions from one place."}
+                </p>
+              </div>
 
-        {/* ── ANALYZING ──────────────────────────── */}
-        {step === "analyzing" && (
-          <div className="flex flex-col items-center justify-center py-32 gap-4">
-            <div className="w-14 h-14 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
-            <p className="font-bold text-lg">{c.analyzing}</p>
-            <p className="text-sm text-[var(--color-text-muted)]">{c.analyzingNote}</p>
-          </div>
-        )}
-
-        {/* ── LANDING ────────────────────────────── */}
-        {step === "landing" && (
-          <>
-            {/* ── DARK HERO: centered upload box ── */}
-            <section
-              className="relative flex flex-col items-center justify-center px-4 py-20 overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, #0F172A 0%, #1a2744 50%, #0d2618 100%)",
-                minHeight: "calc(100vh - 64px)",
-              }}
-            >
-              {/* Background glow */}
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 50% 40%, rgba(0,166,81,0.12) 0%, transparent 65%)",
-                }}
-              />
-
-              <div className="relative z-10 w-full max-w-md">
-                {/* Headline */}
-                <div className="text-center mb-8">
-                  <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-3">
-                    {ar ? (
-                      <>كم اشتراك <em className="not-italic text-[#00A651]">ناسيه؟</em></>
-                    ) : (
-                      <>How many subscriptions <em className="not-italic text-[#00A651]">forgotten?</em></>
-                    )}
-                  </h1>
-                  <p className="text-white/60 text-base leading-relaxed">
-                    {ar
-                      ? "ارفع كشف حسابك واكتشف كل الاشتراكات اللي تنخصم منك كل شهر"
-                      : "Upload your bank statement and find every subscription draining your account"}
+              {error && (
+                <div className="mb-4 bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center">
+                  <p className="font-bold text-red-400 mb-1">
+                    {ar ? "ما قدرنا نقرأ الملف" : "Couldn't read the file"}
+                  </p>
+                  <p className="text-sm text-red-400/70">
+                    {ar ? "تأكد إن الملف CSV أو PDF وجرب مرة ثانية" : "Make sure the file is CSV or PDF and try again"}
                   </p>
                 </div>
+              )}
 
-                {/* Error */}
-                {error && (
-                  <div className="mb-4 bg-red-500/10 border border-red-500/30 rounded-2xl p-4 text-center">
-                    <p className="font-bold text-red-400 mb-1">{c.errorTitle}</p>
-                    <p className="text-sm text-red-400/70">{c.errorNote}</p>
-                  </div>
-                )}
+              <UploadZone
+                locale={locale}
+                uploadsUsed={uploadsUsed}
+                freeLimit={FREE_UPLOAD_LIMIT}
+                onFileSelect={handleFileSelect}
+                onTestClick={handleTestStatement}
+                onUpgradeClick={() => setShowPaywall(true)}
+              />
 
-                {/* Upload zone — no card wrapper, floats on dark bg */}
-                <UploadZone
-                  locale={locale}
-                  uploadsUsed={uploadsUsed}
-                  freeLimit={FREE_UPLOAD_LIMIT}
-                  onFileSelect={handleFileSelect}
-                  onTestClick={handleTestStatement}
-                  onUpgradeClick={() => setShowPaywall(true)}
-                />
-
-                {/* Badge */}
-                <div className="mt-6 text-center">
-                  <span className="inline-flex items-center gap-2 bg-[#00A651]/15 border border-[#00A651]/30 rounded-full px-4 py-1.5 text-xs font-semibold text-[#00A651]">
-                    {c.badge}
-                  </span>
-                </div>
-
-                {/* Privacy note */}
-                <p className="mt-4 text-center text-xs text-white/30">
-                  {ar ? "🔒 بياناتك ما تطلع من جهازك أبداً" : "🔒 Your data never leaves your device"}
-                </p>
+              <div className="mt-5 text-center">
+                <span className="inline-flex items-center gap-2 bg-[var(--color-primary)]/12 border border-[var(--color-primary)]/28 rounded-full px-4 py-1.5 text-xs font-semibold text-[var(--color-primary)]">
+                  {ar ? "يدعم جميع البنوك السعودية · بدون تسجيل دخول" : "Supports all Saudi banks · No login required"}
+                </span>
               </div>
-            </section>
+            </div>
+          </section>
 
-            {/* ── HOW IT WORKS ── */}
-            <section className="bg-white border-b border-[var(--color-border)]">
-              <div className="max-w-3xl mx-auto px-4 py-14">
-                <h2 className="text-lg font-black text-center mb-10 text-[var(--color-text-secondary)] uppercase tracking-wider text-sm">
-                  {c.howTitle}
-                </h2>
-                <div className="grid sm:grid-cols-3 gap-8">
-                  {[
-                    { title: c.step1, desc: c.step1d, n: "١" },
-                    { title: c.step2, desc: c.step2d, n: "٢" },
-                    { title: c.step3, desc: c.step3d, n: "٣" },
-                  ].map((s) => (
-                    <div key={s.n} className="text-center">
-                      <div className="w-10 h-10 bg-[#0F172A] text-white rounded-xl flex items-center justify-center font-black text-sm mx-auto mb-4">
-                        {s.n}
-                      </div>
-                      <h3 className="font-black mb-1">{s.title}</h3>
+          {/* ══════ BANK LOGOS ══════ */}
+          <section className="bg-white py-10 px-8">
+            <div className="max-w-[1200px] mx-auto">
+              <p className="text-xs font-bold text-center text-[var(--color-text-muted)] uppercase tracking-widest mb-6">
+                {ar ? "يدعم جميع البنوك السعودية" : "Supports all Saudi banks"}
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                {BANKS.map((bank) => (
+                  <div
+                    key={bank.name}
+                    className="flex items-center gap-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl px-4 py-2.5 transition-all hover:border-[var(--color-primary)]"
+                  >
+                    <img src={bank.logo} alt={bank.name} className="w-6 h-6 rounded object-contain" />
+                    <span className="text-sm font-semibold text-[var(--color-text-secondary)]">{bank.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ PROBLEM STATS ══════ */}
+          <section className="bg-[var(--color-surface)] py-20 px-8">
+            <div className="max-w-[900px] mx-auto text-center">
+              <span className="section-label">{ar ? "المشكلة" : "The Problem"}</span>
+              <h2 className="section-title">
+                {ar ? "اشتراكاتك تسحب فلوسك وأنت ما تدري" : "Subscriptions drain your money silently"}
+              </h2>
+              <p className="section-sub">
+                {ar
+                  ? "في المعدّل، السعودي يصرف أكثر من ٤,٥٠٠ ريال سنوياً على اشتراكات — وأغلبها ما يستخدمها."
+                  : "On average, Saudis spend over 4,500 SAR/year on subscriptions — most of which go unused."}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                {PROBLEM_STATS.map((s) => (
+                  <div
+                    key={s.num}
+                    className="bg-white border border-[var(--color-border)] rounded-2xl p-7 text-center transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  >
+                    <div className="text-2xl font-black text-[var(--color-primary)] mb-1">{s.num}</div>
+                    <div className="text-sm text-[var(--color-text-secondary)]">{s.text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ HOW IT WORKS ══════ */}
+          <section className="bg-white py-20 px-8">
+            <div className="max-w-[1100px] mx-auto text-center">
+              <span className="section-label">{ar ? "كيف يشتغل" : "How it works"}</span>
+              <h2 className="section-title">{ar ? "ثلاث خطوات وبس" : "Just three steps"}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-12">
+                {[
+                  { n: "١", title: ar ? "ارفع الكشف" : "Upload statement", desc: ar ? "نزّل كشف حسابك من تطبيق بنكك وارفعه هنا." : "Download your bank statement and upload it here." },
+                  { n: "٢", title: ar ? "نحلّل لك" : "We analyze it", desc: ar ? "نكتشف كل الاشتراكات المتكررة ونفكك الرموز." : "We detect all recurring subscriptions and decode them." },
+                  { n: "٣", title: ar ? "ألغِ ووفّر" : "Cancel & save", desc: ar ? "اختار اللي تبي تلغيه واتبع الخطوات." : "Pick what to cancel and follow the steps." },
+                ].map((s) => (
+                  <div
+                    key={s.n}
+                    className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 text-center relative transition-all hover:-translate-y-0.5 hover:shadow-lg hover:border-[var(--color-primary)]"
+                  >
+                    <div className="absolute -top-4 right-6 w-10 h-10 bg-[var(--color-primary)] text-white rounded-xl flex items-center justify-center font-black text-sm shadow-md">
+                      {s.n}
+                    </div>
+                    <div className="mt-4">
+                      <h3 className="font-black text-lg mb-2">{s.title}</h3>
                       <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{s.desc}</p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            </section>
+            </div>
+          </section>
 
-            {/* ── BANKS ── */}
-            <section className="bg-[var(--color-surface)] border-b border-[var(--color-border)]">
-              <div className="max-w-4xl mx-auto px-4 py-10">
-                <p className="text-xs font-bold text-center text-[var(--color-text-muted)] uppercase tracking-widest mb-7">
-                  {c.banksTitle}
+          {/* ══════ FEATURES ══════ */}
+          <section className="bg-white py-20 px-8">
+            <div className="max-w-[1100px] mx-auto text-center">
+              <span className="section-label">{ar ? "المميزات" : "Features"}</span>
+              <h2 className="section-title">{ar ? "كل اللي تحتاجه في مكان واحد" : "Everything you need in one place"}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                {FEATURES.map((f) => (
+                  <div
+                    key={f.title}
+                    className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 text-right transition-all hover:-translate-y-0.5 hover:shadow-lg hover:border-[var(--color-primary)]"
+                  >
+                    <div className="w-12 h-12 bg-[var(--color-primary-bg)] rounded-xl flex items-center justify-center text-[var(--color-primary)] mb-5">
+                      {f.icon}
+                    </div>
+                    <h3 className="font-black text-base mb-2">{f.title}</h3>
+                    <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ SUBS WE DETECT ══════ */}
+          <section className="bg-[var(--color-surface)] py-20 px-8">
+            <div className="max-w-[1100px] mx-auto text-center">
+              <span className="section-label">{ar ? "نكتشف اشتراكاتك" : "We detect your subscriptions"}</span>
+              <h2 className="section-title">{ar ? "نعرف أكثر من ٢٠٠ خدمة" : "We know 200+ services"}</h2>
+              <div className="flex flex-wrap justify-center gap-3 mt-10">
+                {SUB_CHIPS.map((s) => (
+                  <div
+                    key={s.name}
+                    className="flex items-center gap-2.5 bg-white border border-[var(--color-border)] rounded-xl px-5 py-3 transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 hover:shadow-md"
+                  >
+                    <img src={s.logo} alt={s.name} className="w-6 h-6 rounded-md" />
+                    <span className="text-sm font-semibold">{s.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ DESCRIPTOR DECODER ══════ */}
+          <section className="bg-white py-20 px-8">
+            <div className="max-w-[1100px] mx-auto">
+              <div className="text-center mb-12">
+                <span className="section-label">{ar ? "رموز كشف الحساب" : "Bank Descriptor Decoder"}</span>
+                <h2 className="section-title">{ar ? "شفت رمز غريب في كشف حسابك؟" : "Weird code in your statement?"}</h2>
+                <p className="section-sub">
+                  {ar
+                    ? "البنوك تكتب أسماء الشركات بطريقة غير مفهومة — نفكك لك أكثر الرموز اللي تطلع في كشوفات السعودية."
+                    : "Banks write company names in confusing ways — we decode the most common ones in Saudi statements."}
                 </p>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {BANKS.map((bank) => (
-                    <div
-                      key={bank.en}
-                      className="flex items-center gap-2 bg-white border border-[var(--color-border)] rounded-xl px-4 py-2.5 hover:border-[#00A651] transition-colors"
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+                {DECODER_ITEMS.map((d) => (
+                  <div key={d.code} className="decoder-card">
+                    <div className="decoder-code">{d.code}</div>
+                    <div>
+                      <div className="font-bold text-sm">{d.name}</div>
+                      <div className="text-xs text-[var(--color-text-secondary)]">{d.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center">
+                <p className="text-sm text-[var(--color-text-secondary)] mb-4">
+                  {ar ? "ما لقيت الرمز اللي عندك؟ ارفع كشف حسابك ونعرفه لك تلقائياً" : "Didn't find your code? Upload your statement and we'll decode it automatically"}
+                </p>
+                <button onClick={scrollToTop} className="btn-primary">
+                  {ar ? "ارفع كشفك وافهم كل رمز" : "Upload and decode every charge"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ TESTIMONIALS ══════ */}
+          <section className="bg-[var(--color-surface)] py-20 px-8">
+            <div className="max-w-[1100px] mx-auto text-center">
+              <span className="section-label">{ar ? "آراء المستخدمين" : "Testimonials"}</span>
+              <h2 className="section-title">{ar ? "اللي جربوه عجبهم" : "Users love it"}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
+                {TESTIMONIALS.map((t) => (
+                  <div
+                    key={t.name}
+                    className="bg-white border border-[var(--color-border)] rounded-2xl p-6 text-right transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  >
+                    <div className="text-[var(--color-warning)] text-sm mb-4 tracking-widest">★★★★★</div>
+                    <p className="text-sm text-[var(--color-text-primary)] leading-relaxed mb-5">&ldquo;{t.quote}&rdquo;</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-[var(--color-primary-bg)] rounded-full flex items-center justify-center font-black text-sm text-[var(--color-primary)]">
+                        {t.initial}
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm">{t.name}</div>
+                        <div className="text-xs text-[var(--color-text-muted)]">{t.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ FAQ ══════ */}
+          <section className="bg-white py-20 px-8">
+            <div className="max-w-[720px] mx-auto">
+              <div className="text-center mb-12">
+                <span className="section-label">{ar ? "أسئلة شائعة" : "FAQ"}</span>
+                <h2 className="section-title">{ar ? "أسئلة شائعة" : "Frequently Asked Questions"}</h2>
+              </div>
+              <div className="space-y-3">
+                {FAQ_ITEMS.map((faq, i) => (
+                  <div
+                    key={i}
+                    className="bg-white border border-[var(--color-border)] rounded-2xl overflow-hidden"
+                  >
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center justify-between px-6 py-4 font-bold text-sm text-right transition-colors hover:bg-[var(--color-surface)]"
                     >
-                      <img src={bank.logo} alt={ar ? bank.ar : bank.en} className="w-6 h-6 rounded object-contain" />
-                      <span className="text-sm font-semibold text-[var(--color-text-secondary)]">
-                        {ar ? bank.ar : bank.en}
+                      {faq.q}
+                      <span
+                        className="text-xl text-[var(--color-text-muted)] transition-transform"
+                        style={{ transform: openFaq === i ? "rotate(180deg)" : "rotate(0)" }}
+                      >
+                        ▾
                       </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* ── EXAMPLE SUBS ── */}
-            <section className="bg-white border-b border-[var(--color-border)]">
-              <div className="max-w-4xl mx-auto px-4 py-10">
-                <p className="text-xs font-bold text-center text-[var(--color-text-muted)] uppercase tracking-widest mb-7">
-                  {c.subsTitle}
-                </p>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {EXAMPLE_SUBS.map((sub) => (
+                    </button>
                     <div
-                      key={sub.name}
-                      className="flex items-center gap-2 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full px-4 py-2 hover:border-[#00A651] transition-colors"
+                      className="overflow-hidden transition-all"
+                      style={{
+                        maxHeight: openFaq === i ? "300px" : "0",
+                        padding: openFaq === i ? "0 24px 20px" : "0 24px",
+                      }}
                     >
-                      <img src={sub.logo} alt={sub.name} className="w-5 h-5 rounded-full object-contain" />
-                      <span className="text-sm font-semibold">{sub.name}</span>
+                      <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{faq.a}</p>
                     </div>
-                  ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══════ CANCEL GUIDES ══════ */}
+          <section className="bg-[var(--color-surface)] py-20 px-8">
+            <div className="max-w-[1100px] mx-auto text-center">
+              <span className="section-label">{ar ? "أدلة الإلغاء" : "Cancel Guides"}</span>
+              <h2 className="section-title">{ar ? "٦٠+ دليل إلغاء خطوة بخطوة" : "60+ step-by-step cancel guides"}</h2>
+              <p className="section-sub">
+                {ar ? "اختر الخدمة اللي تبغى تلغيها ونوريك الطريقة بالتفصيل." : "Pick the service you want to cancel and we'll show you how."}
+              </p>
+              <div className="flex flex-wrap justify-center gap-2.5">
+                {GUIDE_CHIPS.map((g) => (
+                  <a key={g.slug} href={`/${g.slug}`} className="guide-chip">
+                    <img src={FAV(g.domain)} alt="" className="w-5 h-5 rounded" />
+                    <span>{g.name}</span>
+                  </a>
+                ))}
+              </div>
+              <p className="mt-6 text-sm text-[var(--color-text-secondary)]">
+                {ar ? "وأكثر من ٣٠ خدمة أخرى — ارفع كشفك ونطلعلك أدلة الإلغاء تلقائياً." : "And 30+ more — upload your statement and we'll show relevant guides automatically."}
+              </p>
+            </div>
+          </section>
+
+          {/* ══════ CTA ══════ */}
+          <section className="py-20 px-8 text-center" style={{ background: "var(--color-primary)" }}>
+            <div className="max-w-[600px] mx-auto">
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">
+                {ar ? "جاهز تكتشف اشتراكاتك المخفية؟" : "Ready to find your hidden subscriptions?"}
+              </h2>
+              <p className="text-base text-white/85 mb-8">
+                {ar ? "ارفع كشف حسابك واعرف وين فلوسك رايحة — مجاناً." : "Upload your bank statement and find out where your money goes — free."}
+              </p>
+              <button
+                onClick={scrollToTop}
+                className="inline-flex items-center gap-2.5 bg-white text-[var(--color-primary-dark)] px-10 py-4 rounded-xl font-black text-base border-none cursor-pointer transition-all hover:-translate-y-0.5"
+                style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }}
+              >
+                {ar ? "ابدأ الحين" : "Start now"}
+              </button>
+              <p className="mt-4 text-xs text-white/60">
+                {ar ? "بدون تسجيل دخول · بدون بطاقة ائتمان · النتيجة في ثوانٍ" : "No sign-up · No credit card · Results in seconds"}
+              </p>
+            </div>
+          </section>
+
+          {/* ══════ MEGA FOOTER ══════ */}
+          <footer className="py-20 px-8 pb-10" style={{ background: "var(--color-dark)", color: "white" }}>
+            <div className="max-w-[1200px] mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                <div className="lg:col-span-2">
+                  <div className="nav-logo text-xl mb-3">yalla<span className="accent">cancel</span></div>
+                  <p className="text-sm text-white/50 leading-relaxed mb-5">
+                    {ar ? "أداة سعودية تساعدك تكتشف اشتراكاتك المخفية وتوفر فلوسك." : "A Saudi tool that helps you find hidden subscriptions and save money."}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">{ar ? "المنتج" : "Product"}</h4>
+                  <ul className="space-y-2.5 text-sm text-white/65">
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "كيف يشتغل" : "How it works"}</a></li>
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "المميزات" : "Features"}</a></li>
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "ابدأ مجاناً" : "Start free"}</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">{ar ? "البنوك المدعومة" : "Supported Banks"}</h4>
+                  <ul className="space-y-2.5 text-sm text-white/65">
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "الراجحي" : "Al Rajhi"}</a></li>
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "الأهلي" : "SNB"}</a></li>
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "بنك الرياض" : "Riyad Bank"}</a></li>
+                    <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "الإنماء" : "Alinma"}</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">{ar ? "أدلة الإلغاء" : "Cancel Guides"}</h4>
+                  <ul className="space-y-2.5 text-sm text-white/65">
+                    <li><a href="/cancel-netflix" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "كيف ألغي Netflix" : "How to cancel Netflix"}</a></li>
+                    <li><a href="/cancel-shahid" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "كيف ألغي شاهد" : "How to cancel Shahid"}</a></li>
+                    <li><a href="/cancel-spotify" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "كيف ألغي Spotify" : "How to cancel Spotify"}</a></li>
+                    <li><a href="/cancel-adobe" className="hover:text-[var(--color-primary)] transition-colors">{ar ? "كيف ألغي Adobe" : "How to cancel Adobe"}</a></li>
+                  </ul>
                 </div>
               </div>
-            </section>
-          </>
-        )}
-      </main>
+              <div className="border-t border-white/8 pt-6 flex flex-wrap justify-between items-center gap-4">
+                <p className="text-xs text-white/30">&copy; ٢٠٢٦ Yalla Cancel</p>
+                <div className="flex gap-6">
+                  <a href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">{ar ? "سياسة الخصوصية" : "Privacy"}</a>
+                  <a href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">{ar ? "الشروط والأحكام" : "Terms"}</a>
+                  <a href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">{ar ? "تواصل معنا" : "Contact"}</a>
+                </div>
+              </div>
+            </div>
+          </footer>
 
-      <footer className="border-t border-[var(--color-border)] bg-white">
-        <div className="max-w-5xl mx-auto px-4 py-4 text-center text-xs text-[var(--color-text-muted)]">
-          {c.footer}
-        </div>
-      </footer>
+          {/* ══════ STICKY CTA BAR ══════ */}
+          <div className={`sticky-cta ${stickyCta ? "visible" : ""}`}>
+            <div className="max-w-[680px] mx-auto flex items-center justify-between gap-4">
+              <span className="text-sm font-semibold text-white/70 hidden sm:inline">
+                {ar ? "اكتشف اشتراكاتك المخفية الحين" : "Discover your hidden subscriptions now"}
+              </span>
+              <button
+                onClick={scrollToTop}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-[var(--color-primary-hover)]"
+              >
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                {ar ? "ارفع كشفك مجاناً" : "Upload free"}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
