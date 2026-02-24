@@ -49,7 +49,7 @@
     }
     .nav-inner {
       max-width: 1200px; margin: 0 auto; padding: 0 32px;
-      height: 64px; display: flex; align-items: center; justify-content: space-between;
+      height: 64px; display: flex; align-items: center; justify-content: flex-start;
     }
     .nav-logo {
       font-family: "DM Sans", "Inter", -apple-system, sans-serif;
@@ -61,17 +61,6 @@
       unicode-bidi: bidi-override;
     }
     .nav-logo span { color: var(--primary); }
-    .nav-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--primary); color: white;
-      padding: 9px 20px; border-radius: 10px;
-      font-family: inherit; font-weight: 700; font-size: 0.82rem;
-      border: none; cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .nav-cta:hover { background: var(--primary-hover); transform: translateY(-1px); }
-    .nav-cta svg { width: 14px; height: 14px; }
 
     /* ══════════════════════════════════════════
        HERO — centered, upload-first
@@ -421,7 +410,7 @@
     /* ══════════════════════════════════════════
        PROBLEM SECTION
     ══════════════════════════════════════════ */
-    .problem { padding: 80px 32px; background: white; }
+    .problem { padding: 80px 32px; background: var(--surface); }
     .problem-inner { max-width: 900px; margin: 0 auto; text-align: center; }
     .section-label {
       display: inline-flex; align-items: center; gap: 6px;
@@ -575,7 +564,7 @@
     /* ══════════════════════════════════════════
        SUBSCRIPTIONS WE DETECT
     ══════════════════════════════════════════ */
-    .subs-detect { padding: 80px 32px; background: white; }
+    .subs-detect { padding: 80px 32px; background: var(--surface); }
     .subs-detect-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
     .subs-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 40px; }
     .sub-chip {
@@ -616,7 +605,7 @@
     /* ══════════════════════════════════════════
        FAQ
     ══════════════════════════════════════════ */
-    .faq { padding: 80px 32px; background: white; }
+    .faq { padding: 80px 32px; background: var(--surface); }
     .faq-inner { max-width: 720px; margin: 0 auto; }
     .faq-item {
       background: var(--surface); border: 1px solid var(--border);
@@ -720,7 +709,6 @@
       /* Nav */
       .nav-inner { padding: 0 16px; height: 56px; }
       .nav-logo { font-size: 1.25rem; }
-      .nav-cta { padding: 7px 14px; font-size: 0.75rem; border-radius: 8px; }
 
       /* Hero */
       .hero { padding: 90px 16px 48px; min-height: auto; }
@@ -1198,7 +1186,6 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-logo" onclick="goBackToLanding()">yalla<span>cancel</span></div>
-      <button class="nav-cta" onclick="window.scrollTo({top:0,behavior:'smooth'})">ارفع كشفك ←</button>
     </div>
   </nav>
 
