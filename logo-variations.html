@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yalla Cancel — Logo Variations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00A651;
+      --primary-hover: #00C060;
+      --dark: #0F172A;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, sans-serif;
+      background: #F1F5F9;
+      color: #0F172A;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+    .page-sub {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #94A3B8;
+      margin-bottom: 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 12px 32px rgba(0,166,81,0.12);
+    }
+
+    .card-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .card-label h3 {
+      font-size: 0.85rem; font-weight: 700; color: #334155;
+    }
+    .card-label .tag {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; padding: 4px 10px; border-radius: 9999px;
+    }
+    .tag-recommended { background: #DCFCE7; color: #15803D; }
+    .tag-playful { background: #E0F2FE; color: #0369A1; }
+    .tag-bold { background: #FEF3C7; color: #B45309; }
+    .tag-minimal { background: #F1F5F9; color: #64748B; }
+    .tag-iconic { background: #F3E8FF; color: #7C3AED; }
+
+    /* Each variation shown on dark nav bar */
+    .preview-bar {
+      background: rgba(15,23,42,0.97);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      min-height: 72px;
+    }
+
+    .card-description {
+      padding: 16px 24px;
+      font-size: 0.8rem;
+      color: #64748B;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════
+       VARIATION 1 — Surfe-style lowercase
+    ═══════════════════════════════ */
+    .logo-v1 {
+      font-family: "DM Sans", sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.03em;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+    }
+    .logo-v1 .word-yalla { color: white; }
+    .logo-v1 .word-cancel { color: var(--primary); }
+
+    /* ═══════════════════════════════
+       VARIATION 2 — Dot accent / stacked weight
+    ═══════════════════════════════ */
+    .logo-v2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .logo-v2 .word-yalla { font-weight: 400; color: rgba(255,255,255,0.7); }
+    .logo-v2 .dot {
+      display: inline-block; width: 7px; height: 7px;
+      background: var(--primary); border-radius: 50%;
+      margin: 0 5px; transform: translateY(1px);
+    }
+    .logo-v2 .word-cancel { font-weight: 700; color: white; }
+
+    /* ═══════════════════════════════
+       VARIATION 3 — Bold slash / disruptive
+    ═══════════════════════════════ */
+    .logo-v3 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -0.04em;
+      text-transform: lowercase;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+    }
+    .logo-v3 .word-yalla { color: white; }
+    .logo-v3 .slash {
+      color: var(--primary); font-weight: 300;
+      margin: 0 2px; font-size: 1.6rem;
+    }
+    .logo-v3 .word-cancel {
+      color: var(--primary);
+      text-decoration: line-through;
+      text-decoration-thickness: 2.5px;
+      text-decoration-color: var(--primary);
+    }
+
+    /* ═══════════════════════════════
+       VARIATION 4 — Pill badge style
+    ═══════════════════════════════ */
+    .logo-v4 {
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-v4 .word-yalla {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    .logo-v4 .cancel-pill {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+      background: var(--primary);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transform: translateY(-1px);
+    }
+
+    /* ═══════════════════════════════
+       VARIATION 5 — Wave underline (most Surfe-like)
+    ═══════════════════════════════ */
+    .logo-v5 {
+      font-family: "DM Sans", sans-serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -0.03em;
+      text-transform: lowercase;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+    }
+    .logo-v5 .word-yalla { color: white; }
+    .logo-v5 .word-cancel { color: var(--primary); }
+    .logo-v5 .wave {
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 6px;
+    }
+    .logo-v5 .wave svg {
+      width: 100%;
+      height: 6px;
+    }
+
+    /* ═══════════════════════════════
+       VARIATION 6 — Monogram + wordmark
+    ═══════════════════════════════ */
+    .logo-v6 {
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-v6 .monogram {
+      width: 34px; height: 34px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Inter", sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -0.04em;
+    }
+    .logo-v6 .wordmark {
+      font-family: "Inter", sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.03em;
+    }
+    .logo-v6 .wordmark span { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">Yalla Cancel — Logo Variations</h1>
+  <p class="page-sub">Inspired by Surfe.com's bold, playful, lowercase approach. Pick your favorite.</p>
+
+  <div class="grid">
+
+    <!-- VARIATION 1 -->
+    <div class="card">
+      <div class="card-label">
+        <h3>Variation 1 — Lowercase Connected</h3>
+        <span class="tag tag-recommended">Recommended</span>
+      </div>
+      <div class="preview-bar">
+        <div class="logo-v1"><span class="word-yalla">yalla</span><span class="word-cancel">cancel</span></div>
+      </div>
+      <div class="card-description">
+        Most Surfe-like. Lowercase wordmark, tight spacing, DM Sans. "yalla" in white, "cancel" in brand green. Clean, modern, confident — like a fintech that doesn't take itself too seriously.
+      </div>
+    </div>
+
+    <!-- VARIATION 2 -->
+    <div class="card">
+      <div class="card-label">
+        <h3>Variation 2 — Dot Separator</h3>
+        <span class="tag tag-minimal">Minimal</span>
+      </div>
+      <div class="preview-bar">
+        <div class="logo-v2"><span class="word-yalla">yalla</span><span class="dot"></span><span class="word-cancel">cancel</span></div>
+      </div>
+      <div class="card-description">
+        Space Grotesk geometric font. "yalla" light weight, green dot separator, "cancel" bold. Like a tech brand. The light-to-bold weight shift creates visual hierarchy.
+      </div>
+    </div>
+
+    <!-- VARIATION 3 -->
+    <div class="card">
+      <div class="card-label">
+        <h3>Variation 3 — Strikethrough Cancel</h3>
+        <span class="tag tag-bold">Bold</span>
+      </div>
+      <div class="preview-bar">
+        <div class="logo-v3"><span class="word-yalla">yalla</span><span class="slash">/</span><span class="word-cancel">cancel</span></div>
+      </div>
+      <div class="card-description">
+        The word "cancel" has a strikethrough — because that's literally what the product does. The slash adds a disruptive edge. Outfit font, extra bold. Makes a statement.
+      </div>
+    </div>
+
+    <!-- VARIATION 4 -->
+    <div class="card">
+      <div class="card-label">
+        <h3>Variation 4 — Yalla + Pill Badge</h3>
+        <span class="tag tag-playful">Playful</span>
+      </div>
+      <div class="preview-bar">
+        <div class="logo-v4"><span class="word-yalla">yalla</span><span class="cancel-pill">CANCEL</span></div>
+      </div>
+      <div class="card-description">
+        "yalla" as the main wordmark with a green pill badge for "CANCEL". Like a notification or action badge. Jakarta Sans, feels app-like and approachable.
+      </div>
+    </div>
+
+    <!-- VARIATION 5 -->
+    <div class="card">
+      <div class="card-label">
+        <h3>Variation 5 — Wave Underline</h3>
+        <span class="tag tag-playful">Playful</span>
+      </div>
+      <div class="preview-bar">
+        <div class="logo-v5">
+          <span class="word-yalla">yalla</span><span class="word-cancel">cancel</span>
+          <span class="wave">
+            <svg viewBox="0 0 160 8" preserveAspectRatio="none" fill="none">
+              <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 160 4" stroke="#00A651" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-description">
+        Direct Surfe inspiration — the wave underline mirrors Surfe's "Swell" brand element. Lowercase DM Sans, green wave beneath. Feels energetic and Saudi-casual (يلا = let's go!).
+      </div>
+    </div>
+
+    <!-- VARIATION 6 -->
+    <div class="card">
+      <div class="card-label">
+        <h3>Variation 6 — Monogram + Wordmark</h3>
+        <span class="tag tag-iconic">Iconic</span>
+      </div>
+      <div class="preview-bar">
+        <div class="logo-v6">
+          <div class="monogram">YC</div>
+          <div class="wordmark">yalla<span>cancel</span></div>
+        </div>
+      </div>
+      <div class="card-description">
+        Green rounded-square monogram "YC" paired with the wordmark. Works great as a favicon or app icon too. Inter font, clean and scalable. The monogram gives it instant brand recognition.
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:48px; color:#94A3B8; font-size:0.8rem;">
+    Pick a variation and I'll apply it across the whole site.
+  </div>
+</body>
+</html>
