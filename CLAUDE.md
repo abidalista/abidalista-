@@ -12,13 +12,15 @@
 - **Scale:** Large H1s (`text-5xl` to `text-6xl`) with tight letter spacing (`tracking-tight`).
 
 ### Color Palette
-- **Backgrounds:** Pure White (`#FFFFFF`) and ultra-light Gray/Indigo (`#F9FAFB` or `#F5F7FF`).
-- **Primary Action:** Surfe Indigo (`#6366F1`) or Deep Blue (`#0F172A`).
-- **Accents:** Soft gradients (Indigo to Violet) used sparingly on icons/small badges.
+- **Page Body:** `bg-[#F8FAFF]` (very light blue-grey). Never pure white as body background.
+- **Cards:** `bg-white` with `shadow-[0_8px_30px_rgb(0,0,0,0.04)]` and `border border-slate-100`.
+- **Primary Buttons:** `bg-gradient-to-br from-indigo-500 to-purple-600` for "pop." Pill shape (`rounded-full`).
+- **Primary Action Color:** Surfe Indigo (`#6366F1`) or Deep Blue (`#0F172A`).
+- **Accents:** Soft gradients (Indigo to Violet) used on hero sections, CTA banners, and buttons.
 
 ### UI Components
 - **The "Bento" Grid:** Everything lives in cards. Use `bg-white`, `border border-slate-100`, and `rounded-[24px]` (24px radius).
-- **Soft Shadows:** Use `shadow-sm` or custom `0 10px 15px -3px rgba(0, 0, 0, 0.03)`. No heavy shadows.
+- **Soft Shadows:** Use `0 8px 30px rgb(0 0 0 / 0.04)` for cards. No heavy shadows.
 - **Buttons:** `rounded-full` (pill shape). Primary buttons are solid; secondary are ghost/outline with subtle hover lifts.
 
 ### Interactions
