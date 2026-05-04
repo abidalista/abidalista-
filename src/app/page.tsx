@@ -547,32 +547,59 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen flex flex-col items-center justify-center px-6 pt-20 bg-[#F8FAFF]"
+            className="min-h-screen px-6 pt-24 pb-16 bg-[#F8FAFF]"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="w-full max-w-[500px] bento-card py-16 px-8 text-center"
-            >
-              <div className="text-5xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-2">
-                {txCount.toLocaleString()}
+            <div className="max-w-[700px] mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-8"
+              >
+                <div className="text-5xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-2">
+                  {txCount.toLocaleString()}
+                </div>
+                <div className="text-sm text-slate-400 mb-4">
+                  {ar ? "عملية" : "transactions"}
+                </div>
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <Loader2 size={14} strokeWidth={1.5} className="text-indigo-500 animate-spin" />
+                  <span className="text-sm text-slate-500">{analyzeStatus}</span>
+                </div>
+                <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-400">
+                  <Clock size={12} strokeWidth={1.5} />
+                  {ar ? "تقريباً خلصنا — لا تطلع من الصفحة" : "Almost there – stay on this page"}
+                </div>
+              </motion.div>
+
+              {/* Skeleton cards */}
+              <div className="space-y-4">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.12 }}
+                    className="bento-card p-5"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="skeleton-circle w-11 h-11 flex-shrink-0" />
+                      <div className="flex-1 space-y-2.5">
+                        <div className="flex items-center gap-3">
+                          <div className="skeleton h-4 w-28" />
+                          <div className="skeleton h-4 w-14" />
+                        </div>
+                        <div className="skeleton h-6 w-40" />
+                        <div className="flex gap-4">
+                          <div className="skeleton h-3 w-24" />
+                          <div className="skeleton h-3 w-20" />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-              <div className="text-sm text-slate-400 mb-6">
-                {ar ? "عملية" : "transactions"}
-              </div>
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Loader2 size={14} strokeWidth={1.5} className="text-indigo-500 animate-spin" />
-                <span className="text-sm text-slate-500">{analyzeStatus}</span>
-              </div>
-              <div className="text-lg font-bold text-slate-300 mb-6">
-                {analyzeTimer}s
-              </div>
-              <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-400">
-                <Clock size={12} strokeWidth={1.5} />
-                {ar ? "تقريباً خلصنا — لا تطلع من الصفحة" : "Almost there – stay on this page"}
-              </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
