@@ -1,5 +1,10 @@
 # CLAUDE.md — Rules of Engagement
 
+## Communication Rules
+
+- **Never assume scope.** If a request is ambiguous, ask the user to clarify before implementing. Do not add features, behaviors, or UX flows that were not explicitly asked for.
+- **One feature = what was asked.** Don't bundle extra behaviors (e.g. auto-popups, timers, extra modals) unless the user specifically requests them.
+
 ## Product Vision: Professional SaaS Utility
 
 - **Aesthetic Anchor:** "Soft Enterprise."
