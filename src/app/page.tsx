@@ -974,7 +974,7 @@ export default function HomePage() {
           </section>
 
           {/* Pricing */}
-          <section id="pricing" className="bg-[#F8FAFF] py-20 px-6">
+          <section id="pricing" className="bg-[#F8FAFF] py-20 px-6 scroll-mt-20">
             <div className="max-w-[500px] mx-auto text-center">
               <span className="section-label">
                 <Zap size={12} strokeWidth={1.5} /> {ar ? "سعر واحد. بدون اشتراك." : "One price. No subscription."}
