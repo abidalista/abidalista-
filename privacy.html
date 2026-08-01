@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سياسة الخصوصية — Yalla Cancel</title>
+  <meta name="description" content="Yalla Cancel لا تخزن أي بيانات بنكية. كل التحليل يتم على جهازك مباشرة — اقرأ كيف نحمي خصوصيتك.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00A651;
+      --primary-bg: #F0FBF4;
+      --dark: #0F172A;
+      --text: #0F172A;
+      --text2: #64748B;
+      --border: #E2E8F0;
+      --surface: #F8FAFC;
+      --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans Arabic", -apple-system, sans-serif;
+      background: var(--white); color: var(--text);
+      -webkit-font-smoothing: antialiased; line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .nav {
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 32px;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: "Inter", sans-serif; font-size: 1.3rem; font-weight: 900;
+      color: white; cursor: pointer;
+    }
+    .nav-logo span { color: var(--primary); }
+    .nav-back {
+      font-size: 0.85rem; color: rgba(255,255,255,0.6);
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: white; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #0F172A 0%, #0d2618 100%);
+      padding: 80px 32px 60px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,166,81,0.15); border: 1px solid rgba(0,166,81,0.3);
+      border-radius: 9999px; padding: 8px 18px; margin-bottom: 24px;
+      font-size: 0.82rem; font-weight: 700; color: var(--primary);
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900; color: white; margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.65);
+      max-width: 560px; margin: 0 auto; line-height: 1.8;
+    }
+
+    /* Trust highlights */
+    .trust-row {
+      background: var(--primary-bg); border-bottom: 1px solid #BBF7D0;
+      padding: 32px;
+    }
+    .trust-row-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    @media (max-width: 640px) { .trust-row-inner { grid-template-columns: 1fr; } }
+    .trust-item { text-align: center; }
+    .trust-icon { font-size: 2rem; margin-bottom: 8px; }
+    .trust-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 4px; color: #15803D; }
+    .trust-sub { font-size: 0.82rem; color: #166534; }
+
+    /* Content */
+    .content {
+      max-width: 780px; margin: 0 auto; padding: 60px 32px 100px;
+    }
+    .section { margin-bottom: 48px; }
+    .section h2 {
+      font-size: 1.25rem; font-weight: 900; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+      padding-bottom: 12px; border-bottom: 2px solid var(--border);
+    }
+    .section h2 .icon { font-size: 1.4rem; }
+    .section p { font-size: 0.95rem; color: var(--text2); line-height: 1.85; margin-bottom: 12px; }
+    .section p strong { color: var(--text); }
+    .section ul { margin-right: 0; padding-right: 0; list-style: none; }
+    .section ul li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.92rem; color: var(--text2); padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .section ul li:last-child { border-bottom: none; }
+    .section ul li::before {
+      content: '✓'; color: var(--primary); font-weight: 900;
+      font-size: 0.9rem; margin-top: 2px; flex-shrink: 0;
+    }
+
+    /* Technical explainer */
+    .tech-box {
+      background: var(--dark); color: white;
+      border-radius: 20px; padding: 36px; margin: 32px 0;
+    }
+    .tech-box h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 20px; color: var(--primary); }
+    .tech-flow {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .tech-step {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .tech-step:last-child { border-bottom: none; }
+    .tech-num {
+      width: 28px; height: 28px; background: rgba(0,166,81,0.2);
+      border: 1px solid rgba(0,166,81,0.4);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 900; color: var(--primary); flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tech-step-text strong { display: block; color: white; font-size: 0.88rem; margin-bottom: 3px; }
+    .tech-step-text span { color: rgba(255,255,255,0.5); font-size: 0.8rem; }
+
+    /* What we never do */
+    .never-box {
+      background: #FFF5F5; border: 1px solid #FED7D7;
+      border-radius: 16px; padding: 28px; margin: 24px 0;
+    }
+    .never-box h3 { font-size: 1rem; font-weight: 800; color: #B91C1C; margin-bottom: 16px; }
+    .never-list { list-style: none; }
+    .never-list li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.88rem; color: #7F1D1D; padding: 6px 0;
+    }
+    .never-list li::before { content: '✕'; color: #DC2626; font-weight: 900; }
+
+    /* Contact box */
+    .contact-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px; text-align: center;
+    }
+    .contact-box p { font-size: 0.9rem; color: var(--text2); margin-bottom: 16px; }
+    .contact-box a {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary); color: white;
+      padding: 12px 28px; border-radius: 12px;
+      font-weight: 700; font-size: 0.9rem; transition: all 0.2s;
+    }
+    .contact-box a:hover { opacity: 0.9; }
+
+    /* Footer */
+    .footer {
+      background: var(--dark); color: white;
+      padding: 32px; text-align: center;
+      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+    }
+    .footer a { color: rgba(255,255,255,0.4); }
+    .footer a:hover { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo" onclick="window.location='preview-a.html'">Yalla <span>Cancel</span></div>
+      <a class="nav-back" href="preview-a.html">← العودة للرئيسية</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-badge">🔒 خصوصيتك أولويتنا</div>
+    <h1>بياناتك لا تغادر جهازك أبداً</h1>
+    <p>كل تحليل يتم على جهازك مباشرة — لا نرفع ملفاتك، لا نخزن بياناتك، ولا نشاركها مع أي طرف.</p>
+  </div>
+
+  <div class="trust-row">
+    <div class="trust-row-inner">
+      <div class="trust-item">
+        <div class="trust-icon">🛡️</div>
+        <div class="trust-title">تحليل محلي ١٠٠٪</div>
+        <div class="trust-sub">كل المعالجة على جهازك — بدون إرسال لأي سيرفر</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">🗑️</div>
+        <div class="trust-title">لا تخزين</div>
+        <div class="trust-sub">عند إغلاق الصفحة، كل شي ينمسح تلقائياً</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">👁️</div>
+        <div class="trust-title">لا تتبع</div>
+        <div class="trust-sub">لا نتبع استخدامك ولا نبيع بياناتك لأطراف ثالثة</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <h2><span class="icon">⚙️</span> كيف يشتغل التحليل تقنياً</h2>
+      <p>يتساءل كثيرون: "كيف يمكنكم تحليل بياناتي البنكية بدون أن ترفعوها؟" — الجواب بسيط ومثبت تقنياً.</p>
+      <div class="tech-box">
+        <h3>رحلة ملف كشف الحساب</h3>
+        <div class="tech-flow">
+          <div class="tech-step">
+            <div class="tech-num">١</div>
+            <div class="tech-step-text">
+              <strong>تختار ملف CSV أو PDF من جهازك</strong>
+              <span>الملف يُقرأ مباشرة بواسطة المتصفح باستخدام File API — لا يتم إرساله لأي سيرفر في هذه الخطوة أو أي خطوة تالية</span>
+            </div>
+          </div>
+          <div class="tech-step">
+            <div class="tech-num">٢</div>
+            <div class="tech-step-text">
+              <strong>JavaScript يحلل الملف على جهازك</strong>
+              <span>كود التحليل يعمل داخل المتصفح (client-side JavaScript). يفحص الأسطر، يتعرف على الاشتراكات المتكررة، ويحسب المجاميع — كل ذلك في ذاكرة المتصفح</span>
+            </div>
+          </div>
+          <div class="tech-step">
+            <div class="tech-num">٣</div>
+            <div class="tech-step-text">
+              <strong>نتائج التحليل تظهر لك مباشرة</strong>
+              <span>التقرير يُعرض مباشرة في المتصفح. لا يصل أي بيانات لسيرفراتنا في أي مرحلة من هذه المراحل</span>
+            </div>
+          </div>
+          <div class="tech-step">
+            <div class="tech-num">٤</div>
+            <div class="tech-step-text">
+              <strong>تغلق الصفحة، كل شي ينمسح</strong>
+              <span>ذاكرة المتصفح تُحرر تلقائياً — لا يوجد localStorage، لا cookies تحتوي بياناتك، لا database تخزن شيئاً</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>للتحقق بنفسك: افتح أدوات المطور في المتصفح (F12)، اذهب للـ Network tab، وارفع ملفك — ستجد أنه لا يوجد أي request يحمل بيانات ملفك.</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="icon">✅</span> ما نفعله</h2>
+      <ul>
+        <li>نقدم أداة تحليل تعمل كاملاً على جهازك</li>
+        <li>نتعرف على أنماط الاشتراكات المتكررة في كشف حسابك</li>
+        <li>نعرض لك التقرير مباشرة في المتصفح</li>
+        <li>نحتفظ بإحصائيات مجمعة ومجهولة الهوية تماماً (مثل: "١٠٠٠ شخص رفعوا كشف اليوم") — بدون أي بيانات فردية</li>
+        <li>نستخدم cookies أساسية فقط للضرورات التقنية (مثل إعدادات اللغة)</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2><span class="icon">🚫</span> ما لا نفعله أبداً</h2>
+      <div class="never-box">
+        <h3>تعهداتنا الصريحة</h3>
+        <ul class="never-list">
+          <li>لا نرفع كشف حسابك أو أي جزء منه لأي سيرفر</li>
+          <li>لا نخزن بياناتك البنكية في أي قاعدة بيانات</li>
+          <li>لا نشارك بياناتك مع أي طرف ثالث — لا شركات تسويق، لا بنوك، لا جهات حكومية إلا بأمر قضائي</li>
+          <li>لا نربط هويتك بالبيانات التي تحللها</li>
+          <li>لا نبيع بياناتك أو نستخدمها لأغراض إعلانية</li>
+          <li>لا نستخدم تتبع الطرف الثالث (third-party tracking)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="icon">💾</span> ما الذي نخزنه؟</h2>
+      <p><strong>عدد الزيارات فقط.</strong> نستخدم تحليلات أساسية ومجهولة الهوية (مثل عدد الزوار، الدولة بشكل عام، نوع المتصفح) — لتحسين الخدمة. لا يوجد ربط بأي شخص بعينه.</p>
+      <p>لا يوجد إنشاء حساب، لا بريد إلكتروني، لا رقم هاتف — مجرد رفع الملف وعرض النتيجة.</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="icon">📋</span> البيانات عند الدفع (للترقية)</h2>
+      <p>إذا اخترت الترقية (٤٩ ريال)، يتم معالجة الدفع عبر <strong>Moyasar</strong> — مزود دفع سعودي مرخص ومتوافق مع PCI DSS. نحن لا نرى أو نخزن بيانات بطاقتك الائتمانية بأي شكل.</p>
+      <p>البيانات الوحيدة التي نحتفظ بها عند الدفع: عنوان البريد الإلكتروني (اختياري لإرسال الإيصال) ومعرف المعاملة المالية.</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="icon">🔄</span> التحديثات على هذه السياسة</h2>
+      <p>في حال تغييرنا لهذه السياسة، نشر الإشعار بشكل واضح على الصفحة الرئيسية مع تاريخ التغيير. السياسة الحالية سارية من <strong>يناير ٢٠٢٦</strong>.</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="icon">📬</span> تواصل معنا</h2>
+      <p>لديك سؤال عن الخصوصية أو تريد التحقق من آليتنا التقنية؟</p>
+      <div class="contact-box">
+        <p>نرحب بأسئلتك حول أمان البيانات وخصوصيتك</p>
+        <a href="mailto:privacy@yallacancel.sa">✉️ privacy@yallacancel.sa</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <p>&copy; ٢٠٢٦ Yalla Cancel · <a href="preview-a.html">الرئيسية</a> · <a href="#">الشروط والأحكام</a></p>
+  </footer>
+
+</body>
+</html>
